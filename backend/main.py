@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from backend.infra.api.routes import router as predict_router
 
 app = FastAPI(
     title="Camino Vocacional API",
@@ -15,6 +16,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(predict_router)
 
 @app.get("/")
 def health_check():
