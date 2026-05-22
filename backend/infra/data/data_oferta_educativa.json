@@ -1,0 +1,186 @@
+{
+  "areas_vocacionales": [
+    {
+      "cluster_id": 1,
+      "nombre": "Ciencias de la Salud",
+      "carreras": [
+        {
+          "id_carrera": 101,
+          "nombre": "Medicina Humana",
+          "universidades": [
+            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 1840.0},
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 1000.0}
+          ]
+        },
+        {
+          "id_carrera": 102,
+          "nombre": "Psicología",
+          "universidades": [
+            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
+            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 1000.0},
+            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 650.0}
+          ]
+        },
+        {
+          "id_carrera": 103,
+          "nombre": "Estomatología / Odontología",
+          "universidades": [
+            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 870.0},
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 1000.0}
+          ]
+        }
+      ]
+    },
+    {
+      "cluster_id": 2,
+      "nombre": "Ingeniería y Tecnología",
+      "carreras": [
+        {
+          "id_carrera": 201,
+          "nombre": "Ingeniería de Sistemas / Informática / Software",
+          "universidades": [
+            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
+            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 700.0},
+            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 500.0}
+          ]
+        },
+        {
+          "id_carrera": 202,
+          "nombre": "Ingeniería Civil",
+          "universidades": [
+            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
+            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 700.0},
+            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 500.0}
+          ]
+        },
+        {
+          "id_carrera": 203,
+          "nombre": "Ingeniería Industrial",
+          "universidades": [
+            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
+            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 700.0},
+            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 500.0}
+          ]
+        }
+      ]
+    },
+    {
+      "cluster_id": 3,
+      "nombre": "Arquitectura y Diseño",
+      "carreras": [
+        {
+          "id_carrera": 301,
+          "nombre": "Arquitectura y Urbanismo",
+          "universidades": [
+            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 500.0}
+          ]
+        },
+        {
+          "id_carrera": 302,
+          "nombre": "Diseño Gráfico / Diseño Digital",
+          "universidades": [
+            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
+            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
+            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 550.0}
+          ]
+        }
+      ]
+    },
+    {
+      "cluster_id": 4,
+      "nombre": "Negocios y Económicas",
+      "carreras": [
+        {
+          "id_carrera": 401,
+          "nombre": "Administración",
+          "universidades": [
+            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
+            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
+            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 550.0},
+            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 400.0}
+          ]
+        },
+        {
+          "id_carrera": 402,
+          "nombre": "Contabilidad y Finanzas",
+          "universidades": [
+            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
+            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
+            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 550.0},
+            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 400.0}
+          ]
+        }
+      ]
+    },
+    {
+      "cluster_id": 5,
+      "nombre": "Sociales y Derecho",
+      "carreras": [
+        {
+          "id_carrera": 501,
+          "nombre": "Derecho",
+          "universidades": [
+            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
+            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 550.0},
+            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 400.0}
+          ]
+        },
+        {
+          "id_carrera": 502,
+          "nombre": "Ciencias de la Comunicación",
+          "universidades": [
+            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
+            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
+            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 550.0},
+            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 400.0}
+          ]
+        }
+      ]
+    },
+    {
+      "cluster_id": 6,
+      "nombre": "Educación y Humanidades",
+      "carreras": [
+        {
+          "id_carrera": 601,
+          "nombre": "Educación Inicial",
+          "universidades": [
+            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 420.0},
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
+            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 400.0}
+          ]
+        },
+        {
+          "id_carrera": 602,
+          "nombre": "Educación Primaria / Secundaria",
+          "universidades": [
+            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
+            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
+            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 400.0}
+          ]
+        }
+      ]
+    }
+  ]
+}
