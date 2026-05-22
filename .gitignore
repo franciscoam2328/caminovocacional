@@ -1,0 +1,13 @@
+# Python e IA
+__pycache__/
+*.pyc
+.env
+venv/
+.venv/
+.pytest_cache/
+
+# Node / Frontend
+node_modules/
+dist/
+.env.local
+.eslintcache
