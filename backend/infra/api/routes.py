@@ -6,7 +6,7 @@ from .schemas import TestInputSchema
 
 router = APIRouter()
 
-MODEL_PATH = "backend/infra/model_ia/modelo.pkl"
+MODEL_PATH = "backend/infra/model_ia/modelo_vocacional_rbf_final.pkl"
 DATA_PATH = "backend/infra/data/data_oferta_educativa.json"
 
 @router.post("/predict")
