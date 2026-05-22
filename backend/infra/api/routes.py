@@ -24,7 +24,9 @@ def predict_vocational_cluster(data: TestInputSchema):
     # Se asume que el modelo espera un arreglo 2D como [[resp1, resp2, ...]]
     try:
         prediccion = modelo.predict([data.respuestas])
-        cluster_id = int(prediccion[0])
+        pred_val = str(prediccion[0])
+        # Extraer el número inicial si la respuesta viene con texto como "1. Ciencias..."
+        cluster_id = int(pred_val.split(".")[0]) if "." in pred_val else int(pred_val)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error durante la predicción de IA: {str(e)}")
 
