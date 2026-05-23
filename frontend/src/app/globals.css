@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@config "../../tailwind.config.js";
+
+/* Plugins requeridos por el HTML original */
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/container-queries";
+
+/* Material Symbols Configuración */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    background-color: #f7f9fb !important;
+  }
+}
