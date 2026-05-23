@@ -14,7 +14,7 @@ La interfaz de usuario fue construida como una **Single Page Application (SPA) e
 
 ## 🎓 El "Cerebro" (Backend API)
 
-El sistema utiliza un modelo de Machine Learning (SVC) para predecir el perfil vocacional del estudiante y cruza el resultado con una base de datos local para recomendar carreras y universidades (con costos actualizados).
+El sistema utiliza un modelo de Machine Learning (SVM) para predecir el perfil vocacional del estudiante y cruza el resultado con una base de datos local para recomendar carreras y universidades (con costos actualizados).
 
 - **URL Base (Producción)**: `https://caminovocacional.onrender.com`
 - **Documentación Swagger**: `https://caminovocacional.onrender.com/docs`
