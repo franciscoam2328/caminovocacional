@@ -2,41 +2,72 @@
 
 Camino Vocacional es una plataforma web moderna y guiada por Inteligencia Artificial diseñada para ayudar a los estudiantes de secundaria a descubrir su perfil vocacional ideal y conectarlos con las mejores opciones de educación superior en Trujillo, Perú.
 
-## 🚀 Características Principales
+## 🚀 Características Principales (Frontend)
 
-Esta aplicación fue transformada desde un concepto de diseño estático (HTML/CSS) a una **Single Page Application (SPA) en React** ultra-optimizada, incorporando las siguientes funcionalidades:
+La interfaz de usuario fue construida como una **Single Page Application (SPA) en React** ultra-optimizada:
 
-- **Interfaz "Premium" y Glassmorphism**: Construido con **TailwindCSS v4**, la interfaz cuenta con fondos dinámicos, paneles de cristal translúcidos, desenfoques y micro-animaciones (vía **Framer Motion**) que elevan enormemente la experiencia de usuario (UX).
+- **Interfaz "Premium" y Glassmorphism**: Construido con **TailwindCSS v4**, con fondos dinámicos, paneles de cristal translúcidos, desenfoques y micro-animaciones (**Framer Motion**) que elevan la UX.
 - **Test Interactivo de 54 Preguntas**: Evaluación basada en el modelo **RIASEC** de Holland.
-- **Experiencia de Usuario (UX) de Auto-Avance**: El cuestionario elimina la fatiga de clics gracias a un algoritmo de "auto-advance". Al seleccionar una respuesta, la aplicación genera un sutil feedback visual e inmediatamente transiciona a la siguiente pregunta sin necesidad de un botón "Siguiente".
-- **Integración de Inteligencia Artificial (Backend)**: El Frontend se conecta mediante API REST a un modelo Predictivo SVM (`modelo_vocacional_rbf_final.pkl`) hosteado en Render, el cual procesa las 54 características (respuestas) y predice uno de los 6 Clústeres Vocacionales.
-- **Resultados Dinámicos y Variados**: El sistema renderiza un reporte personalizado que muestra el avatar seleccionado por el estudiante, íconos adaptativos (Material Symbols) según su área ganadora, y emplea una lógica matemática para **aleatorizar las carreras sugeridas** dentro de su propio clúster, ofreciendo una experiencia menos repetitiva.
-- **Generación de Reporte en PDF**: Funcionalidad de "Descargar PDF" implementada nativamente (usando la API de impresión del navegador y Media Queries de CSS), lo que garantiza la compatibilidad con los gradientes ultra-modernos (`oklab`) de Tailwind v4 y fondos de alta resolución, preservando el diseño.
-- **Navegación SPA (React)**: Una arquitectura fluida que permite moverse entre el inicio, la toma de datos y el test sin que la página parpadee o se recargue.
+- **UX de Auto-Avance**: El cuestionario elimina la fatiga de clics avanzando automáticamente al seleccionar una respuesta.
+- **Resultados Dinámicos**: Renderizado de avatares, íconos adaptativos según el área ganadora, y aleatorización de carreras recomendadas para mayor variedad.
+- **Generación de PDF**: Funcionalidad de exportación nativa adaptada para preservar los complejos estilos modernos de Tailwind v4.
 
-## 🛠️ Stack Tecnológico
+## 🎓 El "Cerebro" (Backend API)
+
+El sistema utiliza un modelo de Machine Learning (SVC) para predecir el perfil vocacional del estudiante y cruza el resultado con una base de datos local para recomendar carreras y universidades (con costos actualizados).
+
+- **URL Base (Producción)**: `https://caminovocacional.onrender.com`
+- **Documentación Swagger**: `https://caminovocacional.onrender.com/docs`
+
+### Arquitectura Hexagonal
+El proyecto sigue principios de Diseño Orientado al Dominio (DDD):
+```text
+caminovocacional/
+├── backend/
+│   ├── app/           # Casos de uso e interfaces (Puertos)
+│   ├── domain/        # Entidades puras y reglas de negocio
+│   ├── infra/         # Adaptadores (Base de datos, IA, API FastAPI)
+│   │   ├── api/       # Rutas (routes.py) y validaciones (schemas.py)
+│   │   ├── data/      # Base de datos estática en JSON (Oferta Educativa)
+│   │   └── model_ia/  # Archivo binario del modelo predictivo (.pkl)
+│   └── main.py        # Punto de entrada de la aplicación
+```
+
+## 🛠️ Stack Tecnológico Completo
 
 **Frontend:**
-- **Framework:** Next.js (App Router, Client Components)
-- **Librería UI:** React 18
-- **Estilos:** TailwindCSS v4
-- **Animaciones:** Framer Motion
-- **Iconografía:** Google Material Symbols Outlined
+- Next.js (App Router, Client Components), React 18
+- TailwindCSS v4, Framer Motion
+- Despliegue recomendado: **Vercel**
 
-**Backend (Referencia):**
-- **Framework:** FastAPI (Python)
-- **Machine Learning:** Scikit-learn (SVM RBF)
-- **Cloud:** Render
+**Backend:**
+- Python 3.12, FastAPI, Uvicorn, Pydantic
+- Scikit-Learn & Joblib (SVM RBF)
+- Docker
+- Despliegue: **Render** (CI/CD automático)
 
 ## ⚙️ Cómo ejecutar localmente
 
-1. Asegúrate de tener Node.js instalado.
-2. Abre una terminal en la carpeta `frontend/`.
-3. Ejecuta `npm install` para instalar las dependencias (Framer Motion, Tailwind, etc).
-4. Ejecuta `npm run dev` para levantar el servidor de desarrollo local.
-5. Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+### 1. Servidor Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+# Disponible en http://localhost:3000
+```
 
-## 📝 Notas de Versión
+### 2. Servidor Backend API
+```bash
+# Crear y activar entorno virtual (Windows)
+python -m venv .venv
+.\.venv\Scripts\activate
 
-- **v1.0.0**: Migración completa de HTML a React JSX. Corrección de anchos máximos (`max-w`) para solucionar colisiones con escalas de espaciado customizadas. Eliminación de botón "Siguiente" e implementación de auto-avance.
-- **v1.1.0**: Creación dinámica de resultados con íconos personalizados, aleatorización interna de carreras, y soporte oficial para descargar el documento PDF usando impresión nativa adaptada.
+# Instalar y ejecutar
+pip install -r requirements.txt
+python -m uvicorn backend.main:app --reload
+# Disponible en http://127.0.0.1:8000
+```
+
+## 🌐 Endpoints Principales (Backend)
+- `GET /` (Health Check): Verifica que el servidor esté en línea.
+- `POST /predict`: Recibe un arreglo de 54 respuestas en escala Likert (1-5). Retorna el clúster vocacional y las carreras/universidades recomendadas.
