@@ -3,7 +3,7 @@
  * Adaptador de red (Infrastructure Layer) para comunicarse con el Backend.
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://caminovocacional.onrender.com";
 
 /**
  * Envía las respuestas del test vocacional a la API para obtener el clúster y recomendaciones.
@@ -12,9 +12,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
  * @returns {Promise<Object>} Resultado de la predicción y carreras recomendadas.
  */
 export async function predictVocationalCluster(studentName, responses) {
-    if (!API_URL) {
-        throw new Error("NEXT_PUBLIC_API_URL no está definida en las variables de entorno.");
-    }
 
     try {
         const res = await fetch(`${API_URL}/predict`, {
