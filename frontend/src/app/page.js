@@ -1,65 +1,81 @@
-import Image from "next/image";
+"use client";
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import TestForm from '@/components/TestForm';
+import ResultDisplay from '@/components/ResultDisplay';
+import LandingView from '@/components/LandingView';
+import UserInfoView from '@/components/UserInfoView';
+import AvatarSelectView from '@/components/AvatarSelectView';
 
 export default function Home() {
+  // Estados de la SPA
+  const [currentView, setCurrentView] = useState('LANDING'); // LANDING, USER_INFO, AVATAR_SELECT, TEST, RESULTS
+  const [studentName, setStudentName] = useState('');
+  const [avatar, setAvatar] = useState('');
+  const [resultsData, setResultsData] = useState(null);
+
+  // Funciones de navegación
+  const goToUserInfo = () => setCurrentView('USER_INFO');
+  
+  const handleNameSubmit = () => {
+    if (studentName.trim().length > 1) {
+      setCurrentView('AVATAR_SELECT');
+    }
+  };
+
+  const selectAvatarAndStart = (selectedAvatar) => {
+    setAvatar(selectedAvatar);
+    setCurrentView('TEST');
+  };
+
+  const handleTestComplete = (data) => {
+    setResultsData(data);
+    setCurrentView('RESULTS');
+  };
+
+  const restartTest = () => {
+    setStudentName('');
+    setAvatar('');
+    setResultsData(null);
+    setCurrentView('LANDING');
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <AnimatePresence mode="wait">
+        {currentView === 'LANDING' && (
+          <LandingView key="landing" onStart={goToUserInfo} onGoHome={restartTest} onGoTest={goToUserInfo} />
+        )}
+
+        {currentView === 'USER_INFO' && (
+          <UserInfoView 
+            key="userinfo" 
+            studentName={studentName} 
+            setStudentName={setStudentName} 
+            onSubmit={handleNameSubmit} 
+            onGoHome={restartTest}
+            onGoTest={goToUserInfo}
+          />
+        )}
+
+        {currentView === 'AVATAR_SELECT' && (
+          <AvatarSelectView 
+            key="avatar" 
+            studentName={studentName} 
+            onSelect={selectAvatarAndStart} 
+            onGoHome={restartTest}
+            onGoTest={goToUserInfo}
+          />
+        )}
+
+        {currentView === 'TEST' && (
+          <TestForm key="test" studentName={studentName} avatar={avatar} onComplete={handleTestComplete} onGoHome={restartTest} onGoTest={goToUserInfo} />
+        )}
+
+        {currentView === 'RESULTS' && (
+          <ResultDisplay key="results" data={resultsData} avatar={avatar} onRestart={restartTest} onGoHome={restartTest} onGoTest={goToUserInfo} />
+        )}
+      </AnimatePresence>
+    </>
   );
 }
