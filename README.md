@@ -1,24 +1,26 @@
-# 🎓 Camino Vocacional - Backend API
+# Camino Vocacional - Oferta Educativa Trujillo
 
-Esta es la API del proyecto **Camino Vocacional**, un sistema diseñado para ayudar a los estudiantes de secundaria a descubrir su vocación profesional mediante un test de aptitud. El sistema utiliza un modelo de Machine Learning (`SVC`) para predecir el perfil vocacional del estudiante y cruza el resultado con una base de datos local para recomendar carreras y universidades (con costos actualizados) en la ciudad de Trujillo.
+Camino Vocacional es una plataforma web moderna y guiada por Inteligencia Artificial diseñada para ayudar a los estudiantes de secundaria a descubrir su perfil vocacional ideal y conectarlos con las mejores opciones de educación superior en Trujillo, Perú.
 
-**URL Base (Producción):** [https://caminovocacional.onrender.com](https://caminovocacional.onrender.com)
-**Documentación Interactiva (Swagger):** [https://caminovocacional.onrender.com/docs](https://caminovocacional.onrender.com/docs)
+## 🚀 Características Principales (Frontend)
 
-## 🚀 Tecnologías Utilizadas
+La interfaz de usuario fue construida como una **Single Page Application (SPA) en React** ultra-optimizada:
 
-* **Python 3.12**
-* **FastAPI:** Framework web moderno y rápido para construir la API.
-* **Uvicorn:** Servidor ASGI para ejecutar la aplicación.
-* **Pydantic:** Validación estricta de datos (Esquemas).
-* **Scikit-Learn & Joblib:** Carga y ejecución del modelo predictivo de IA.
-* **Docker:** Contenerización de la aplicación.
-* **Render:** Despliegue en la nube (CI/CD automático).
+- **Interfaz "Premium" y Glassmorphism**: Construido con **TailwindCSS v4**, con fondos dinámicos, paneles de cristal translúcidos, desenfoques y micro-animaciones (**Framer Motion**) que elevan la UX.
+- **Test Interactivo de 54 Preguntas**: Evaluación basada en el modelo **RIASEC** de Holland.
+- **UX de Auto-Avance**: El cuestionario elimina la fatiga de clics avanzando automáticamente al seleccionar una respuesta.
+- **Resultados Dinámicos**: Renderizado de avatares, íconos adaptativos según el área ganadora, y aleatorización de carreras recomendadas para mayor variedad.
+- **Generación de PDF**: Funcionalidad de exportación nativa adaptada para preservar los complejos estilos modernos de Tailwind v4.
 
-## 🏗️ Arquitectura
+## 🎓 El "Cerebro" (Backend API)
 
-El proyecto sigue los principios de la **Arquitectura Hexagonal (Puertos y Adaptadores)** y Diseño Orientado al Dominio (DDD), separando claramente las responsabilidades:
+El sistema utiliza un modelo de Machine Learning (SVC) para predecir el perfil vocacional del estudiante y cruza el resultado con una base de datos local para recomendar carreras y universidades (con costos actualizados).
 
+- **URL Base (Producción)**: `https://caminovocacional.onrender.com`
+- **Documentación Swagger**: `https://caminovocacional.onrender.com/docs`
+
+### Arquitectura Hexagonal
+El proyecto sigue principios de Diseño Orientado al Dominio (DDD):
 ```text
 caminovocacional/
 ├── backend/
@@ -29,78 +31,43 @@ caminovocacional/
 │   │   ├── data/      # Base de datos estática en JSON (Oferta Educativa)
 │   │   └── model_ia/  # Archivo binario del modelo predictivo (.pkl)
 │   └── main.py        # Punto de entrada de la aplicación
-├── Dockerfile         # Configuración para despliegue
-└── requirements.txt   # Dependencias del proyecto
 ```
 
-## 🛠️ Instalación Local
+## 🛠️ Stack Tecnológico Completo
 
-Sigue estos pasos para levantar el entorno de desarrollo en tu computadora:
+**Frontend:**
+- Next.js (App Router, Client Components), React 18
+- TailwindCSS v4, Framer Motion
+- Despliegue recomendado: **Vercel**
 
-1. **Clonar el repositorio:**
-   ```bash
-   git clone https://github.com/franciscoam2328/caminovocacional.git
-   cd caminovocacional
-   ```
+**Backend:**
+- Python 3.12, FastAPI, Uvicorn, Pydantic
+- Scikit-Learn & Joblib (SVM RBF)
+- Docker
+- Despliegue: **Render** (CI/CD automático)
 
-2. **Crear y activar un entorno virtual:**
-   * En Windows:
-     ```bash
-     python -m venv .venv
-     .\.venv\Scripts\activate
-     ```
-   * En macOS/Linux:
-     ```bash
-     python3 -m venv .venv
-     source .venv/bin/activate
-     ```
+## ⚙️ Cómo ejecutar localmente
 
-3. **Instalar dependencias:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Ejecutar el servidor localmente:**
-   ```bash
-   python -m uvicorn backend.main:app --reload
-   ```
-   *La API estará disponible en `http://127.0.0.1:8000` y la documentación interactiva en `http://127.0.0.1:8000/docs`.*
-
-## 🌐 Endpoints Principales
-
-### `GET /` (Health Check)
-Verifica que el servidor esté en línea.
-
-### `POST /predict`
-Recibe un arreglo de 54 respuestas en escala Likert (1-5) correspondientes al test vocacional. Pasa estos datos por el modelo de IA para predecir el clúster vocacional y retorna las carreras recomendadas con las universidades locales disponibles.
-
-**Cuerpo de la petición (JSON):**
-```json
-{
-  "nombre_estudiante": "Juan Perez",
-  "respuestas": [3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5]
-}
+### 1. Servidor Frontend
+```bash
+cd frontend
+npm install
+npm run dev
+# Disponible en http://localhost:3000
 ```
 
-**Respuesta exitosa:**
-```json
-{
-  "estudiante": "Juan Perez",
-  "cluster_predicho": 1,
-  "area_recomendada": "Ciencias de la Salud",
-  "carreras_disponibles": [
-    {
-      "id_carrera": 101,
-      "nombre": "Medicina Humana",
-      "universidades": [
-         {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 1840},
-         {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0}
-      ]
-    }
-  ]
-}
+### 2. Servidor Backend API
+```bash
+# Crear y activar entorno virtual (Windows)
+python -m venv .venv
+.\.venv\Scripts\activate
+
+# Instalar y ejecutar
+pip install -r requirements.txt
+python -m uvicorn backend.main:app --reload
+# Disponible en http://127.0.0.1:8000
 ```
 
-## 🐳 Despliegue (Producción)
-
-El proyecto incluye un `Dockerfile` optimizado y está configurado para despliegue continuo en **Render**. Cualquier cambio integrado en la rama `main` generará un re-despliegue automático de la aplicación.
+## 🌐 Endpoints Principales (Backend)
+- `GET /` (Health Check): Verifica que el servidor esté en línea.
+- `POST /predict`: Recibe un arreglo de 54 respuestas en escala Likert (1-5). Retorna el clúster vocacional y las carreras/universidades recomendadas.

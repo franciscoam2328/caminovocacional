@@ -1,0 +1,192 @@
+"use client";
+
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { QUESTIONS } from "../core/questions";
+import { predictVocationalCluster } from "../infrastructure/api";
+
+const MALE_AVATAR_URL = "https://lh3.googleusercontent.com/aida/ADBb0uhFb29YvJdZdGSJ1vZn2Byw-o8Y6_tg26VTJtbo6koKfAAxIbi48PqthKRb34xRuKTXic6oPm4-XzzvvFA4LcYN4GELms5z2_KuKsiQ6ETd5uq6KNqFX7NNGqnTTl40-y1jikrFsbnPUxjrcx1uS7auoQhwgfJMCDmSIpkVuO5oE_Q4PapICWE7zXYo6znREHFaDDw7fTayOoJ5_9ldEw5_Bs_e3FQokkDOJSPrywXVyU_24F9h8d4HTAiqqAjOx329SkfHLb0";
+const FEMALE_AVATAR_URL = "https://lh3.googleusercontent.com/aida/ADBb0uj_7Sudy17qakA-uzZhUr8PCh3XsLCo6nk6vTgBpvxzP5lynlKU_B2X2lS9WG61wpIRk2lK-G5uy_pd0u-tzyN5ykPjyt9pqWdwBxo4QVie3yz5ARftIM6CgNmyUW8p2Lc7knHQoykng29-QwjpUO2UoANs-zcGOHcflnsBmymI0_mS6c5AdtqthVYCDZUmcKqLavoRLOWUfI9FbvYiJe7JijPfpd8Cn8oYxl2YNDTt4V7LIMO37eM56t3Mu-6AZeC9tRfC93A";
+
+export default function TestForm({ studentName, avatar, onComplete, onGoHome, onGoTest }) {
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [responses, setResponses] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState(null);
+
+  const totalQuestions = QUESTIONS.length;
+  const currentQuestion = QUESTIONS[currentQuestionIndex];
+  const progressPercentage = (currentQuestionIndex / totalQuestions) * 100;
+  
+  const avatarUrl = avatar === "femenino" ? FEMALE_AVATAR_URL : MALE_AVATAR_URL;
+
+  const handleOptionClick = (val) => {
+    if (isSubmitting) return;
+    
+    setSelectedOption(val);
+
+    const newResponses = [...responses, val];
+    
+    setTimeout(async () => {
+      setResponses(newResponses);
+      setSelectedOption(null); // Reset para la siguiente pregunta
+
+      if (currentQuestionIndex < totalQuestions - 1) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      } else {
+        // Fin del test
+        setIsSubmitting(true);
+        setError(null);
+        try {
+          const resultData = await predictVocationalCluster(studentName, newResponses);
+          onComplete(resultData);
+        } catch (err) {
+          console.error(err);
+          setError("Ocurrió un problema de conexión con el servidor. Por favor, intenta de nuevo.");
+          setIsSubmitting(false);
+          // Revertir para permitir intentar de nuevo
+          setResponses(responses);
+        }
+      }
+    }, 350); // Delay visual de 350ms para ver el botón iluminarse
+  };
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="bg-surface-bright text-on-surface font-body-md text-body-md min-h-screen flex flex-col antialiased relative w-full"
+    >
+      {/* TopAppBar */}
+      <header className="bg-white border-b border-gray-100 top-0 sticky z-50 h-[84px] flex items-center">
+        <div className="flex justify-between items-center px-8 h-20 max-w-[80rem] mx-auto w-full font-manrope antialiased">
+          <div className="flex items-center gap-12 w-full">
+            <div className="text-[22px] font-extrabold tracking-tight text-[#2b6be6] font-manrope">
+              Camino Vocacional
+            </div>
+            <nav className="flex flex-1 items-center justify-center gap-12 font-manrope mr-32">
+              <button onClick={onGoHome} className="text-[#6b7280] font-medium text-[15px] hover:text-[#2b6be6] transition-colors">Inicio</button>
+              <div className="relative py-2">
+                <button onClick={onGoTest} className="text-[#2b6be6] font-medium text-[15px]">Test Vocacional</button>
+                <div className="absolute -bottom-1 left-0 w-full h-[6px] border-x-[2px] border-b-[2px] border-[#2b6be6] rounded-b-[6px]"></div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content: Test Journey */}
+      <main className="flex-1 w-full max-w-container-max mx-auto px-gutter py-xl relative">
+        {/* Background decorative elements for the "Web 3.0" feel */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none opacity-40">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary-fixed-dim blur-[100px]"></div>
+          <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] rounded-full bg-secondary-fixed blur-[80px]"></div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg min-h-[600px] items-center">
+          
+          {/* Left Side: 2.5D Journey Path & Avatar */}
+          <div className="w-full h-full min-h-[400px] lg:min-h-[600px] rounded-xl overflow-hidden relative shadow-[0_4px_20px_rgba(0,123,255,0.08)] bg-surface-container-low border border-white/50">
+            <img 
+              alt="Avatar de estudiante en el camino vocacional" 
+              className="absolute inset-0 w-full h-full object-cover object-center opacity-80 p-12 transition-all duration-700" 
+              src={avatarUrl} 
+            />
+            {/* Overlay Gradient to blend with background */}
+            <div className="absolute inset-0 bg-gradient-to-t from-surface-bright/80 via-transparent to-transparent"></div>
+          </div>
+
+          {/* Right Side: Question Card */}
+          <div className="flex flex-col justify-center">
+            
+            {error && (
+              <div className="mb-4 p-4 bg-error-container text-on-error-container rounded-lg border border-error/20 flex items-center justify-between">
+                <span>{error}</span>
+                <button onClick={() => setError(null)} className="text-sm underline">Cerrar</button>
+              </div>
+            )}
+
+            <div className="bg-white/80 backdrop-blur-[16px] border border-white/60 p-lg rounded-xl shadow-[0_4px_20px_rgba(0,123,255,0.08)] flex flex-col gap-lg relative overflow-hidden min-h-[450px]">
+              
+              {isSubmitting ? (
+                <div className="flex-1 flex flex-col items-center justify-center space-y-4 animate-pulse">
+                   <span className="material-symbols-outlined text-6xl text-primary animate-spin">autorenew</span>
+                   <h2 className="font-headline-md text-headline-md text-on-surface text-center">Analizando tus respuestas...</h2>
+                </div>
+              ) : (
+                <>
+                  {/* Decorative subtle accent line */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
+                  
+                  {/* Progress Area */}
+                  <div className="flex flex-col gap-xs">
+                    <div className="flex justify-between items-center text-label-sm font-label-sm text-outline-variant">
+                      <span className="uppercase tracking-widest text-outline">Pregunta {currentQuestionIndex + 1} de {totalQuestions}</span>
+                      <span className="text-primary font-semibold">{Math.round(progressPercentage)}% completado</span>
+                    </div>
+                    <div className="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+                      <div className="bg-gradient-to-r from-primary to-secondary h-full rounded-full transition-all duration-300" style={{ width: `${progressPercentage}%` }}></div>
+                    </div>
+                  </div>
+
+                  {/* Question Text */}
+                  <div className="mt-md flex-1 flex items-center">
+                    <h2 className="font-headline-md text-headline-md text-on-surface leading-snug">
+                      {currentQuestion.text}
+                    </h2>
+                  </div>
+
+                  {/* Likert Scale */}
+                  <div className="mt-lg flex flex-col gap-sm w-full">
+                    <div className="flex justify-between items-center w-full max-w-[24rem] mx-auto relative">
+                      {/* Connecting line behind buttons */}
+                      <div className="absolute top-1/2 left-0 w-full h-0.5 bg-surface-container-highest -translate-y-1/2 -z-10"></div>
+                      
+                      {/* Rating Buttons */}
+                      {[1, 2, 3, 4, 5].map((val) => {
+                        const isActive = selectedOption === val;
+                        return (
+                          <button 
+                            key={val}
+                            onClick={() => handleOptionClick(val)}
+                            disabled={selectedOption !== null} // Deshabilitar botones mientras hace la transición
+                            className={`rounded-full flex items-center justify-center transition-all duration-200 ${
+                              isActive 
+                                ? "w-14 h-14 bg-primary border-2 border-primary font-headline-md text-headline-md text-on-primary shadow-[0_4px_12px_rgba(0,123,255,0.3)] transform scale-110" 
+                                : "w-12 h-12 bg-surface-container-lowest border-2 border-outline-variant font-body-lg text-body-lg text-outline hover:border-primary hover:text-primary hover:bg-primary-fixed"
+                            }`}
+                          >
+                            {val}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    
+                    {/* Labels */}
+                    <div className="flex justify-between w-full text-label-sm font-label-sm text-outline mt-sm px-2">
+                      <span className="max-w-[80px] text-center leading-tight">No me identifica</span>
+                      <span className="max-w-[80px] text-center leading-tight">Me identifica totalmente</span>
+                    </div>
+                  </div>
+
+                  {/* Action Button was removed for auto-advance */}
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-white w-full mt-auto border-t border-gray-100">
+        <div className="px-8 py-10 max-w-[80rem] mx-auto flex justify-start items-center">
+          <div className="flex flex-col items-start gap-2">
+            <p className="font-manrope text-[14px] text-[#4b5563] text-left">© 2026 Camino Vocacional Trujillo. Inspirado en nuestra herencia.</p>
+          </div>
+        </div>
+      </footer>
+    </motion.div>
+  );
+}
