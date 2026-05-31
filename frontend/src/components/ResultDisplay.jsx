@@ -1,9 +1,17 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 export default function ResultDisplay({ data, avatar, onRestart }) {
+  const [shuffledCareers, setShuffledCareers] = useState(() => {
+    if (data?.carreras_disponibles) {
+      return [...data.carreras_disponibles].sort(() => Math.random() - 0.5);
+    }
+    return [];
+  });
+
   if (!data) return null;
 
   // Mapa de iconos por Clúster
@@ -17,12 +25,6 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
   };
   
   const mainIcon = clusterIcons[data.cluster_predicho] || 'stars';
-
-  // Mezclamos las carreras aleatoriamente para que la "Primera Opción" varíe dentro del mismo Clúster
-  const shuffledCareers = React.useMemo(() => {
-    if (!data.carreras_disponibles) return [];
-    return [...data.carreras_disponibles].sort(() => Math.random() - 0.5);
-  }, [data.carreras_disponibles]);
 
   // Extraemos la primera carrera como la recomendación principal
   const mainCareer = shuffledCareers[0] || { nombre: "Ingeniería de Software" };

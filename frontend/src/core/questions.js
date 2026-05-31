@@ -8,7 +8,6 @@ export const QUESTIONS = [
   { id: 6, text: "Me gusta reparar tuberías o grifos dañados.", category: "R" },
   { id: 7, text: "Me gusta ensamblar productos en una línea de producción.", category: "R" },
   { id: 8, text: "Me gusta instalar pisos en casas.", category: "R" },
-  { id: 9, text: "Me gusta realizar labores de mantenimiento en vehículos.", category: "R" },
 
   // INVESTIGADOR (I) - 9 preguntas
   { id: 10, text: "Me gusta estudiar la estructura del cuerpo humano.", category: "I" },
@@ -19,7 +18,6 @@ export const QUESTIONS = [
   { id: 15, text: "Me gusta estudiar la vida marina.", category: "I" },
   { id: 16, text: "Me gustaría trabajar en un laboratorio de biología.", category: "I" },
   { id: 17, text: "Me gustaría hacer mapas del fondo oceánico.", category: "I" },
-  { id: 18, text: "Me gusta analizar problemas científicos complejos.", category: "I" },
 
   // ARTÍSTICO (A) - 9 preguntas
   { id: 19, text: "Me gustaría dirigir un coro musical.", category: "A" },
@@ -30,7 +28,6 @@ export const QUESTIONS = [
   { id: 24, text: "Me gusta tocar un instrumento musical.", category: "A" },
   { id: 25, text: "Me gustaría realizar acrobacias para películas.", category: "A" },
   { id: 26, text: "Me gusta diseñar escenarios para obras de teatro.", category: "A" },
-  { id: 27, text: "Me gusta experimentar con nuevas técnicas de pintura.", category: "A" },
 
   // SOCIAL (S) - 9 preguntas
   { id: 28, text: "Me gustaría dar orientación profesional a personas.", category: "S" },
@@ -41,7 +38,6 @@ export const QUESTIONS = [
   { id: 33, text: "Me gustaría supervisar niños en un campamento.", category: "S" },
   { id: 34, text: "Me gustaría enseñar a leer a niños.", category: "S" },
   { id: 35, text: "Me gustaría ayudar a adultos mayores en sus actividades diarias.", category: "S" },
-  { id: 36, text: "Me gusta brindar apoyo emocional a quien lo necesita.", category: "S" },
 
   // EMPRENDEDOR (E) - 9 preguntas
   { id: 37, text: "Me gustaría vender franquicias de restaurantes.", category: "E" },
@@ -52,7 +48,6 @@ export const QUESTIONS = [
   { id: 42, text: "Me gustaría administrar una tienda de ropa.", category: "E" },
   { id: 43, text: "Me gustaría vender casas.", category: "E" },
   { id: 44, text: "Me gustaría administrar una juguetería.", category: "E" },
-  { id: 45, text: "Me gusta liderar proyectos y equipos de trabajo.", category: "E" },
 
   // CONVENCIONAL (C) - 9 preguntas
   { id: 46, text: "Me gusta generar cheques de nómina mensuales.", category: "C" },
@@ -62,6 +57,5 @@ export const QUESTIONS = [
   { id: 50, text: "Me gusta calcular y registrar datos estadísticos.", category: "C" },
   { id: 51, text: "Me gusta usar calculadoras para organizar presupuestos.", category: "C" },
   { id: 52, text: "Me gusta manejar transacciones bancarias de clientes.", category: "C" },
-  { id: 53, text: "Me gusta llevar registros de envíos y recepciones.", category: "C" },
-  { id: 54, text: "Me gusta organizar archivos y documentos de oficina.", category: "C" }
+  { id: 53, text: "Me gusta llevar registros de envíos y recepciones.", category: "C" }
 ];
