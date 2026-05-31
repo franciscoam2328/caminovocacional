@@ -14,7 +14,7 @@ def normalize_text(text: str) -> str:
 
 router = APIRouter()
 
-MODEL_PATH = "backend/infra/model_ia/random_forest_vocacional.pkl"
+MODEL_PATH = "backend/infra/model_ia/rf_vocacional_escala_real.pkl"
 DATA_PATH = "backend/infra/data/data_oferta_educativa.json"
 
 @router.post("/predict")
