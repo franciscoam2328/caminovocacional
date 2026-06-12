@@ -1,6 +1,6 @@
 # Camino Vocacional - Oferta Educativa Trujillo
 
-Camino Vocacional es una plataforma web moderna y guiada por Inteligencia Artificial diseñada para ayudar a los estudiantes de secundaria a descubrir su vocación profesional mediante un test de aptitud. El sistema utiliza un modelo de Machine Learning (SVC) para predecir el perfil vocacional del estudiante y cruza el resultado con una base de datos local para recomendar carreras y universidades (con costos actualizados) en la ciudad de Trujillo.
+Camino Vocacional es una plataforma web moderna y guiada por Datos diseñada para ayudar a los estudiantes de secundaria a descubrir su vocación profesional mediante un test de aptitud. El sistema utiliza un motor de recomendación matemático (K-Nearest Neighbors) basado en la teoría de Holland (RIASEC) para predecir el perfil vocacional del estudiante y cruza el resultado con una base de datos local para recomendar carreras y universidades (con costos actualizados) en la ciudad de Trujillo.
 
 **URL Base Frontend (Producción):** https://caminovocacional.vercel.app  
 **URL Base API Backend (Producción):** https://caminovocacional.onrender.com  
@@ -14,83 +14,85 @@ Esta aplicación fue transformada desde un concepto de diseño estático a una *
 
 ### 🚀 Características Principales (Frontend)
 - **Interfaz "Premium" y Glassmorphism**: Construido con **TailwindCSS v4**, la interfaz cuenta con fondos dinámicos, paneles de cristal translúcidos, desenfoques y micro-animaciones (vía **Framer Motion**) que elevan enormemente la experiencia de usuario (UX).
-- **Test Interactivo de 54 Preguntas**: Evaluación basada en el modelo **RIASEC** de Holland.
-- **Experiencia de Usuario (UX) de Auto-Avance**: El cuestionario elimina la fatiga de clics gracias a un algoritmo de "auto-advance". Al seleccionar una respuesta, la aplicación genera un sutil feedback visual e inmediatamente transiciona a la siguiente pregunta sin necesidad de un botón "Siguiente".
-- **Resultados Dinámicos e Inteligentes**: El sistema renderiza un reporte personalizado que muestra el avatar seleccionado por el estudiante, íconos adaptativos (Material Symbols) según su área ganadora, y emplea una lógica matemática para **aleatorizar las carreras sugeridas** dentro de su propio clúster.
-- **Generación de Reporte en PDF**: Funcionalidad de "Descargar PDF" implementada de forma nativa (usando `window.print` y Media Queries de CSS), preservando la compatibilidad con los gradientes modernos (`oklab`) de Tailwind v4.
+- **Test Interactivo de 60 Preguntas**: Evaluación basada en el modelo **RIASEC** de Holland.
+- **Avatares Evolutivos (Gamificación)**: El sistema cuenta con personajes generados por IA que acompañan al estudiante durante el test. Conforme avanza, el avatar evoluciona visualmente (Colegial → Universitario → Profesional con Toga) y reacciona con animaciones a las respuestas.
+- **Experiencia de Usuario (UX) de Auto-Avance**: El cuestionario elimina la fatiga de clics gracias a un algoritmo de "auto-advance".
+- **Resultados Dinámicos e Inteligentes**: El sistema renderiza un reporte personalizado mostrando el "Código Holland", porcentajes de afinidad y las opciones de estudio específicas de Trujillo.
+- **Generación de Reporte en PDF**: Funcionalidad nativa de impresión que incluye gráficos avanzados (Telaraña/Radar) preservando la compatibilidad con los estilos de Tailwind.
 
 ### 🚀 Tecnologías Utilizadas (Frontend)
-- **Next.js (App Router, Client Components):** Framework React para rendimiento y ruteo.
-- **React 18:** Librería UI principal.
-- **TailwindCSS v4:** Utilidades CSS para estilos responsivos y glassmorphism.
-- **Framer Motion:** Librería para transiciones de estado fluidas.
-- **Vercel:** Despliegue en la nube.
-
-### 🏗️ Arquitectura (Frontend)
-El Frontend está contenido en la carpeta `frontend/` y sigue una arquitectura modular de componentes:
-
-```text
-caminovocacional/
-├── frontend/
-│   ├── src/
-│   │   ├── app/                 # Configuración principal de Next.js (layout.js, page.js, globals.css)
-│   │   ├── components/          # Vistas modulares de la SPA
-│   │   │   ├── LandingView.jsx
-│   │   │   ├── UserInfoView.jsx
-│   │   │   ├── AvatarSelectView.jsx
-│   │   │   ├── TestForm.jsx
-│   │   │   └── ResultDisplay.jsx
-│   │   ├── core/                # Lógica pura (ej. array de questions.js)
-│   │   └── infrastructure/      # Adaptadores de red (api.js para conectarse a Render)
-│   ├── public/                  # Assets estáticos
-│   └── tailwind.config.js       # Tokens de diseño y colores
-```
+- **Next.js (App Router, Client Components)**
+- **React 18**
+- **TailwindCSS v4**
+- **Framer Motion**
 
 ---
 
 ## 🎓 Backend API
 
-Esta es la API del proyecto. Utiliza un modelo de Machine Learning (SVC) para predecir el perfil vocacional del estudiante.
+El "cerebro" del proyecto. Es una API construida en Python que procesa las respuestas del usuario y calcula las distancias matemáticas para sugerir la mejor ruta profesional.
 
 ### 🚀 Tecnologías Utilizadas (Backend)
 - **Python 3.12**
-- **FastAPI:** Framework web moderno y rápido para construir la API.
-- **Uvicorn:** Servidor ASGI para ejecutar la aplicación.
+- **FastAPI:** Framework web moderno y ultra-rápido.
+- **Uvicorn:** Servidor ASGI.
 - **Pydantic:** Validación estricta de datos (Esquemas).
-- **Scikit-Learn & Joblib:** Carga y ejecución del modelo predictivo de IA.
 - **Docker:** Contenerización de la aplicación.
-- **Render:** Despliegue en la nube (CI/CD automático).
 
 ### 🏗️ Arquitectura (Backend)
-El proyecto sigue los principios de la Arquitectura Hexagonal (Puertos y Adaptadores) y Diseño Orientado al Dominio (DDD), separando claramente las responsabilidades:
+El proyecto sigue principios de Arquitectura Limpia, separando claramente las responsabilidades y utilizando una base de datos local basada en JSON:
 
 ```text
 caminovocacional/
 ├── backend/
-│   ├── app/           # Casos de uso e interfaces (Puertos)
+│   ├── app/           # Casos de uso y lógica K-NN
 │   ├── domain/        # Entidades puras y reglas de negocio
-│   ├── infra/         # Adaptadores (Base de datos, IA, API FastAPI)
+│   ├── infra/         # Adaptadores (API FastAPI)
 │   │   ├── api/       # Rutas (routes.py) y validaciones (schemas.py)
-│   │   ├── data/      # Base de datos estática en JSON (Oferta Educativa)
-│   │   └── model_ia/  # Archivo binario del modelo predictivo (.pkl)
-│   └── main.py        # Punto de entrada de la aplicación
-├── Dockerfile         # Configuración para despliegue
-└── requirements.txt   # Dependencias del proyecto
+│   │   └── data/      # Base de datos estática en JSON (Oferta Educativa)
+│   └── main.py        # Punto de entrada
+├── Dockerfile         
+└── requirements.txt   
 ```
 
-### 🌐 Endpoints Principales
+---
+
+## 🧠 Lógica del Sistema de Recomendación
+
+En lugar de utilizar modelos de "Caja Negra", este sistema implementa un **Sistema de Recomendación Basado en Contenido** altamente explicable, combinando:
+
+1. **La Teoría RIASEC de John Holland:** Clasifica los intereses profesionales en 6 dimensiones (Realista, Investigador, Artístico, Social, Emprendedor, Convencional).
+2. **Cálculo de Distancias (K-NN):** 
+   - El test de 60 preguntas permite construir un **Vector de Personalidad** del estudiante para estas 6 dimensiones.
+   - La base de datos contiene un **Vector Ideal** para cada carrera disponible (extraído de métricas estandarizadas de O*NET).
+   - El algoritmo backend utiliza métricas matemáticas (Distancia Euclidiana) para encontrar los "vecinos más cercanos" (K-Nearest Neighbors). Las carreras con menor distancia geométrica al perfil del estudiante son las que se recomiendan como más afines.
+
+---
+
+## 📊 DATASET
+
+We use several datasets:
+
+*   Taken from https://www.onetonline.org/explore/interests/, we can get 6 separate datasets for each RIASEC personality, and related job options matched to personality.
+*   Taken from https://www.onetonline.org/find/family?f=0&g=Go, we can get occupation dataset for all job listed in the website.
+
+Esta data oficial de O*NET ha sido procesada, ponderada y cruzada manualmente con la oferta educativa real de las universidades públicas y privadas de la ciudad de Trujillo.
+
+---
+
+## 🌐 Endpoints Principales
 
 **`GET /` (Health Check)**
 Verifica que el servidor esté en línea.
 
-**`POST /predict`**
-Recibe un arreglo de 54 respuestas en escala Likert (1-5) correspondientes al test vocacional. Pasa estos datos por el modelo de IA para predecir el clúster vocacional y retorna las carreras recomendadas con las universidades locales disponibles.
+**`POST /api/predict`**
+Recibe un arreglo de 60 respuestas en escala Likert (1-5) correspondientes al test vocacional O*NET. Calcula los puntajes RIASEC, ejecuta el algoritmo de similitud por distancias y retorna el top 3 de carreras recomendadas junto con las universidades locales.
 
 **Cuerpo de la petición (JSON):**
 ```json
 {
   "nombre_estudiante": "Juan Perez",
-  "respuestas": [3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5, 1, 3, 4, 2, 5]
+  "respuestas": [5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1]
 }
 ```
 
@@ -98,15 +100,24 @@ Recibe un arreglo de 54 respuestas en escala Likert (1-5) correspondientes al te
 ```json
 {
   "estudiante": "Juan Perez",
-  "cluster_predicho": 1,
-  "area_recomendada": "Ciencias de la Salud",
-  "carreras_disponibles": [
+  "codigo_holland": "RIC",
+  "puntajes_riasec": {
+    "Realista": 40,
+    "Investigador": 45,
+    "Artístico": 20,
+    "Social": 15,
+    "Emprendedor": 25,
+    "Convencional": 30
+  },
+  "carreras_recomendadas": [
     {
-      "id_carrera": 101,
-      "nombre": "Medicina Humana",
+      "id_modelo": "Ingeniería y Tecnología",
+      "nombre_mostrar": "Ingeniería de Sistemas y Software",
+      "descripcion": "Programación, desarrollo de software, Inteligencia Artificial y datos.",
+      "afinidad": 95.5,
       "universidades": [
-         {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 1840},
-         {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0}
+         {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": "S/ 620", "matricula": "S/ 300"},
+         {"nombre": "UNT", "tipo": "Pública", "costo_promedio": "S/ 0", "matricula": "S/ 100"}
       ]
     }
   ]
