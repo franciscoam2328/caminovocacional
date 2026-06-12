@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -49,9 +50,13 @@ export default function AvatarSelectView({ studentName, onSelect, onGoHome, onGo
           {/* Inner Glow Ring on Hover */}
           <div className="absolute inset-0 border-2 border-primary/0 rounded-[2rem] group-hover:border-primary/20 transition-colors duration-500"></div>
           {/* 3D Avatar Image */}
-          <div className="w-64 h-64 mb-8 relative z-10 transition-transform duration-500 group-hover:scale-105">
-            <img alt="Estudiante Masculino" className="w-full h-full object-contain drop-shadow-2xl" src="https://lh3.googleusercontent.com/aida/ADBb0uhFb29YvJdZdGSJ1vZn2Byw-o8Y6_tg26VTJtbo6koKfAAxIbi48PqthKRb34xRuKTXic6oPm4-XzzvvFA4LcYN4GELms5z2_KuKsiQ6ETd5uq6KNqFX7NNGqnTTl40-y1jikrFsbnPUxjrcx1uS7auoQhwgfJMCDmSIpkVuO5oE_Q4PapICWE7zXYo6znREHFaDDw7fTayOoJ5_9ldEw5_Bs_e3FQokkDOJSPrywXVyU_24F9h8d4HTAiqqAjOx329SkfHLb0" />
-          </div>
+          <motion.div 
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="w-64 h-64 mb-8 relative z-10 transition-transform duration-500 group-hover:scale-105"
+          >
+            <img alt="Estudiante Masculino" className="w-full h-full object-cover rounded-full border-4 border-white/50 shadow-xl mix-blend-multiply" src="/avatars/boy_school.png" />
+          </motion.div>
           {/* Action Button */}
           <button className="mt-auto relative z-10 w-full py-4 px-8 rounded-xl bg-surface-container hover:bg-gradient-to-r hover:from-primary hover:to-secondary text-primary hover:text-on-primary font-label-md text-label-md tracking-wide shadow-sm hover:shadow-[0_0_20px_rgba(0,89,187,0.3)] transition-all duration-300 flex items-center justify-center gap-2 group/btn">
             <span>Seleccionar</span>
@@ -64,9 +69,13 @@ export default function AvatarSelectView({ studentName, onSelect, onGoHome, onGo
           {/* Inner Glow Ring on Hover */}
           <div className="absolute inset-0 border-2 border-secondary/0 rounded-[2rem] group-hover:border-secondary/20 transition-colors duration-500"></div>
           {/* 3D Avatar Image */}
-          <div className="w-64 h-64 mb-8 relative z-10 transition-transform duration-500 group-hover:scale-105">
-            <img alt="Estudiante Femenina" className="w-full h-full object-contain drop-shadow-2xl" src="https://lh3.googleusercontent.com/aida/ADBb0uj_7Sudy17qakA-uzZhUr8PCh3XsLCo6nk6vTgBpvxzP5lynlKU_B2X2lS9WG61wpIRk2lK-G5uy_pd0u-tzyN5ykPjyt9pqWdwBxo4QVie3yz5ARftIM6CgNmyUW8p2Lc7knHQoykng29-QwjpUO2UoANs-zcGOHcflnsBmymI0_mS6c5AdtqthVYCDZUmcKqLavoRLOWUfI9FbvYiJe7JijPfpd8Cn8oYxl2YNDTt4V7LIMO37eM56t3Mu-6AZeC9tRfC93A" />
-          </div>
+          <motion.div 
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            className="w-64 h-64 mb-8 relative z-10 transition-transform duration-500 group-hover:scale-105"
+          >
+            <img alt="Estudiante Femenina" className="w-full h-full object-cover rounded-full border-4 border-white/50 shadow-xl mix-blend-multiply" src="/avatars/girl_school.png" />
+          </motion.div>
           {/* Action Button */}
           <button className="mt-auto relative z-10 w-full py-4 px-8 rounded-xl bg-surface-container hover:bg-gradient-to-r hover:from-primary hover:to-secondary text-primary hover:text-on-primary font-label-md text-label-md tracking-wide shadow-sm hover:shadow-[0_0_20px_rgba(0,89,187,0.3)] transition-all duration-300 flex items-center justify-center gap-2 group/btn">
             <span>Seleccionar</span>

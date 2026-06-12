@@ -1,7 +1,9 @@
-import React from 'react';
+/* eslint-disable @next/next/no-img-element */
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 export default function LandingView({ onStart, onGoHome, onGoTest }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -69,7 +71,7 @@ export default function LandingView({ onStart, onGoHome, onGoTest }) {
               Nuestro motor de recomendaciones utiliza múltiples variables para trazar un camino claro hacia tu educación superior.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter auto-rows-[250px]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter md:grid-rows-[250px_auto] auto-rows-auto">
             {/* Bento Item 1: Descubre tu Potencial (2/3 width) */}
             <div className="md:col-span-2 group relative overflow-hidden rounded-[2rem] bg-white/40 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_rgba(0,89,187,0.08)] hover:shadow-[0_8px_32px_rgba(0,89,187,0.15)] transition-all duration-500">
               <div className="absolute -right-8 -top-8 w-64 h-64 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors duration-500"></div>
@@ -105,21 +107,25 @@ export default function LandingView({ onStart, onGoHome, onGoTest }) {
 
             {/* Bento Item 3: Tu Plan (Full width) */}
             <div className="md:col-span-3 group relative overflow-hidden rounded-[2rem] bg-white/40 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_rgba(0,89,187,0.08)] hover:shadow-[0_8px_32px_rgba(0,89,187,0.15)] transition-all duration-500">
-              <div className="absolute -left-20 -bottom-20 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"></div>
+              <div className="absolute -left-20 -bottom-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
               <div className="relative z-10 p-lg flex flex-col md:flex-row items-center justify-between gap-xl">
                 <div className="max-w-[36rem]">
-                  <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-tertiary-container/10 text-tertiary mb-md border border-tertiary/10">
-                    <span className="material-symbols-outlined text-xl">flag</span>
-                    <span className="font-label-md">Ruta de Éxito</span>
+                  <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-primary/10 text-primary mb-md border border-primary/10">
+                    <span className="material-symbols-outlined text-xl">radar</span>
+                    <span className="font-label-md">Algoritmo de Precisión</span>
                   </div>
-                  <h3 className="font-headline-md text-headline-md font-bold text-on-surface mb-sm leading-tight">Universidades y Costos en Trujillo</h3>
-                  <p className="font-body-md text-body-lg text-on-surface-variant leading-relaxed">Encuentra dónde estudiar tu carrera, con detalles de matrícula, pensiones y si la universidad es pública o privada.</p>
+                  <h3 className="font-headline-md text-headline-md font-bold text-on-surface mb-sm leading-tight">Tu Código Holland (RIASEC)</h3>
+                  <p className="font-body-md text-body-lg text-on-surface-variant leading-relaxed">Calculamos matemáticamente tu perfil en 6 dimensiones (Realista, Investigador, Artístico, Social, Emprendedor y Convencional) para darte recomendaciones exactas libres de sesgo.</p>
                 </div>
-                <div className="w-full md:w-[400px] aspect-video bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl border border-white/60 p-4 flex items-center justify-center relative overflow-hidden shadow-inner">
-                  <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#0059bb_1px,transparent_1px)] [background-size:20px_20px]"></div>
-                  <div className="relative z-10 bg-white/80 backdrop-blur px-6 py-3 rounded-full border border-white shadow-sm flex items-center gap-3">
-                    <span className="material-symbols-outlined text-primary">map</span>
-                    <span className="text-primary font-bold">Vista Previa del Mapa Interactivo</span>
+                <div className="w-full md:w-[400px] aspect-video bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl border border-white/60 p-4 flex items-center justify-center relative overflow-hidden shadow-inner cursor-pointer group/btn" onClick={() => setIsModalOpen(true)}>
+                  <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#2563eb_1px,transparent_1px)] [background-size:20px_20px]"></div>
+                  
+                  {/* Hexagon Graphic Hint */}
+                  <span className="material-symbols-outlined text-[150px] absolute opacity-10 text-primary group-hover/btn:scale-110 transition-transform duration-500">hexagon</span>
+
+                  <div className="relative z-10 bg-white/90 backdrop-blur px-8 py-4 rounded-full border border-white shadow-[0_8px_20px_rgba(37,99,235,0.15)] flex items-center gap-3 group-hover/btn:-translate-y-1 transition-all duration-300">
+                    <span className="material-symbols-outlined text-primary text-2xl">info</span>
+                    <span className="text-primary font-bold text-lg">Conoce el método</span>
                   </div>
                 </div>
               </div>
@@ -137,6 +143,99 @@ export default function LandingView({ onStart, onGoHome, onGoTest }) {
           </div>
         </div>
       </footer>
+
+      {/* Holland Info Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
+          
+          <div className="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto flex flex-col">
+            <div className="p-6 sm:p-8 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white/90 backdrop-blur-md z-10">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-widest text-primary mb-1">Modelo Científico</div>
+                <h3 className="text-2xl font-black text-slate-800">El Método RIASEC (O*NET)</h3>
+              </div>
+              <button onClick={() => setIsModalOpen(false)} className="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition-colors">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            
+            <div className="p-6 sm:p-8 flex flex-col gap-8">
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Nuestra plataforma no elige carreras al azar. Utilizamos la teoría de intereses vocacionales de John Holland integrada con la base de datos <strong>O*NET</strong>. Calculamos tu perfil mediante el algoritmo de <strong>K-Vecinos Más Cercanos (KNN)</strong> para medir la distancia matemática exacta entre tu personalidad y tu carrera ideal.
+              </p>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex gap-4 items-start hover:shadow-md transition-shadow">
+                  <div className="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined font-bold">build</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-800">R - Realista</h4>
+                    <p className="text-sm text-slate-500 mt-1">Trabajo práctico, maquinaria, herramientas, aire libre.</p>
+                  </div>
+                </div>
+                
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex gap-4 items-start hover:shadow-md transition-shadow">
+                  <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined font-bold">biotech</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-800">I - Investigador</h4>
+                    <p className="text-sm text-slate-500 mt-1">Ciencias, análisis, resolución de problemas complejos.</p>
+                  </div>
+                </div>
+                
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex gap-4 items-start hover:shadow-md transition-shadow">
+                  <div className="w-10 h-10 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined font-bold">palette</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-800">A - Artístico</h4>
+                    <p className="text-sm text-slate-500 mt-1">Creatividad, diseño, originalidad, expresión libre.</p>
+                  </div>
+                </div>
+                
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex gap-4 items-start hover:shadow-md transition-shadow">
+                  <div className="w-10 h-10 rounded-xl bg-green-100 text-green-600 flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined font-bold">volunteer_activism</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-800">S - Social</h4>
+                    <p className="text-sm text-slate-500 mt-1">Ayudar, enseñar, curar, orientar a otras personas.</p>
+                  </div>
+                </div>
+                
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex gap-4 items-start hover:shadow-md transition-shadow">
+                  <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined font-bold">trending_up</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-800">E - Emprendedor</h4>
+                    <p className="text-sm text-slate-500 mt-1">Liderazgo, persuasión, negocios, influencia.</p>
+                  </div>
+                </div>
+                
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex gap-4 items-start hover:shadow-md transition-shadow">
+                  <div className="w-10 h-10 rounded-xl bg-slate-200 text-slate-700 flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined font-bold">rule</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-800">C - Convencional</h4>
+                    <p className="text-sm text-slate-500 mt-1">Organización, datos, rutinas, atención al detalle.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-primary/5 border border-primary/10 rounded-2xl p-6 text-center">
+                <p className="text-primary font-medium text-sm">
+                  Al completar el test, obtendrás tu Código Holland de 3 letras (tus 3 perfiles dominantes) para encontrar tu carrera 100% afín.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }
