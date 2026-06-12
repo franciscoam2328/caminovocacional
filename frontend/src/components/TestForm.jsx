@@ -6,9 +6,6 @@ import { motion } from "framer-motion";
 import { QUESTIONS } from "../core/questions";
 import { predictVocationalCluster } from "../infrastructure/api";
 
-const MALE_AVATAR_URL = "https://lh3.googleusercontent.com/aida/ADBb0uhFb29YvJdZdGSJ1vZn2Byw-o8Y6_tg26VTJtbo6koKfAAxIbi48PqthKRb34xRuKTXic6oPm4-XzzvvFA4LcYN4GELms5z2_KuKsiQ6ETd5uq6KNqFX7NNGqnTTl40-y1jikrFsbnPUxjrcx1uS7auoQhwgfJMCDmSIpkVuO5oE_Q4PapICWE7zXYo6znREHFaDDw7fTayOoJ5_9ldEw5_Bs_e3FQokkDOJSPrywXVyU_24F9h8d4HTAiqqAjOx329SkfHLb0";
-const FEMALE_AVATAR_URL = "https://lh3.googleusercontent.com/aida/ADBb0uj_7Sudy17qakA-uzZhUr8PCh3XsLCo6nk6vTgBpvxzP5lynlKU_B2X2lS9WG61wpIRk2lK-G5uy_pd0u-tzyN5ykPjyt9pqWdwBxo4QVie3yz5ARftIM6CgNmyUW8p2Lc7knHQoykng29-QwjpUO2UoANs-zcGOHcflnsBmymI0_mS6c5AdtqthVYCDZUmcKqLavoRLOWUfI9FbvYiJe7JijPfpd8Cn8oYxl2YNDTt4V7LIMO37eM56t3Mu-6AZeC9tRfC93A";
-
 export default function TestForm({ studentName, avatar, onComplete, onGoHome, onGoTest }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [responses, setResponses] = useState([]);
@@ -20,7 +17,16 @@ export default function TestForm({ studentName, avatar, onComplete, onGoHome, on
   const currentQuestion = QUESTIONS[currentQuestionIndex];
   const progressPercentage = (currentQuestionIndex / totalQuestions) * 100;
   
-  const avatarUrl = avatar === "femenino" ? FEMALE_AVATAR_URL : MALE_AVATAR_URL;
+  // Calculate evolution stage (0 to 2)
+  const stage = Math.min(2, Math.floor(currentQuestionIndex / 20));
+  
+  const getAvatarUrl = (gender, stage) => {
+    const prefix = gender === "femenino" ? "girl" : "boy";
+    const stageSuffix = stage === 0 ? "school" : stage === 1 ? "university" : "graduate";
+    return `/avatars/${prefix}_${stageSuffix}.png`;
+  };
+  
+  const avatarUrl = getAvatarUrl(avatar, stage);
 
   const handleOptionClick = (val) => {
     if (isSubmitting) return;
@@ -89,10 +95,22 @@ export default function TestForm({ studentName, avatar, onComplete, onGoHome, on
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-lg min-h-[600px] items-center">
           
           {/* Left Side: 2.5D Journey Path & Avatar */}
-          <div className="w-full h-full min-h-[400px] lg:min-h-[600px] rounded-xl overflow-hidden relative shadow-[0_4px_20px_rgba(0,123,255,0.08)] bg-surface-container-low border border-white/50">
-            <img 
+          <div className="w-full h-full min-h-[400px] lg:min-h-[600px] rounded-xl overflow-hidden relative shadow-[0_4px_20px_rgba(0,123,255,0.08)] bg-white border border-white/50">
+            <motion.img 
+              key={avatarUrl}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ 
+                opacity: 0.9, 
+                scale: selectedOption !== null ? [1, 1.05, 1] : 1,
+                y: selectedOption !== null ? 0 : [0, -10, 0]
+              }}
+              transition={{ 
+                opacity: { duration: 0.5 },
+                y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                scale: { duration: 0.3 }
+              }}
               alt="Avatar de estudiante en el camino vocacional" 
-              className="absolute inset-0 w-full h-full object-cover object-center opacity-80 p-12 transition-all duration-700" 
+              className="absolute inset-0 w-full h-full object-cover object-center p-8 lg:p-12 mix-blend-multiply" 
               src={avatarUrl} 
             />
             {/* Overlay Gradient to blend with background */}

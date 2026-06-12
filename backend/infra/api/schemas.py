@@ -8,6 +8,8 @@ class TestInputSchema(BaseModel):
     @field_validator('respuestas')
     @classmethod
     def validar_rango_likert(cls, v: List[int]) -> List[int]:
+        if len(v) != 60:
+            raise ValueError(f"Se esperaban 60 respuestas, pero se recibieron {len(v)}.")
         # Tarea TA-006: Validación de escala Likert (1-5)
         if not all(1 <= x <= 5 for x in v):
             raise ValueError("Todas las respuestas deben pertenecer estrictamente a la escala Likert (del 1 al 5).")

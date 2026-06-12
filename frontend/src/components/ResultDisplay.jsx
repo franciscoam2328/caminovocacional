@@ -3,32 +3,46 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import HollandPrintReport from './HollandPrintReport';
 
 export default function ResultDisplay({ data, avatar, onRestart }) {
-  const [shuffledCareers, setShuffledCareers] = useState(() => {
-    if (data?.carreras_disponibles) {
-      return [...data.carreras_disponibles].sort(() => Math.random() - 0.5);
+  const [recommendedCareers, setRecommendedCareers] = useState(() => {
+    if (data?.carreras_recomendadas) {
+      return data.carreras_recomendadas;
     }
     return [];
   });
 
-  if (!data) return null;
+  if (!data || recommendedCareers.length === 0) return null;
 
-  // Mapa de iconos por Clúster
-  const clusterIcons = {
-    1: 'medical_services',
-    2: 'computer',
-    3: 'architecture',
-    4: 'storefront',
-    5: 'gavel',
-    6: 'school'
+  const mainCareer = recommendedCareers[0];
+  const altCareers = recommendedCareers.slice(1, 3);
+  
+  const [selectedCareerForUnivs, setSelectedCareerForUnivs] = useState(mainCareer);
+  
+  const iconMap = {
+      'Arquitectura': 'architecture',
+      'Arte y Diseño': 'palette',
+      'Biología y Ciencias': 'biotech',
+      'Comunicación y Periodismo': 'campaign',
+      'Derecho': 'gavel',
+      'Educación': 'school',
+      'Enfermería': 'medical_services',
+      'Finanzas y Contabilidad': 'account_balance',
+      'Informática y Sistemas': 'computer',
+      'Ingeniería Civil': 'engineering',
+      'Ingeniería Eléctrica': 'electrical_services',
+      'Ingeniería General': 'precision_manufacturing',
+      'Ingeniería Mecánica': 'car_repair',
+      'Lengua y Literatura': 'menu_book',
+      'Marketing': 'storefront',
+      'Medicina y Salud': 'health_and_safety',
+      'Negocios y Administración': 'business_center',
+      'Orientación Psicológica': 'psychology',
+      'Psicología': 'psychology',
   };
   
-  const mainIcon = clusterIcons[data.cluster_predicho] || 'stars';
-
-  // Extraemos la primera carrera como la recomendación principal
-  const mainCareer = shuffledCareers[0] || { nombre: "Ingeniería de Software" };
-  const altCareers = shuffledCareers.slice(1, 3);
+  const mainIcon = iconMap[mainCareer.id_modelo] || 'stars';
 
   const handleDownloadPDF = () => {
     window.print();
@@ -73,10 +87,10 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
           <div className="w-56 h-56 rounded-full overflow-hidden border-4 border-white shadow-2xl shrink-0 relative z-10 bg-white ring-8 ring-white/50">
             <img 
               alt="Avatar graduado" 
-              className="w-full h-full object-cover" 
+              className="w-full h-full object-cover scale-[2.2] origin-[50%_15%]" 
               src={avatar === 'femenino' 
-                ? "https://lh3.googleusercontent.com/aida/ADBb0uj_7Sudy17qakA-uzZhUr8PCh3XsLCo6nk6vTgBpvxzP5lynlKU_B2X2lS9WG61wpIRk2lK-G5uy_pd0u-tzyN5ykPjyt9pqWdwBxo4QVie3yz5ARftIM6CgNmyUW8p2Lc7knHQoykng29-QwjpUO2UoANs-zcGOHcflnsBmymI0_mS6c5AdtqthVYCDZUmcKqLavoRLOWUfI9FbvYiJe7JijPfpd8Cn8oYxl2YNDTt4V7LIMO37eM56t3Mu-6AZeC9tRfC93A"
-                : "https://lh3.googleusercontent.com/aida-public/AB6AXuAm3AtJb-WAeffhOFL9usKpOSYW1hgo33nBJbLuhuUAJxstV6_L0tjncc3MACvxV-bk88D3mghjNjgcYZ4UdekF_6vxYPI-hozBlRdWTpr52ckNNSy_X_jzy5tvYmv5kmzOh90Cc6k4RxJScRoxU3wZcSRXcH_tOfdWHWxNS-IDgoRcDwJUy_ZfN7bouSWVNtPuRrDcTh-nlcJI5eRUfdkcaJxVHEwv0IhqzPGtkXr3ef-I-lLDkBWYl0mXjK7fDKQ_kjO4-ijv" 
+                ? "/avatars/girl_graduate.png"
+                : "/avatars/boy_graduate.png" 
               } 
             />
           </div>
@@ -95,17 +109,22 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
           </div>
         </header>
 
+        {/* Print-only Holland Detailed Report */}
+        <HollandPrintReport data={data} />
+
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-lg lg:gap-xl">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-lg lg:gap-xl print:gap-4">
           
           {/* Left Column: Results */}
-          <section className="lg:col-span-8 flex flex-col gap-xl">
+          <section className="lg:col-span-8 flex flex-col gap-xl print:gap-6">
             {/* Recommended Careers */}
             <div>
-              <h2 className="font-headline-lg text-headline-lg text-on-surface mb-8">Tu Perfil Ideal ({data.area_recomendada})</h2>
+              <h2 className="font-headline-lg text-headline-lg text-on-surface mb-8">Tu Perfil Ideal</h2>
               
               {/* Winner Card */}
-              <div className="bg-white rounded-3xl p-8 shadow-[0_20px_40px_-15px_rgba(0,89,187,0.15)] border-2 border-primary/10 relative overflow-hidden group hover:border-primary/30 transition-all duration-500 mb-8 flex flex-col md:flex-row items-center gap-8">
+              <div 
+                onClick={() => setSelectedCareerForUnivs(mainCareer)}
+                className={`bg-white rounded-3xl p-8 shadow-[0_20px_40px_-15px_rgba(0,89,187,0.15)] border-2 ${selectedCareerForUnivs.nombre_mostrar === mainCareer.nombre_mostrar ? 'border-primary' : 'border-primary/10 hover:border-primary/30'} cursor-pointer relative overflow-hidden group transition-all duration-500 mb-8 flex flex-col md:flex-row items-center gap-8`}>
                 <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-primary to-secondary"></div>
                 <div className="absolute -right-10 -bottom-10 opacity-5 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none transform group-hover:scale-110">
                   <span className="material-symbols-outlined text-[200px]">{mainIcon}</span>
@@ -118,17 +137,17 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
                   <div className="text-tertiary-container font-black tracking-widest uppercase text-xs mb-2 flex items-center justify-center md:justify-start gap-1">
                     <span className="material-symbols-outlined text-[14px]">military_tech</span> Primera Opción
                   </div>
-                  <h3 className="font-headline-xl text-4xl text-on-surface mb-3 font-extrabold tracking-tight">{mainCareer.nombre}</h3>
+                  <h3 className="font-headline-xl text-4xl text-on-surface mb-3 font-extrabold tracking-tight">{mainCareer.nombre_mostrar}</h3>
                   <p className="text-on-surface-variant text-body-md max-w-[36rem]">
-                    Tu perfil se alinea perfectamente con campos donde puedes liderar, innovar y desarrollar soluciones efectivas.
+                    {mainCareer.descripcion}
                   </p>
                 </div>
                 
                 <div className="text-center md:text-right shrink-0 relative z-10 bg-surface px-6 py-4 rounded-2xl border border-surface-variant">
-                  <div className="text-5xl font-black text-primary mb-1">95%</div>
+                  <div className="text-5xl font-black text-primary mb-1">{mainCareer.afinidad}%</div>
                   <div className="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Afinidad</div>
                   <div className="w-full bg-surface-variant rounded-full h-1.5 mt-3">
-                    <div className="bg-gradient-to-r from-primary to-secondary h-1.5 rounded-full" style={{ width: '95%' }}></div>
+                    <div className="bg-gradient-to-r from-primary to-secondary h-1.5 rounded-full" style={{ width: `${mainCareer.afinidad}%` }}></div>
                   </div>
                 </div>
               </div>
@@ -141,39 +160,30 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {altCareers[0] && (
-                      <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-5">
-                        <div className="w-14 h-14 bg-surface-container rounded-xl flex items-center justify-center shrink-0 text-secondary">
-                          <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>architecture</span>
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-headline-md text-lg text-on-surface font-bold mb-1 line-clamp-1">{altCareers[0].nombre}</h4>
-                          <div className="flex items-center gap-3">
-                            <div className="text-lg font-bold text-secondary">88%</div>
-                            <div className="w-full bg-surface-variant rounded-full h-1.5 flex-1 max-w-[100px]">
-                              <div className="bg-secondary h-1.5 rounded-full" style={{ width: '88%' }}></div>
+                    {altCareers.map((altCareer, index) => {
+                      const isSecond = index === 0;
+                      const colorClass = isSecond ? "text-secondary" : "text-tertiary-container";
+                      const bgClass = isSecond ? "bg-secondary" : "bg-tertiary-container";
+                      const altIcon = iconMap[altCareer.id_modelo] || 'stars';
+                      return (
+                        <div key={index} 
+                             onClick={() => setSelectedCareerForUnivs(altCareer)}
+                             className={`bg-white rounded-2xl p-6 border ${selectedCareerForUnivs.nombre_mostrar === altCareer.nombre_mostrar ? 'border-primary ring-2 ring-primary/20' : 'border-slate-100'} cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-5`}>
+                          <div className={`w-14 h-14 bg-surface-container rounded-xl flex items-center justify-center shrink-0 ${colorClass}`}>
+                            <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>{altIcon}</span>
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="font-headline-md text-lg text-on-surface font-bold mb-1 line-clamp-1">{altCareer.nombre_mostrar}</h4>
+                            <div className="flex items-center gap-3">
+                              <div className={`text-lg font-bold ${colorClass}`}>{altCareer.afinidad}%</div>
+                              <div className="w-full bg-surface-variant rounded-full h-1.5 flex-1 max-w-[100px]">
+                                <div className={`${bgClass} h-1.5 rounded-full`} style={{ width: `${altCareer.afinidad}%` }}></div>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-
-                    {altCareers[1] && (
-                      <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-5">
-                        <div className="w-14 h-14 bg-surface-container rounded-xl flex items-center justify-center shrink-0 text-tertiary-container">
-                          <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>trending_up</span>
-                        </div>
-                        <div className="flex-1">
-                          <h4 className="font-headline-md text-lg text-on-surface font-bold mb-1 line-clamp-1">{altCareers[1].nombre}</h4>
-                          <div className="flex items-center gap-3">
-                            <div className="text-lg font-bold text-tertiary-container">82%</div>
-                            <div className="w-full bg-surface-variant rounded-full h-1.5 flex-1 max-w-[100px]">
-                              <div className="bg-tertiary-container h-1.5 rounded-full" style={{ width: '82%' }}></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                      );
+                    })}
                   </div>
                 </>
               )}
@@ -181,53 +191,57 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
 
             {/* University Comparison List */}
             <div className="mt-8">
-              <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
-                <div>
-                  <span className="text-tertiary-container font-bold tracking-widest uppercase text-xs mb-2 block">Donde Estudiar</span>
-                  <h2 className="font-headline-lg text-headline-lg text-on-surface leading-tight">Mejores Universidades en Trujillo</h2>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4">
-                {mainCareer.universidades?.map((univ, idx) => (
-                  <div key={idx} className="bg-white rounded-3xl p-6 sm:p-8 shadow-[0_8px_20px_rgba(0,0,0,0.03)] border border-slate-100 hover:shadow-[0_12px_30px_rgba(0,89,187,0.08)] hover:border-primary/20 transition-all duration-300 flex flex-col md:flex-row items-center gap-6 md:gap-8 relative overflow-hidden group">
-                    
-                    {univ.tipo === 'Privada' && (
-                      <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] font-black tracking-wider px-4 py-1.5 rounded-bl-xl flex items-center gap-1 shadow-sm z-10">
-                        <span className="material-symbols-outlined text-[14px]">verified</span> LICENCIADA POR SUNEDU
-                      </div>
-                    )}
-                    
-                    <div className="w-20 h-20 bg-slate-50 rounded-2xl flex items-center justify-center shrink-0 border border-slate-100 group-hover:scale-105 transition-transform duration-500 p-2 text-center">
-                      <span className={`font-black text-xl tracking-tighter ${idx % 3 === 0 ? 'text-primary' : idx % 3 === 1 ? 'text-secondary' : 'text-tertiary-container'}`}>
-                        {univ.nombre.split(' ')[0]}
-                      </span>
-                    </div>
-                    
-                    <div className="flex-1 text-center md:text-left w-full">
-                      <h3 className="font-headline-md text-2xl text-on-surface font-extrabold mb-2">{univ.nombre}</h3>
-                      <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-slate-500 font-medium">
-                        <span className="flex items-center gap-1.5"><span className="material-symbols-outlined text-[18px]">account_balance</span> {univ.tipo}</span>
-                        <span className="w-1 h-1 rounded-full bg-slate-300 hidden md:block"></span>
-                        <span className="flex items-center gap-1.5 bg-slate-100 px-2 py-0.5 rounded text-slate-600"><span className="material-symbols-outlined text-[18px]">calendar_month</span> 10 Semestres</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex flex-col md:items-end w-full md:w-auto mt-4 md:mt-0 pt-4 md:pt-0 border-t md:border-t-0 border-slate-100 shrink-0">
-                      <div className="text-[11px] uppercase tracking-widest text-slate-400 font-bold mb-1">Pensiones Mensuales</div>
-                      <div className={`font-headline-xl text-3xl font-black tracking-tight ${univ.costo_promedio === 0 ? 'text-secondary' : 'text-on-surface'}`}>
-                        {univ.costo_promedio === 0 ? 'Gratuita' : `S/ ${univ.costo_promedio}`}
-                      </div>
-                      <div className="text-xs text-slate-500 mt-1">{univ.tipo === 'Pública' ? 'Inversión Anual: S/ 150.00' : 'Inscripción: S/ 300.00'}</div>
+              {recommendedCareers.map((career, careerIdx) => (
+                <div key={careerIdx} className={`${selectedCareerForUnivs.nombre_mostrar === career.nombre_mostrar ? 'block' : 'hidden print:block'} mb-12`}>
+                  <div className="flex flex-col md:flex-row justify-between items-end print:items-center print:justify-center mb-8 gap-4">
+                    <div className="w-full print:text-center">
+                      <span className="text-tertiary-container font-bold tracking-widest uppercase text-xs mb-2 block print:inline-block">Donde Estudiar</span>
+                      <h2 className="font-headline-lg text-headline-lg text-on-surface leading-tight">Opciones para {career.nombre_mostrar}</h2>
                     </div>
                   </div>
-                ))}
-              </div>
+
+                  <div className="flex flex-col gap-4 print:grid print:grid-cols-2 print:gap-2">
+                    {career.universidades?.map((univ, idx) => (
+                      <div key={idx} className="bg-white rounded-3xl print:rounded-lg p-6 sm:p-8 print:p-3 shadow-[0_8px_20px_rgba(0,0,0,0.03)] print:shadow-none border border-slate-100 print:border-slate-200 hover:shadow-[0_12px_30px_rgba(0,89,187,0.08)] hover:border-primary/20 transition-all duration-300 flex flex-col md:flex-row print:flex-col items-center print:items-start gap-6 md:gap-8 print:gap-2 relative overflow-hidden group break-inside-avoid">
+                        
+                        {univ.tipo === 'Privada' && (
+                          <div className="absolute top-0 right-0 bg-emerald-500 text-white text-[10px] print:text-[8px] font-black tracking-wider px-4 py-1.5 print:px-2 print:py-0.5 rounded-bl-xl flex items-center gap-1 shadow-sm z-10">
+                            <span className="material-symbols-outlined text-[14px] print:text-[10px]">verified</span> PRIVADA
+                          </div>
+                        )}
+                        
+                        <div className="w-20 h-20 print:w-10 print:h-10 print:hidden bg-slate-50 rounded-2xl flex items-center justify-center shrink-0 border border-slate-100 group-hover:scale-105 transition-transform duration-500 p-2 text-center">
+                          <span className={`font-black text-xl tracking-tighter ${idx % 3 === 0 ? 'text-primary' : idx % 3 === 1 ? 'text-secondary' : 'text-tertiary-container'}`}>
+                            {univ.nombre}
+                          </span>
+                        </div>
+                        
+                        <div className="flex-1 text-center md:text-left print:text-left w-full">
+                          <h3 className="font-headline-md text-2xl print:text-sm text-on-surface font-extrabold mb-1">{univ.carrera_exacta || univ.nombre}</h3>
+                          <div className="flex flex-wrap items-center justify-center md:justify-start print:justify-start gap-4 print:gap-2 text-sm print:text-[10px] text-slate-500 font-medium">
+                            <span className="flex items-center gap-1.5 print:gap-0.5"><span className="material-symbols-outlined text-[18px] print:text-[12px]">account_balance</span> {univ.tipo}</span>
+                            <span className="w-1 h-1 rounded-full bg-slate-300 hidden md:block print:hidden"></span>
+                            <span className="flex items-center gap-1.5 print:gap-0.5 bg-slate-100 print:bg-transparent px-2 print:px-0 py-0.5 rounded text-slate-600"><span className="material-symbols-outlined text-[18px] print:text-[12px]">calendar_month</span> {univ.nombre} Trujillo</span>
+                          </div>
+                        </div>
+                        
+                        <div className="flex flex-col md:items-end print:items-start w-full md:w-auto print:w-full mt-4 md:mt-0 print:mt-1 pt-4 md:pt-0 print:pt-1 border-t md:border-t-0 print:border-t border-slate-100 shrink-0">
+                          <div className="text-[11px] print:text-[8px] uppercase tracking-widest text-slate-400 font-bold mb-1 print:mb-0">Pensión Promedio</div>
+                          <div className={`font-headline-xl text-3xl print:text-sm font-black tracking-tight ${univ.costo_promedio === 'S/ 0' ? 'text-secondary' : 'text-on-surface'}`}>
+                            {univ.costo_promedio === 'S/ 0' ? 'Gratuita' : univ.costo_promedio}
+                          </div>
+                          <div className="text-xs print:text-[9px] text-slate-500 mt-1 print:mt-0">Matrícula: {univ.matricula}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
 
           {/* Right Column: Sidebar */}
-          <aside className="lg:col-span-4 flex flex-col gap-xl">
+          <aside className="lg:col-span-4 flex flex-col gap-xl print:hidden">
             <div className="bg-white/90 backdrop-blur-[16px] border border-white/50 shadow-[0_12px_40px_rgba(0,123,255,0.06)] rounded-3xl p-8 sticky top-28">
               <div className="flex items-center gap-3 mb-8 border-b border-surface-variant pb-4">
                 <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
@@ -237,43 +251,34 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
               </div>
               
               <div className="flex flex-col gap-6">
-                {/* Skill Bar 1 */}
-                <div className="flex flex-col gap-2">
-                  <div className="flex justify-between items-center">
-                    <span className="font-label-md text-label-md text-on-surface">Afinidad Principal</span>
-                    <span className="font-label-sm text-label-sm text-primary font-black">Alto</span>
-                  </div>
-                  <div className="w-full bg-surface-container-highest rounded-full h-2.5 shadow-inner">
-                    <div className="bg-primary h-2.5 rounded-full" style={{ width: '90%' }}></div>
-                  </div>
+                <div className="bg-primary/5 rounded-2xl p-4 border border-primary/10 text-center mb-2">
+                  <div className="text-[10px] uppercase font-bold text-primary tracking-widest mb-1">Tu Código Holland</div>
+                  <div className="text-4xl font-black tracking-widest text-primary">{data.codigo_holland || 'RIA'}</div>
                 </div>
                 
-                {/* Skill Bar 2 */}
-                <div className="flex flex-col gap-2">
-                  <div className="flex justify-between items-center">
-                    <span className="font-label-md text-label-md text-on-surface">Versatilidad</span>
-                    <span className="font-label-sm text-label-sm text-secondary font-black">Medio-Alto</span>
-                  </div>
-                  <div className="w-full bg-surface-container-highest rounded-full h-2.5 shadow-inner">
-                    <div className="bg-secondary h-2.5 rounded-full" style={{ width: '75%' }}></div>
-                  </div>
-                </div>
-                
-                {/* Skill Bar 3 */}
-                <div className="flex flex-col gap-2">
-                  <div className="flex justify-between items-center">
-                    <span className="font-label-md text-label-md text-on-surface">Intereses Secundarios</span>
-                    <span className="font-label-sm text-label-sm text-tertiary-container font-black">Medio</span>
-                  </div>
-                  <div className="w-full bg-surface-container-highest rounded-full h-2.5 shadow-inner">
-                    <div className="bg-tertiary-container h-2.5 rounded-full" style={{ width: '50%' }}></div>
-                  </div>
-                </div>
+                {data.puntajes_riasec && Object.entries(data.puntajes_riasec)
+                  .sort((a, b) => b[1] - a[1])
+                  .slice(0, 3)
+                  .map(([area, score], idx) => {
+                    const colors = ['bg-primary', 'bg-secondary', 'bg-tertiary-container'];
+                    const textColors = ['text-primary', 'text-secondary', 'text-tertiary-container'];
+                    return (
+                      <div key={area} className="flex flex-col gap-2">
+                        <div className="flex justify-between items-center">
+                          <span className="font-label-md text-label-md text-on-surface">{area}</span>
+                          <span className={`font-label-sm text-label-sm ${textColors[idx]} font-black`}>{score} pts</span>
+                        </div>
+                        <div className="w-full bg-surface-container-highest rounded-full h-2.5 shadow-inner">
+                          <div className={`${colors[idx]} h-2.5 rounded-full`} style={{ width: `${(score / 50) * 100}%` }}></div>
+                        </div>
+                      </div>
+                    );
+                })}
                 
                 <div className="mt-4 pt-6 border-t border-surface-variant relative">
                   <span className="material-symbols-outlined absolute -top-3 left-4 text-surface-variant bg-white px-2">format_quote</span>
                   <p className="text-on-surface-variant italic text-[13px] leading-relaxed">
-                    Tus respuestas al test revelan que tienes una fuerte inclinación natural y vocacional hacia el área de <strong>{data.area_recomendada}</strong>. Tus intereses y habilidades encajan perfectamente con este campo profesional.
+                    Tus respuestas al test revelan que tienes una fuerte inclinación natural hacia <strong>{mainCareer.nombre_mostrar}</strong>. 
                   </p>
                 </div>
                 

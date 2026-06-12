@@ -1,185 +1,869 @@
 {
-  "areas_vocacionales": [
+  "carreras": [
     {
-      "cluster_id": 1,
-      "nombre": "Ciencias de la Salud",
-      "carreras": [
+      "id_modelo": "Arquitectura y Diseño",
+      "nombre_mostrar": "Arquitectura y Urbanismo",
+      "descripcion": "Diseño de espacios, edificios y planeamiento urbano.",
+      "universidades": [
         {
-          "id_carrera": 101,
-          "nombre": "Medicina Humana",
-          "universidades": [
-            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 1840.0},
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 1000.0}
-          ]
+          "nombre": "UPAO",
+          "carrera_exacta": "Arquitectura",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
         },
         {
-          "id_carrera": 102,
-          "nombre": "Psicología",
-          "universidades": [
-            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
-            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 1000.0},
-            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 650.0}
-          ]
+          "nombre": "UNT",
+          "carrera_exacta": "Arquitectura y Urbanismo",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
         },
         {
-          "id_carrera": 103,
-          "nombre": "Estomatología / Odontología",
-          "universidades": [
-            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 870.0},
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 1000.0}
-          ]
+          "nombre": "UCT",
+          "carrera_exacta": "Arquitectura",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 475",
+          "matricula": "S/ 180"
         }
+      ],
+      "vector_ideal_riasec": [
+        40,
+        45,
+        48,
+        20,
+        30,
+        25
       ]
     },
     {
-      "cluster_id": 2,
-      "nombre": "Ingeniería y Tecnología",
-      "carreras": [
+      "id_modelo": "Arquitectura y Diseño",
+      "nombre_mostrar": "Diseño Gráfico y Digital",
+      "descripcion": "Creación visual, diseño publicitario y comunicación gráfica.",
+      "universidades": [
         {
-          "id_carrera": 201,
-          "nombre": "Ingeniería de Sistemas / Informática / Software",
-          "universidades": [
-            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
-            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 700.0},
-            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 500.0}
-          ]
+          "nombre": "UPN",
+          "carrera_exacta": "Comunicación y Diseño Gráfico",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 600",
+          "matricula": "S/ 370"
         },
         {
-          "id_carrera": 202,
-          "nombre": "Ingeniería Civil",
-          "universidades": [
-            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
-            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 700.0},
-            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 500.0}
-          ]
+          "nombre": "UCV",
+          "carrera_exacta": "Artes & Diseño Gráfico Empresarial",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 600 (anual)"
         },
         {
-          "id_carrera": 203,
-          "nombre": "Ingeniería Industrial",
-          "universidades": [
-            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
-            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 700.0},
-            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 500.0}
-          ]
+          "nombre": "UTP",
+          "carrera_exacta": "Diseño Digital y Publicitario",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 550",
+          "matricula": "S/ 180"
         }
+      ],
+      "vector_ideal_riasec": [
+        25,
+        30,
+        50,
+        25,
+        35,
+        30
       ]
     },
     {
-      "cluster_id": 3,
-      "nombre": "Arquitectura y Diseño",
-      "carreras": [
+      "id_modelo": "Ciencias de la Salud",
+      "nombre_mostrar": "Ciencias Biológicas",
+      "descripcion": "Estudio de los seres vivos, ecosistemas y biología marina/pesquera.",
+      "universidades": [
         {
-          "id_carrera": 301,
-          "nombre": "Arquitectura y Urbanismo",
-          "universidades": [
-            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 500.0}
-          ]
-        },
-        {
-          "id_carrera": 302,
-          "nombre": "Diseño Gráfico / Diseño Digital",
-          "universidades": [
-            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
-            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
-            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 550.0}
-          ]
+          "nombre": "UNT",
+          "carrera_exacta": "Ciencias Biológicas / Biología Pesquera",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
         }
+      ],
+      "vector_ideal_riasec": [
+        35,
+        50,
+        20,
+        20,
+        20,
+        25
       ]
     },
     {
-      "cluster_id": 4,
-      "nombre": "Negocios y Económicas",
-      "carreras": [
+      "id_modelo": "Sociales y Derecho",
+      "nombre_mostrar": "Ciencias de la Comunicación",
+      "descripcion": "Periodismo, medios digitales, publicidad y comunicación audiovisual.",
+      "universidades": [
         {
-          "id_carrera": 401,
-          "nombre": "Administración",
-          "universidades": [
-            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
-            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
-            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 550.0},
-            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 400.0}
-          ]
+          "nombre": "UPAO",
+          "carrera_exacta": "Comunicación y Medios Digitales",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
         },
         {
-          "id_carrera": 402,
-          "nombre": "Contabilidad y Finanzas",
-          "universidades": [
-            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
-            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
-            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 550.0},
-            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 400.0}
-          ]
+          "nombre": "UNT",
+          "carrera_exacta": "Ciencias de la Comunicación",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
+        },
+        {
+          "nombre": "UPN",
+          "carrera_exacta": "Comunicación y Periodismo / Audiovisual",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 600",
+          "matricula": "S/ 370"
+        },
+        {
+          "nombre": "UCV",
+          "carrera_exacta": "Ciencias de la Comunicación",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 600 (anual)"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Ciencias de la Comunicación",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 400",
+          "matricula": "S/ 180"
+        },
+        {
+          "nombre": "UTP",
+          "carrera_exacta": "Ciencias de la Comunicación / Publicidad",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 550",
+          "matricula": "S/ 180"
         }
+      ],
+      "vector_ideal_riasec": [
+        20,
+        35,
+        45,
+        40,
+        45,
+        25
       ]
     },
     {
-      "cluster_id": 5,
-      "nombre": "Sociales y Derecho",
-      "carreras": [
+      "id_modelo": "Sociales y Derecho",
+      "nombre_mostrar": "Derecho",
+      "descripcion": "Leyes, sistema judicial, asesoría legal y justicia.",
+      "universidades": [
         {
-          "id_carrera": 501,
-          "nombre": "Derecho",
-          "universidades": [
-            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
-            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 550.0},
-            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 400.0}
-          ]
+          "nombre": "UPAO",
+          "carrera_exacta": "Derecho",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
         },
         {
-          "id_carrera": 502,
-          "nombre": "Ciencias de la Comunicación",
-          "universidades": [
-            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 620.0},
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UPN", "tipo": "Privada", "costo_promedio": 600.0},
-            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
-            {"nombre": "UTP", "tipo": "Privada", "costo_promedio": 550.0},
-            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 400.0}
-          ]
+          "nombre": "UNT",
+          "carrera_exacta": "Derecho",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
+        },
+        {
+          "nombre": "UCV",
+          "carrera_exacta": "Derecho",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 600 (anual)"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Derecho",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 400",
+          "matricula": "S/ 180"
+        },
+        {
+          "nombre": "UTP",
+          "carrera_exacta": "Derecho",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 550",
+          "matricula": "S/ 180"
         }
+      ],
+      "vector_ideal_riasec": [
+        15,
+        35,
+        25,
+        45,
+        50,
+        40
       ]
     },
     {
-      "cluster_id": 6,
-      "nombre": "Educación y Humanidades",
-      "carreras": [
+      "id_modelo": "Educación y Humanidades",
+      "nombre_mostrar": "Educación (Inicial, Primaria o Secundaria)",
+      "descripcion": "Pedagogía, enseñanza de idiomas, ciencias o letras.",
+      "universidades": [
         {
-          "id_carrera": 601,
-          "nombre": "Educación Inicial",
-          "universidades": [
-            {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": 420.0},
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
-            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 400.0}
-          ]
+          "nombre": "UPAO",
+          "carrera_exacta": "Educación Inicial",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 420",
+          "matricula": "S/ 300"
         },
         {
-          "id_carrera": 602,
-          "nombre": "Educación Primaria / Secundaria",
-          "universidades": [
-            {"nombre": "UNT", "tipo": "Pública", "costo_promedio": 0.0},
-            {"nombre": "UCV", "tipo": "Privada", "costo_promedio": 500.0},
-            {"nombre": "UCT", "tipo": "Privada", "costo_promedio": 400.0}
-          ]
+          "nombre": "UNT",
+          "carrera_exacta": "Educación Secundaria / Inicial / Primaria",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
+        },
+        {
+          "nombre": "UCV",
+          "carrera_exacta": "Educación Inicial / Primaria",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 450",
+          "matricula": "S/ 600 (anual)"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Educación Especial / Primaria / Secundaria",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 380",
+          "matricula": "S/ 180"
         }
+      ],
+      "vector_ideal_riasec": [
+        20,
+        25,
+        35,
+        50,
+        35,
+        30
+      ]
+    },
+    {
+      "id_modelo": "Ciencias de la Salud",
+      "nombre_mostrar": "Enfermería",
+      "descripcion": "Atención y cuidado de pacientes en el sistema de salud.",
+      "universidades": [
+        {
+          "nombre": "UPAO",
+          "carrera_exacta": "Enfermería",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
+        },
+        {
+          "nombre": "UNT",
+          "carrera_exacta": "Enfermería",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
+        },
+        {
+          "nombre": "UPN",
+          "carrera_exacta": "Enfermería",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 800",
+          "matricula": "S/ 370"
+        },
+        {
+          "nombre": "UCV",
+          "carrera_exacta": "Enfermería",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 900",
+          "matricula": "S/ 600 (anual)"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Enfermería",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 550",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        30,
+        40,
+        20,
+        50,
+        25,
+        35
+      ]
+    },
+    {
+      "id_modelo": "Negocios y Económicas",
+      "nombre_mostrar": "Contabilidad y Finanzas",
+      "descripcion": "Gestión financiera, auditoría, impuestos y economía empresarial.",
+      "universidades": [
+        {
+          "nombre": "UPAO",
+          "carrera_exacta": "Contabilidad y Finanzas / Economía",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
+        },
+        {
+          "nombre": "UNT",
+          "carrera_exacta": "Contabilidad y finanzas / Economía",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
+        },
+        {
+          "nombre": "UPN",
+          "carrera_exacta": "Contabilidad y Finanzas",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 550",
+          "matricula": "S/ 370"
+        },
+        {
+          "nombre": "UCV",
+          "carrera_exacta": "Contabilidad / Economía",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 600 (anual)"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Contabilidad",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 400",
+          "matricula": "S/ 180"
+        },
+        {
+          "nombre": "UTP",
+          "carrera_exacta": "Contabilidad",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        20,
+        30,
+        15,
+        25,
+        45,
+        50
+      ]
+    },
+    {
+      "id_modelo": "Ingeniería y Tecnología",
+      "nombre_mostrar": "Ingeniería de Sistemas y Software",
+      "descripcion": "Programación, desarrollo de software, Inteligencia Artificial y datos.",
+      "universidades": [
+        {
+          "nombre": "UPAO",
+          "carrera_exacta": "Ing. de Sistemas e Inteligencia Artificial",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
+        },
+        {
+          "nombre": "UNT",
+          "carrera_exacta": "Ingeniería de sistemas / Informática",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
+        },
+        {
+          "nombre": "UPN",
+          "carrera_exacta": "Ing. de Sistemas Computacionales / Software",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 650",
+          "matricula": "S/ 370"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Ingeniería informática",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 450",
+          "matricula": "S/ 180"
+        },
+        {
+          "nombre": "UTP",
+          "carrera_exacta": "Ing. de Sistemas e Informática / Software",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 600",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        35,
+        50,
+        25,
+        20,
+        30,
+        45
+      ]
+    },
+    {
+      "id_modelo": "Ingeniería y Tecnología",
+      "nombre_mostrar": "Ingeniería Civil",
+      "descripcion": "Construcción, diseño de estructuras, puentes y obras públicas.",
+      "universidades": [
+        {
+          "nombre": "UPAO",
+          "carrera_exacta": "Ingeniería Civil",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
+        },
+        {
+          "nombre": "UNT",
+          "carrera_exacta": "Ingeniería Civil",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
+        },
+        {
+          "nombre": "UPN",
+          "carrera_exacta": "Ingeniería Civil",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 700",
+          "matricula": "S/ 370"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Ingeniería Civil",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 480",
+          "matricula": "S/ 180"
+        },
+        {
+          "nombre": "UTP",
+          "carrera_exacta": "Ingeniería Civil",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 650",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        45,
+        45,
+        25,
+        20,
+        35,
+        35
+      ]
+    },
+    {
+      "id_modelo": "Ingeniería y Tecnología",
+      "nombre_mostrar": "Ingeniería Electrónica y Eléctrica",
+      "descripcion": "Sistemas eléctricos, robótica, automatización y electrónica.",
+      "universidades": [
+        {
+          "nombre": "UPAO",
+          "carrera_exacta": "Ing. Electrónica y Mecatrónica",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
+        },
+        {
+          "nombre": "UPN",
+          "carrera_exacta": "Ing. Electrónica / Mecatrónica",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 650",
+          "matricula": "S/ 370"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Ingeniería mecánico eléctrica",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 450",
+          "matricula": "S/ 180"
+        },
+        {
+          "nombre": "UTP",
+          "carrera_exacta": "Ing. Electrónica / Mecatrónica",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 600",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        45,
+        45,
+        20,
+        15,
+        30,
+        30
+      ]
+    },
+    {
+      "id_modelo": "Ingeniería y Tecnología",
+      "nombre_mostrar": "Otras Ingenierías (Industrial, Ambiental, etc.)",
+      "descripcion": "Optimización de procesos, gestión ambiental e industrias diversas.",
+      "universidades": [
+        {
+          "nombre": "UPAO",
+          "carrera_exacta": "Ingeniería Industrial",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
+        },
+        {
+          "nombre": "UNT",
+          "carrera_exacta": "Ing. Industrial / Ambiental / Minas",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
+        },
+        {
+          "nombre": "UPN",
+          "carrera_exacta": "Ing. Industrial / Ambiental / Empresarial",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 650",
+          "matricula": "S/ 370"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Ing. Industrial / Ambiental / Minas",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 450",
+          "matricula": "S/ 180"
+        },
+        {
+          "nombre": "UTP",
+          "carrera_exacta": "Ing. Industrial / Empresarial",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 600",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        40,
+        45,
+        20,
+        30,
+        40,
+        35
+      ]
+    },
+    {
+      "id_modelo": "Ingeniería y Tecnología",
+      "nombre_mostrar": "Ingeniería Mecánica",
+      "descripcion": "Diseño de maquinaria, termodinámica y procesos de manufactura.",
+      "universidades": [
+        {
+          "nombre": "UNT",
+          "carrera_exacta": "Ingeniería Mecánica",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Ingeniería mecánico eléctrica",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 450",
+          "matricula": "S/ 180"
+        },
+        {
+          "nombre": "UTP",
+          "carrera_exacta": "Ingeniería Mecánica",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 600",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        50,
+        45,
+        20,
+        15,
+        30,
+        30
+      ]
+    },
+    {
+      "id_modelo": "Educación y Humanidades",
+      "nombre_mostrar": "Educación en Idiomas y Literatura",
+      "descripcion": "Traducción, enseñanza de lenguas e investigación literaria.",
+      "universidades": [
+        {
+          "nombre": "UNT",
+          "carrera_exacta": "Educación en Idiomas / Lengua y Literatura",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
+        },
+        {
+          "nombre": "UCV",
+          "carrera_exacta": "Traducción e Interpretación",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 600 (anual)"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Educación: Lengua y Literatura",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 380",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        15,
+        30,
+        45,
+        50,
+        30,
+        25
+      ]
+    },
+    {
+      "id_modelo": "Negocios y Económicas",
+      "nombre_mostrar": "Marketing y Publicidad",
+      "descripcion": "Gestión de marcas, estudios de mercado y estrategias comerciales.",
+      "universidades": [
+        {
+          "nombre": "UPAO",
+          "carrera_exacta": "Administración y Marketing",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
+        },
+        {
+          "nombre": "UPN",
+          "carrera_exacta": "Administración y Marketing",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 550",
+          "matricula": "S/ 370"
+        },
+        {
+          "nombre": "UCV",
+          "carrera_exacta": "Administración y Marketing",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 600 (anual)"
+        },
+        {
+          "nombre": "UTP",
+          "carrera_exacta": "Administración y Marketing",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 550",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        20,
+        25,
+        40,
+        40,
+        50,
+        35
+      ]
+    },
+    {
+      "id_modelo": "Ciencias de la Salud",
+      "nombre_mostrar": "Medicina Humana y Ciencias de la Salud",
+      "descripcion": "Diagnóstico y tratamiento de enfermedades, salud pública y nutrición.",
+      "universidades": [
+        {
+          "nombre": "UPAO",
+          "carrera_exacta": "Medicina Humana",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 1840",
+          "matricula": "S/ 300"
+        },
+        {
+          "nombre": "UNT",
+          "carrera_exacta": "Medicina",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
+        },
+        {
+          "nombre": "UCV",
+          "carrera_exacta": "Medicina",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 1200",
+          "matricula": "S/ 600 (anual)"
+        },
+        {
+          "nombre": "UPN",
+          "carrera_exacta": "Nutrición y Dietética / Farmacia",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 700",
+          "matricula": "S/ 370"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Farmacia y bioquímica / Nutrición",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        35,
+        50,
+        20,
+        45,
+        25,
+        30
+      ]
+    },
+    {
+      "id_modelo": "Negocios y Económicas",
+      "nombre_mostrar": "Administración de Empresas",
+      "descripcion": "Gestión de organizaciones, recursos humanos y estrategias empresariales.",
+      "universidades": [
+        {
+          "nombre": "UPAO",
+          "carrera_exacta": "Administración",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
+        },
+        {
+          "nombre": "UNT",
+          "carrera_exacta": "Administración",
+          "tipo": "Pública",
+          "costo_promedio": "S/ 0",
+          "matricula": "S/ 100"
+        },
+        {
+          "nombre": "UPN",
+          "carrera_exacta": "Administración",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 550",
+          "matricula": "S/ 370"
+        },
+        {
+          "nombre": "UCV",
+          "carrera_exacta": "Administración de Empresas",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 600 (anual)"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Administración",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 400",
+          "matricula": "S/ 180"
+        },
+        {
+          "nombre": "UTP",
+          "carrera_exacta": "Administración de Empresas",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        20,
+        25,
+        20,
+        40,
+        50,
+        45
+      ]
+    },
+    {
+      "id_modelo": "Ciencias de la Salud",
+      "nombre_mostrar": "Psicología y Orientación",
+      "descripcion": "Salud mental, bienestar emocional y psicoterapia.",
+      "universidades": [
+        {
+          "nombre": "UPAO",
+          "carrera_exacta": "Psicología",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
+        },
+        {
+          "nombre": "UPN",
+          "carrera_exacta": "Psicología",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 600",
+          "matricula": "S/ 370"
+        },
+        {
+          "nombre": "UCV",
+          "carrera_exacta": "Psicología",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 600 (anual)"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Psicología",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 450",
+          "matricula": "S/ 180"
+        },
+        {
+          "nombre": "UTP",
+          "carrera_exacta": "Psicología",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        20,
+        45,
+        30,
+        50,
+        30,
+        25
+      ]
+    },
+    {
+      "id_modelo": "Ciencias de la Salud",
+      "nombre_mostrar": "Psicología",
+      "descripcion": "Estudio del comportamiento humano, clínica y recursos humanos.",
+      "universidades": [
+        {
+          "nombre": "UPAO",
+          "carrera_exacta": "Psicología",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 620",
+          "matricula": "S/ 300"
+        },
+        {
+          "nombre": "UPN",
+          "carrera_exacta": "Psicología",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 600",
+          "matricula": "S/ 370"
+        },
+        {
+          "nombre": "UCV",
+          "carrera_exacta": "Psicología",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 600 (anual)"
+        },
+        {
+          "nombre": "UCT",
+          "carrera_exacta": "Psicología",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 450",
+          "matricula": "S/ 180"
+        },
+        {
+          "nombre": "UTP",
+          "carrera_exacta": "Psicología",
+          "tipo": "Privada",
+          "costo_promedio": "S/ 500",
+          "matricula": "S/ 180"
+        }
+      ],
+      "vector_ideal_riasec": [
+        20,
+        45,
+        30,
+        50,
+        30,
+        25
       ]
     }
   ]

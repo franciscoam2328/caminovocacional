@@ -1,61 +1,302 @@
 export const QUESTIONS = [
-  // REALISTA (R) - 9 preguntas
-  { id: 1, text: "Me gusta probar la calidad de piezas antes de enviarlas.", category: "R" },
-  { id: 2, text: "Me gusta colocar ladrillos o baldosas.", category: "R" },
-  { id: 3, text: "Me gustaría trabajar en una plataforma petrolera en el mar.", category: "R" },
-  { id: 4, text: "Me gusta ensamblar componentes electrónicos.", category: "R" },
-  { id: 5, text: "Me gustaría operar maquinaria pesada en una fábrica.", category: "R" },
-  { id: 6, text: "Me gusta reparar tuberías o grifos dañados.", category: "R" },
-  { id: 7, text: "Me gusta ensamblar productos en una línea de producción.", category: "R" },
-  { id: 8, text: "Me gusta instalar pisos en casas.", category: "R" },
-
-  // INVESTIGADOR (I) - 9 preguntas
-  { id: 10, text: "Me gusta estudiar la estructura del cuerpo humano.", category: "I" },
-  { id: 11, text: "Me gusta estudiar el comportamiento de los animales.", category: "I" },
-  { id: 12, text: "Me gusta investigar sobre plantas o animales.", category: "I" },
-  { id: 13, text: "Me gustaría desarrollar un nuevo tratamiento médico.", category: "I" },
-  { id: 14, text: "Me gustaría realizar investigaciones biológicas.", category: "I" },
-  { id: 15, text: "Me gusta estudiar la vida marina.", category: "I" },
-  { id: 16, text: "Me gustaría trabajar en un laboratorio de biología.", category: "I" },
-  { id: 17, text: "Me gustaría hacer mapas del fondo oceánico.", category: "I" },
-
-  // ARTÍSTICO (A) - 9 preguntas
-  { id: 19, text: "Me gustaría dirigir un coro musical.", category: "A" },
-  { id: 20, text: "Me gustaría dirigir una obra de teatro.", category: "A" },
-  { id: 21, text: "Me gusta diseñar arte para revistas.", category: "A" },
-  { id: 22, text: "Me gusta componer canciones.", category: "A" },
-  { id: 23, text: "Me gustaría escribir libros o guiones de teatro.", category: "A" },
-  { id: 24, text: "Me gusta tocar un instrumento musical.", category: "A" },
-  { id: 25, text: "Me gustaría realizar acrobacias para películas.", category: "A" },
-  { id: 26, text: "Me gusta diseñar escenarios para obras de teatro.", category: "A" },
-
-  // SOCIAL (S) - 9 preguntas
-  { id: 28, text: "Me gustaría dar orientación profesional a personas.", category: "S" },
-  { id: 29, text: "Me gusta hacer voluntariado en una organización sin fines de lucro.", category: "S" },
-  { id: 30, text: "Me gustaría ayudar a personas con problemas de adicciones.", category: "S" },
-  { id: 31, text: "Me gusta enseñar rutinas de ejercicio a otros.", category: "S" },
-  { id: 32, text: "Me gustaría ayudar a personas con problemas familiares.", category: "S" },
-  { id: 33, text: "Me gustaría supervisar niños en un campamento.", category: "S" },
-  { id: 34, text: "Me gustaría enseñar a leer a niños.", category: "S" },
-  { id: 35, text: "Me gustaría ayudar a adultos mayores en sus actividades diarias.", category: "S" },
-
-  // EMPRENDEDOR (E) - 9 preguntas
-  { id: 37, text: "Me gustaría vender franquicias de restaurantes.", category: "E" },
-  { id: 38, text: "Me gustaría vender mercancía en una tienda por departamento.", category: "E" },
-  { id: 39, text: "Me gustaría gestionar las operaciones de un hotel.", category: "E" },
-  { id: 40, text: "Me gustaría administrar un salón de belleza.", category: "E" },
-  { id: 41, text: "Me gustaría gestionar un departamento en una gran empresa.", category: "E" },
-  { id: 42, text: "Me gustaría administrar una tienda de ropa.", category: "E" },
-  { id: 43, text: "Me gustaría vender casas.", category: "E" },
-  { id: 44, text: "Me gustaría administrar una juguetería.", category: "E" },
-
-  // CONVENCIONAL (C) - 9 preguntas
-  { id: 46, text: "Me gusta generar cheques de nómina mensuales.", category: "C" },
-  { id: 47, text: "Me gusta inventariar suministros usando computadoras.", category: "C" },
-  { id: 48, text: "Me gusta usar programas para generar facturas de clientes.", category: "C" },
-  { id: 49, text: "Me gusta mantener registros de empleados.", category: "C" },
-  { id: 50, text: "Me gusta calcular y registrar datos estadísticos.", category: "C" },
-  { id: 51, text: "Me gusta usar calculadoras para organizar presupuestos.", category: "C" },
-  { id: 52, text: "Me gusta manejar transacciones bancarias de clientes.", category: "C" },
-  { id: 53, text: "Me gusta llevar registros de envíos y recepciones.", category: "C" }
+  {
+    "id": 1,
+    "text": "Construir gabinetes de cocina.",
+    "category": "R"
+  },
+  {
+    "id": 2,
+    "text": "Colocar ladrillos o baldosas.",
+    "category": "R"
+  },
+  {
+    "id": 3,
+    "text": "Reparar electrodomésticos.",
+    "category": "R"
+  },
+  {
+    "id": 4,
+    "text": "Criar peces en un criadero.",
+    "category": "R"
+  },
+  {
+    "id": 5,
+    "text": "Ensamblar piezas electrónicas.",
+    "category": "R"
+  },
+  {
+    "id": 6,
+    "text": "Conducir un camión para entregar paquetes.",
+    "category": "R"
+  },
+  {
+    "id": 7,
+    "text": "Probar la calidad de piezas antes de enviarlas.",
+    "category": "R"
+  },
+  {
+    "id": 8,
+    "text": "Reparar e instalar cerraduras.",
+    "category": "R"
+  },
+  {
+    "id": 9,
+    "text": "Configurar y operar máquinas para hacer productos.",
+    "category": "R"
+  },
+  {
+    "id": 10,
+    "text": "Apagar incendios forestales.",
+    "category": "R"
+  },
+  {
+    "id": 11,
+    "text": "Desarrollar una nueva medicina.",
+    "category": "I"
+  },
+  {
+    "id": 12,
+    "text": "Estudiar formas de reducir la contaminación del agua.",
+    "category": "I"
+  },
+  {
+    "id": 13,
+    "text": "Realizar experimentos químicos.",
+    "category": "I"
+  },
+  {
+    "id": 14,
+    "text": "Estudiar el movimiento de los planetas.",
+    "category": "I"
+  },
+  {
+    "id": 15,
+    "text": "Examinar muestras de sangre usando un microscopio.",
+    "category": "I"
+  },
+  {
+    "id": 16,
+    "text": "Investigar la causa de un incendio.",
+    "category": "I"
+  },
+  {
+    "id": 17,
+    "text": "Desarrollar una forma de predecir mejor el clima.",
+    "category": "I"
+  },
+  {
+    "id": 18,
+    "text": "Trabajar en un laboratorio de biología.",
+    "category": "I"
+  },
+  {
+    "id": 19,
+    "text": "Inventar un reemplazo para el azúcar.",
+    "category": "I"
+  },
+  {
+    "id": 20,
+    "text": "Hacer pruebas de laboratorio para identificar enfermedades.",
+    "category": "I"
+  },
+  {
+    "id": 21,
+    "text": "Escribir libros u obras de teatro.",
+    "category": "A"
+  },
+  {
+    "id": 22,
+    "text": "Tocar un instrumento musical.",
+    "category": "A"
+  },
+  {
+    "id": 23,
+    "text": "Componer o arreglar música.",
+    "category": "A"
+  },
+  {
+    "id": 24,
+    "text": "Dibujar imágenes.",
+    "category": "A"
+  },
+  {
+    "id": 25,
+    "text": "Crear efectos especiales para películas.",
+    "category": "A"
+  },
+  {
+    "id": 26,
+    "text": "Pintar escenarios para obras de teatro.",
+    "category": "A"
+  },
+  {
+    "id": 27,
+    "text": "Escribir guiones para películas o programas de televisión.",
+    "category": "A"
+  },
+  {
+    "id": 28,
+    "text": "Bailar jazz o tap.",
+    "category": "A"
+  },
+  {
+    "id": 29,
+    "text": "Cantar en una banda.",
+    "category": "A"
+  },
+  {
+    "id": 30,
+    "text": "Editar películas.",
+    "category": "A"
+  },
+  {
+    "id": 31,
+    "text": "Enseñar a alguien una rutina de ejercicios.",
+    "category": "S"
+  },
+  {
+    "id": 32,
+    "text": "Ayudar a personas con problemas personales o emocionales.",
+    "category": "S"
+  },
+  {
+    "id": 33,
+    "text": "Dar orientación profesional a las personas.",
+    "category": "S"
+  },
+  {
+    "id": 34,
+    "text": "Realizar terapia de rehabilitación.",
+    "category": "S"
+  },
+  {
+    "id": 35,
+    "text": "Hacer trabajo voluntario en una organización sin fines de lucro.",
+    "category": "S"
+  },
+  {
+    "id": 36,
+    "text": "Enseñar a niños a jugar deportes.",
+    "category": "S"
+  },
+  {
+    "id": 37,
+    "text": "Enseñar lenguaje de señas a personas sordas.",
+    "category": "S"
+  },
+  {
+    "id": 38,
+    "text": "Ayudar a dirigir una sesión de terapia grupal.",
+    "category": "S"
+  },
+  {
+    "id": 39,
+    "text": "Cuidar niños en una guardería.",
+    "category": "S"
+  },
+  {
+    "id": 40,
+    "text": "Enseñar en una clase de secundaria.",
+    "category": "S"
+  },
+  {
+    "id": 41,
+    "text": "Comprar y vender acciones y bonos.",
+    "category": "E"
+  },
+  {
+    "id": 42,
+    "text": "Administrar una tienda minorista.",
+    "category": "E"
+  },
+  {
+    "id": 43,
+    "text": "Operar un salón de belleza o barbería.",
+    "category": "E"
+  },
+  {
+    "id": 44,
+    "text": "Administrar un departamento dentro de una gran empresa.",
+    "category": "E"
+  },
+  {
+    "id": 45,
+    "text": "Iniciar tu propio negocio.",
+    "category": "E"
+  },
+  {
+    "id": 46,
+    "text": "Negociar contratos comerciales.",
+    "category": "E"
+  },
+  {
+    "id": 47,
+    "text": "Representar a un cliente en una demanda legal.",
+    "category": "E"
+  },
+  {
+    "id": 48,
+    "text": "Comercializar una nueva línea de ropa.",
+    "category": "E"
+  },
+  {
+    "id": 49,
+    "text": "Vender mercancía en una tienda por departamentos.",
+    "category": "E"
+  },
+  {
+    "id": 50,
+    "text": "Administrar una tienda de ropa.",
+    "category": "E"
+  },
+  {
+    "id": 51,
+    "text": "Desarrollar una hoja de cálculo en computadora.",
+    "category": "C"
+  },
+  {
+    "id": 52,
+    "text": "Revisar y corregir registros o formularios.",
+    "category": "C"
+  },
+  {
+    "id": 53,
+    "text": "Instalar software en redes de computadoras.",
+    "category": "C"
+  },
+  {
+    "id": 54,
+    "text": "Operar una calculadora.",
+    "category": "C"
+  },
+  {
+    "id": 55,
+    "text": "Mantener registros de envíos y recepciones.",
+    "category": "C"
+  },
+  {
+    "id": 56,
+    "text": "Calcular los salarios de los empleados.",
+    "category": "C"
+  },
+  {
+    "id": 57,
+    "text": "Hacer inventario usando una computadora.",
+    "category": "C"
+  },
+  {
+    "id": 58,
+    "text": "Registrar pagos de alquiler.",
+    "category": "C"
+  },
+  {
+    "id": 59,
+    "text": "Mantener registros de inventario.",
+    "category": "C"
+  },
+  {
+    "id": 60,
+    "text": "Sellar, clasificar y distribuir correo.",
+    "category": "C"
+  }
 ];
