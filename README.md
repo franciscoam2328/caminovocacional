@@ -26,6 +26,26 @@ Esta aplicación fue transformada desde un concepto de diseño estático a una *
 - **TailwindCSS v4**
 - **Framer Motion**
 
+### 🏗️ Arquitectura (Frontend)
+El Frontend está contenido en la carpeta `frontend/` y sigue una arquitectura modular de componentes:
+
+```text
+caminovocacional/
+├── frontend/
+│   ├── src/
+│   │   ├── app/                 # Configuración principal de Next.js (layout.js, page.js, globals.css)
+│   │   ├── components/          # Vistas modulares de la SPA
+│   │   │   ├── LandingView.jsx
+│   │   │   ├── UserInfoView.jsx
+│   │   │   ├── AvatarSelectView.jsx
+│   │   │   ├── TestForm.jsx
+│   │   │   └── ResultDisplay.jsx
+│   │   ├── core/                # Lógica pura (ej. array de questions.js)
+│   │   └── infrastructure/      # Adaptadores de red (api.js para conectarse a Render)
+│   ├── public/                  # Assets estáticos y avatares generados
+│   └── tailwind.config.js       # Tokens de diseño y colores
+```
+
 ---
 
 ## 🎓 Backend API
@@ -71,10 +91,10 @@ En lugar de utilizar modelos de "Caja Negra", este sistema implementa un **Siste
 
 ## 📊 DATASET
 
-We use several datasets:
+Utilizamos múltiples fuentes de datos estructurados para alimentar el motor de recomendación:
 
-*   Taken from https://www.onetonline.org/explore/interests/, we can get 6 separate datasets for each RIASEC personality, and related job options matched to personality.
-*   Taken from https://www.onetonline.org/find/family?f=0&g=Go, we can get occupation dataset for all job listed in the website.
+*   Extraído de https://www.onetonline.org/explore/interests/, obtenemos 6 conjuntos de datos separados para cada personalidad RIASEC, así como las opciones laborales vinculadas a cada tipo de personalidad.
+*   Extraído de https://www.onetonline.org/find/family?f=0&g=Go, obtenemos el conjunto de datos ocupacionales de todos los trabajos listados en el sitio web de O*NET.
 
 Esta data oficial de O*NET ha sido procesada, ponderada y cruzada manualmente con la oferta educativa real de las universidades públicas y privadas de la ciudad de Trujillo.
 
@@ -86,9 +106,9 @@ Esta data oficial de O*NET ha sido procesada, ponderada y cruzada manualmente co
 Verifica que el servidor esté en línea.
 
 **`POST /api/predict`**
-Recibe un arreglo de 60 respuestas en escala Likert (1-5) correspondientes al test vocacional O*NET. Calcula los puntajes RIASEC, ejecuta el algoritmo de similitud por distancias y retorna el top 3 de carreras recomendadas junto con las universidades locales.
+Es el endpoint principal del sistema. Recibe un objeto JSON con el nombre del estudiante y un arreglo exacto de 60 respuestas en escala Likert (1-5) correspondientes al test vocacional. Calcula los puntajes RIASEC, ejecuta el algoritmo K-NN y retorna el top 3 de carreras recomendadas junto con las universidades locales.
 
-**Cuerpo de la petición (JSON):**
+**Cuerpo de la petición (JSON) para pruebas en Swagger / Postman:**
 ```json
 {
   "nombre_estudiante": "Juan Perez",
@@ -96,7 +116,7 @@ Recibe un arreglo de 60 respuestas en escala Likert (1-5) correspondientes al te
 }
 ```
 
-**Respuesta exitosa:**
+**Respuesta exitosa de la API:**
 ```json
 {
   "estudiante": "Juan Perez",
