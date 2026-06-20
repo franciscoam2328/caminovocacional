@@ -14,6 +14,14 @@ def normalize_text(text: str) -> str:
 def euclidean_distance(v1, v2):
     return math.sqrt(sum((a - b) ** 2 for a, b in zip(v1, v2)))
 
+def cosine_similarity(v1, v2):
+    dot_product = sum(a * b for a, b in zip(v1, v2))
+    norm_v1 = math.sqrt(sum(a ** 2 for a in v1))
+    norm_v2 = math.sqrt(sum(b ** 2 for b in v2))
+    if norm_v1 == 0 or norm_v2 == 0:
+        return 0.0
+    return dot_product / (norm_v1 * norm_v2)
+
 router = APIRouter()
 DATA_PATH = "backend/infra/data/data_oferta_educativa.json"
 
@@ -59,10 +67,17 @@ def predict_vocational_cluster(data: TestInputSchema):
     distancias = []
     for carrera in carreras_bd:
         vector_carrera = carrera.get("vector_ideal_riasec", [25,25,25,25,25,25])
-        dist = euclidean_distance(estudiante_vector, vector_carrera)
         
-        # Conversión simple de distancia a afinidad %
-        afinidad = max(0, 100 - (dist * 1.5))
+        # --- VERSION ANTIGUA (EUCLIDIANA CLASICA) ---
+        # dist = euclidean_distance(estudiante_vector, vector_carrera)
+        # afinidad = max(0, 100 - (dist * 1.5))
+        
+        # --- NUEVA VERSION (SIMILITUD DE COSENOS) ---
+        similitud = cosine_similarity(estudiante_vector, vector_carrera)
+        afinidad = similitud * 100 # Directo a porcentaje (0% a 100%)
+        
+        # Invertimos la similitud para que el sort() siga ordenando de menor a mayor
+        dist_calculada = 1.0 - similitud 
         
         distancias.append({
             "id_modelo": carrera["id_modelo"],
@@ -70,7 +85,7 @@ def predict_vocational_cluster(data: TestInputSchema):
             "descripcion": carrera.get("descripcion", ""),
             "afinidad": round(afinidad, 1),
             "universidades": carrera.get("universidades", []),
-            "distancia": dist
+            "distancia": dist_calculada
         })
         
     # Ordenar por menor distancia
