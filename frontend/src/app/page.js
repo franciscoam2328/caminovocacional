@@ -6,10 +6,11 @@ import ResultDisplay from '@/components/ResultDisplay';
 import LandingView from '@/components/LandingView';
 import UserInfoView from '@/components/UserInfoView';
 import AvatarSelectView from '@/components/AvatarSelectView';
+import TutorialView from '@/components/TutorialView';
 
 export default function Home() {
   // Estados de la SPA
-  const [currentView, setCurrentView] = useState('LANDING'); // LANDING, USER_INFO, AVATAR_SELECT, TEST, RESULTS
+  const [currentView, setCurrentView] = useState('LANDING'); // LANDING, USER_INFO, AVATAR_SELECT, TUTORIAL, TEST, RESULTS
   const [studentName, setStudentName] = useState('');
   const [avatar, setAvatar] = useState('');
   const [resultsData, setResultsData] = useState(null);
@@ -25,6 +26,10 @@ export default function Home() {
 
   const selectAvatarAndStart = (selectedAvatar) => {
     setAvatar(selectedAvatar);
+    setCurrentView('TUTORIAL');
+  };
+
+  const startTest = () => {
     setCurrentView('TEST');
   };
 
@@ -65,6 +70,16 @@ export default function Home() {
             onSelect={selectAvatarAndStart} 
             onGoHome={restartTest}
             onGoTest={goToUserInfo}
+          />
+        )}
+
+        {currentView === 'TUTORIAL' && (
+          <TutorialView 
+            key="tutorial" 
+            studentName={studentName} 
+            avatar={avatar} 
+            onStartTest={startTest} 
+            onGoHome={restartTest}
           />
         )}
 

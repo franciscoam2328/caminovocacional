@@ -11,17 +11,18 @@ export default function AvatarSelectView({ studentName, onSelect, onGoHome, onGo
       className="flex-grow flex flex-col items-center justify-center pt-32 pb-24 px-6 md:px-12 relative min-h-screen"
     >
       {/* TopNavBar (Shared Component) */}
-      <nav className="fixed top-0 w-full z-50 bg-white font-manrope antialiased border-b border-gray-100">
-        <div className="flex justify-between items-center px-8 h-20 max-w-[80rem] mx-auto">
+      <header className="fixed w-full top-0 z-50 bg-primary shadow-lg h-[80px]">
+        <div className="flex justify-between items-center px-8 h-full max-w-[80rem] mx-auto">
           {/* Brand */}
-          <div className="text-xl font-extrabold tracking-tight text-blue-600 font-manrope antialiased">
-            Camino Vocacional
+          <div className="flex items-center gap-3 text-xl font-extrabold tracking-tight text-white font-manrope">
+            <img src="/insignia_san_marcelo.jpg" alt="Insignia San Marcelo" className="h-16 w-auto object-contain drop-shadow-lg" />
+            Futuro Marcelino
           </div>
           {/* Centered Navigation Links */}
           <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-12">
-            <button onClick={onGoHome} className="text-[#6b7280] font-medium text-[15px] hover:text-primary transition-colors">Inicio</button>
+            <button onClick={onGoHome} className="text-white/80 font-medium text-[15px] hover:text-white transition-colors">Inicio</button>
             <div className="relative group">
-              <button onClick={onGoTest} className="text-primary font-medium text-[15px] pb-2 border-b-2 border-primary">
+              <button onClick={onGoTest} className="text-white font-medium text-[15px] pb-2 border-b-2 border-white">
                 Test Vocacional
               </button>
             </div>
@@ -29,7 +30,7 @@ export default function AvatarSelectView({ studentName, onSelect, onGoHome, onGo
           {/* Placeholder for spacing to keep links centered */}
           <div className="w-[160px] hidden md:block"></div>
         </div>
-      </nav>
+      </header>
 
       {/* Header Section */}
       <div className="text-center max-w-[48rem] mx-auto mb-16 relative z-10 mt-10">

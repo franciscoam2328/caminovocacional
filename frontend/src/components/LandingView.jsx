@@ -12,19 +12,20 @@ export default function LandingView({ onStart, onGoHome, onGoTest }) {
       className="w-full flex flex-col min-h-screen"
     >
       {/* TopNavBar Shared Component */}
-      <nav className="fixed top-0 w-full z-50 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border-b border-white/20 dark:border-slate-800/50 shadow-[0_10px_30px_rgba(0,123,255,0.08)] font-manrope antialiased">
-        <div className="flex justify-between items-center px-8 h-20 max-w-[80rem] mx-auto">
-          <a className="text-xl font-extrabold tracking-tight text-blue-600 dark:text-blue-400 active:scale-95 transform transition-transform duration-200" href="#!">
-            Camino Vocacional
+      <nav className="fixed top-0 w-full z-50 bg-primary shadow-lg font-manrope antialiased h-[80px]">
+        <div className="flex justify-between items-center px-8 h-full max-w-[80rem] mx-auto">
+          <a className="flex items-center gap-3 text-xl font-extrabold tracking-tight text-white active:scale-95 transform transition-transform duration-200" href="#!">
+            <img src="/insignia_san_marcelo.jpg" alt="Insignia San Marcelo" className="h-16 w-auto object-contain drop-shadow-lg" />
+            Futuro Marcelino
           </a>
           <div className="hidden md:flex gap-8 items-center">
-            <button onClick={onGoHome} className="text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 pb-1 font-semibold hover:text-blue-500 dark:hover:text-blue-300 transition-all duration-300">Inicio</button>
-            <button onClick={onGoTest} className="text-slate-600 dark:text-slate-300 font-medium hover:text-blue-500 dark:hover:text-blue-300 transition-all duration-300">Test Vocacional</button>
+            <button onClick={onGoHome} className="text-white border-b-2 border-white pb-1 font-semibold hover:text-white/80 transition-all duration-300">Inicio</button>
+            <button onClick={onGoTest} className="text-white/80 font-medium hover:text-white transition-all duration-300">Test Vocacional</button>
           </div>
-          <button onClick={onStart} className="bg-gradient-to-r from-primary to-secondary text-on-primary font-label-md text-label-md px-md py-sm rounded-full shadow-[0_4px_14px_rgba(0,112,234,0.39)] hover:shadow-[0_6px_20px_rgba(0,112,234,0.23)] active:scale-95 transform transition-all duration-200 hidden md:block">
-            Comienza tu viaje
+          <button onClick={onStart} className="bg-white text-primary font-bold px-md py-sm rounded-full shadow-md hover:shadow-lg active:scale-95 transform transition-all duration-200 hidden md:block">
+            Iniciar Test Vocacional
           </button>
-          <button className="md:hidden text-primary">
+          <button className="md:hidden text-white">
             <span className="material-symbols-outlined" data-icon="menu">menu</span>
           </button>
         </div>
@@ -41,19 +42,23 @@ export default function LandingView({ onStart, onGoHome, onGoTest }) {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter relative z-10 w-full items-center">
             <div className="md:col-span-5 flex flex-col items-start gap-md">
               <div className="inline-flex items-center gap-2 px-sm py-xs bg-primary-fixed rounded-full text-on-primary-fixed font-label-sm text-label-sm shadow-sm backdrop-blur-sm bg-opacity-70">
-                <span className="material-symbols-outlined text-sm" data-icon="explore">explore</span>
-                <span>Descubrimiento Guiado</span>
+                <span className="text-sm">🏫</span>
+                <span className="font-bold">Plataforma Oficial: Colegio San Marcelo</span>
               </div>
               <h1 className="font-headline-xl text-headline-xl text-on-surface tracking-tight">
                 Usa el poder de tus datos para encontrar la carrera ideal en <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Trujillo</span>
               </h1>
               <p className="font-body-lg text-body-lg text-on-surface-variant max-w-[32rem]">
-                Combinamos algoritmos de precisión con la oferta real de las mejores universidades de la región para guiar tu futuro.
+                Una iniciativa tecnológica exclusiva del <strong>Colegio San Marcelo</strong>. Diseñada para guiar a nuestros estudiantes de secundaria hacia el éxito universitario utilizando análisis matemático de precisión.
               </p>
-              <div className="flex gap-sm mt-sm">
-                <button onClick={onStart} className="bg-gradient-to-r from-primary to-secondary text-on-primary font-label-md text-label-md px-lg py-sm rounded-full shadow-[0_8px_30px_rgba(0,112,234,0.25)] hover:shadow-[0_8px_30px_rgba(0,112,234,0.4)] active:scale-95 transform transition-all duration-300">
-                  Comienza tu viaje
+              <div className="flex flex-col items-start gap-3 mt-sm">
+                <button onClick={onStart} className="bg-gradient-to-r from-primary to-secondary text-on-primary font-label-md text-label-md px-lg py-4 rounded-full shadow-[0_8px_30px_rgba(0,112,234,0.3)] hover:shadow-[0_8px_30px_rgba(0,112,234,0.5)] active:scale-95 transform transition-all duration-300 flex items-center gap-2 text-lg">
+                  <span className="material-symbols-outlined text-xl">play_arrow</span>
+                  Iniciar Test Vocacional
                 </button>
+                <p className="text-sm font-medium text-slate-500 ml-4 flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-[16px]">timer</span> Toma solo 5 minutos. No requiere registro.
+                </p>
               </div>
             </div>
             <div className="md:col-span-7 flex justify-center items-center relative h-[500px]">
@@ -78,11 +83,11 @@ export default function LandingView({ onStart, onGoHome, onGoTest }) {
               <div className="relative z-10 p-lg h-full flex flex-col md:flex-row items-center gap-md">
                 <div className="flex-1">
                   <div className="inline-flex p-3 rounded-2xl bg-primary/10 text-primary mb-md">
-                    <span className="material-symbols-outlined text-3xl">psychology</span>
+                    <span className="material-symbols-outlined text-3xl">quiz</span>
                   </div>
-                  <h3 className="font-headline-md text-headline-md font-bold text-on-surface mb-sm leading-tight">Descubre tu Potencial</h3>
+                  <h3 className="font-headline-md text-headline-md font-bold text-on-surface mb-sm leading-tight">1. Responde 60 preguntas</h3>
                   <p className="font-body-md text-on-surface-variant leading-relaxed max-w-[24rem]">
-                    Analizamos tus gustos y habilidades únicas para identificar los campos donde realmente destacarías.
+                    Evalúa qué actividades te gustaría hacer en el futuro utilizando el prestigioso método científico de Holland (RIASEC).
                   </p>
                 </div>
                 <div className="relative w-40 h-40 md:w-56 md:h-56 flex items-center justify-center">
@@ -96,11 +101,11 @@ export default function LandingView({ onStart, onGoHome, onGoTest }) {
             <div className="md:col-span-1 group relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white/60 to-white/30 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_rgba(0,89,187,0.08)] hover:shadow-[0_8px_32px_rgba(0,89,187,0.15)] transition-all duration-500">
               <div className="relative z-10 p-lg h-full flex flex-col justify-center text-center items-center">
                 <div className="w-16 h-16 rounded-2xl bg-secondary-container text-on-secondary-container flex items-center justify-center mb-md shadow-lg group-hover:rotate-6 transition-transform duration-500">
-                  <span className="material-symbols-outlined text-3xl">analytics</span>
+                  <span className="material-symbols-outlined text-3xl">psychology</span>
                 </div>
-                <h3 className="font-headline-md text-[20px] font-bold text-on-surface mb-sm">Resultados y Alternativas</h3>
-                <p className="font-body-md text-sm text-on-surface-variant leading-relaxed">Obtén tu carrera ideal y 2 opciones adicionales que encajan con tu perfil.</p>
-                <span className="material-symbols-outlined text-[100px] text-secondary/5 absolute -bottom-4 -left-4 select-none pointer-events-none">query_stats</span>
+                <h3 className="font-headline-md text-[20px] font-bold text-on-surface mb-sm">2. Descubre tu perfil</h3>
+                <p className="font-body-md text-sm text-on-surface-variant leading-relaxed">La IA calculará tu nivel de afinidad exacto con docenas de carreras profesionales.</p>
+                <span className="material-symbols-outlined text-[100px] text-secondary/5 absolute -bottom-4 -left-4 select-none pointer-events-none">psychology</span>
               </div>
               <div className="absolute inset-0 border border-secondary/0 group-hover:border-secondary/20 rounded-[2rem] transition-colors duration-500 pointer-events-none"></div>
             </div>
@@ -111,11 +116,11 @@ export default function LandingView({ onStart, onGoHome, onGoTest }) {
               <div className="relative z-10 p-lg flex flex-col md:flex-row items-center justify-between gap-xl">
                 <div className="max-w-[36rem]">
                   <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-primary/10 text-primary mb-md border border-primary/10">
-                    <span className="material-symbols-outlined text-xl">radar</span>
-                    <span className="font-label-md">Algoritmo de Precisión</span>
+                    <span className="material-symbols-outlined text-xl">school</span>
+                    <span className="font-label-md">Oferta Local</span>
                   </div>
-                  <h3 className="font-headline-md text-headline-md font-bold text-on-surface mb-sm leading-tight">Tu Código Holland (RIASEC)</h3>
-                  <p className="font-body-md text-body-lg text-on-surface-variant leading-relaxed">Calculamos matemáticamente tu perfil en 6 dimensiones (Realista, Investigador, Artístico, Social, Emprendedor y Convencional) para darte recomendaciones exactas libres de sesgo.</p>
+                  <h3 className="font-headline-md text-headline-md font-bold text-on-surface mb-sm leading-tight">3. Encuentra tu Universidad</h3>
+                  <p className="font-body-md text-body-lg text-on-surface-variant leading-relaxed">Te mostraremos exactamente en qué universidades o institutos de la ciudad de <strong>Trujillo</strong> puedes estudiar tus mejores opciones. Información real y procesable al instante.</p>
                 </div>
                 <div className="w-full md:w-[400px] aspect-video bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-2xl border border-white/60 p-4 flex items-center justify-center relative overflow-hidden shadow-inner cursor-pointer group/btn" onClick={() => setIsModalOpen(true)}>
                   <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#2563eb_1px,transparent_1px)] [background-size:20px_20px]"></div>
@@ -139,7 +144,7 @@ export default function LandingView({ onStart, onGoHome, onGoTest }) {
       <footer className="bg-slate-50 dark:bg-slate-950 w-full py-12 border-t border-slate-200 dark:border-slate-800 font-manrope text-sm mt-xl">
         <div className="max-w-[80rem] mx-auto px-8 flex justify-between items-center">
           <div className="text-on-surface-variant font-medium">
-            © 2026 Camino Vocacional Trujillo. Inspirado en nuestra herencia.
+            © 2026 Colegio San Marcelo. Formando líderes para el mañana. Una herramienta gratuita de orientación vocacional para nuestra comunidad educativa.
           </div>
         </div>
       </footer>

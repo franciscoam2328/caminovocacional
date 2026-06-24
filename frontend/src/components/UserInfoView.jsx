@@ -17,26 +17,24 @@ export default function UserInfoView({ studentName, setStudentName, onSubmit, on
       className="flex-1 flex flex-col justify-center items-center px-gutter pt-[100px] pb-xl max-w-container-max mx-auto w-full relative z-10 min-h-screen"
     >
       {/* TopAppBar (Simplified for Onboarding) */}
-      <header className="fixed w-full top-0 z-50 bg-white/90 backdrop-blur-md h-[72px] border-b border-surface-variant/30">
-        <div className="flex justify-between items-center w-full px-6 py-4 max-w-container-max mx-auto">
-          <div className="flex justify-between items-center w-full max-w-container-max mx-auto h-full px-6">
-            {/* Brand */}
-            <div className="flex items-center gap-12 w-full relative">
-            <div className="text-[22px] font-extrabold tracking-tight text-primary font-manrope">
-              Camino Vocacional
-            </div>
-            {/* Centered Navigation */}
-            <nav className="flex items-center gap-md absolute left-1/2 -translate-x-1/2">
-              <button onClick={onGoHome} className="text-[#6b7280] hover:text-primary font-medium text-[15px] transition-colors">Inicio</button>
-              <div className="relative flex flex-col items-center">
-                <button onClick={onGoTest} className="text-primary font-medium text-[15px] py-2">Test Vocacional</button>
-                <div className="w-full border-b-2 border-primary rounded-full mt-[-2px]"></div>
-              </div>
-            </nav>
-            {/* Spacer for right side alignment */}
-            <div className="w-[150px] hidden md:block"></div>
-            </div>
+      <header className="fixed w-full top-0 z-50 bg-primary shadow-lg h-[80px]">
+        <div className="flex justify-between items-center w-full px-8 h-full max-w-container-max mx-auto">
+          {/* Brand */}
+          <div className="flex items-center gap-3 text-xl font-extrabold tracking-tight text-white font-manrope">
+            <img src="/insignia_san_marcelo.jpg" alt="Insignia San Marcelo" className="h-16 w-auto object-contain drop-shadow-lg" />
+            Futuro Marcelino
           </div>
+          
+          {/* Centered Navigation */}
+          <nav className="flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+            <button onClick={onGoHome} className="text-white/80 hover:text-white font-medium text-[15px] transition-colors">Inicio</button>
+            <div className="relative flex flex-col items-center">
+              <button onClick={onGoTest} className="text-white font-medium text-[15px] py-2 border-b-2 border-white">Test Vocacional</button>
+            </div>
+          </nav>
+          
+          {/* Spacer for right side alignment */}
+          <div className="w-[150px] hidden md:block"></div>
         </div>
       </header>
 

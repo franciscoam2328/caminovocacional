@@ -56,17 +56,18 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
       className="bg-background text-on-background min-h-screen flex flex-col font-body-md text-body-md w-full"
     >
       {/* TopNavBar */}
-      <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl docked full-width top-0 sticky z-50 border-b border-white/20 dark:border-slate-800 shadow-[0_8px_32px_rgba(0,123,255,0.08)] print:hidden">
-        <div className="flex justify-between items-center w-full px-6 py-4 max-w-[1280px] mx-auto">
+      <nav className="bg-primary shadow-lg full-width top-0 sticky z-50 print:hidden h-[80px]">
+        <div className="flex justify-between items-center w-full px-8 h-full max-w-[1280px] mx-auto">
           <div className="grid grid-cols-3 items-center w-full">
-            <div className="text-xl font-black tracking-tighter text-blue-600 dark:text-blue-400 font-headline-md">
-              Camino Vocacional
+            <div className="flex items-center gap-3 text-xl font-extrabold tracking-tighter text-white font-headline-md">
+              <img src="/insignia_san_marcelo.jpg" alt="Insignia San Marcelo" className="h-16 w-auto object-contain drop-shadow-lg" />
+              Futuro Marcelino
             </div>
             <div className="hidden md:flex gap-6 items-center justify-center">
-              <button onClick={onRestart} className="font-['Manrope'] text-sm font-medium tracking-tight text-slate-600 dark:text-slate-400 hover:text-blue-500 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-lg transition-all active:scale-95 duration-200 ease-out px-3 py-2">
+              <button onClick={onRestart} className="font-['Manrope'] text-sm font-medium tracking-tight text-white/80 hover:text-white transition-colors duration-200 ease-out px-3 py-2">
                 Inicio
               </button>
-              <button className="font-['Manrope'] text-sm tracking-tight text-primary font-bold border-b-2 border-primary pb-1 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 rounded-lg transition-all active:scale-95 duration-200 ease-out px-3 py-2">
+              <button className="font-['Manrope'] text-sm tracking-tight text-white font-bold border-b-2 border-white pb-1 transition-all duration-200 ease-out px-3 py-2">
                 Test Vocacional
               </button>
             </div>
@@ -154,9 +155,15 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
 
               {altCareers.length > 0 && (
                 <>
-                  <div className="flex items-center gap-4 mb-6">
-                    <h3 className="font-headline-md text-xl text-on-surface font-bold">{altCareers.length} Alternativas Recomendadas</h3>
-                    <div className="h-px bg-surface-variant flex-1"></div>
+                  <div className="flex flex-col gap-1 mb-6">
+                    <div className="flex items-center gap-4">
+                      <h3 className="font-headline-md text-xl text-on-surface font-bold">{altCareers.length} Alternativas Recomendadas</h3>
+                      <div className="h-px bg-surface-variant flex-1"></div>
+                    </div>
+                    <p className="text-sm text-slate-500 flex items-center gap-1 font-medium mt-1">
+                      <span className="material-symbols-outlined text-[16px] text-amber-500">lightbulb</span>
+                      Haz clic en cualquier carrera para ver dónde estudiarla en Trujillo.
+                    </p>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -168,18 +175,22 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
                       return (
                         <div key={index} 
                              onClick={() => setSelectedCareerForUnivs(altCareer)}
-                             className={`bg-white rounded-2xl p-6 border ${selectedCareerForUnivs.nombre_mostrar === altCareer.nombre_mostrar ? 'border-primary ring-2 ring-primary/20' : 'border-slate-100'} cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-5`}>
+                             className={`group bg-white rounded-2xl p-6 border ${selectedCareerForUnivs.nombre_mostrar === altCareer.nombre_mostrar ? 'border-primary ring-2 ring-primary/20' : 'border-slate-100'} cursor-pointer shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-5`}>
                           <div className={`w-14 h-14 bg-surface-container rounded-xl flex items-center justify-center shrink-0 ${colorClass}`}>
                             <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>{altIcon}</span>
                           </div>
                           <div className="flex-1">
-                            <h4 className="font-headline-md text-lg text-on-surface font-bold mb-1 line-clamp-1">{altCareer.nombre_mostrar}</h4>
+                            <h4 className="font-headline-md text-lg text-on-surface font-bold mb-1 line-clamp-1 group-hover:text-primary transition-colors">{altCareer.nombre_mostrar}</h4>
                             <div className="flex items-center gap-3">
                               <div className={`text-lg font-bold ${colorClass}`}>{altCareer.afinidad}%</div>
                               <div className="w-full bg-surface-variant rounded-full h-1.5 flex-1 max-w-[100px]">
                                 <div className={`${bgClass} h-1.5 rounded-full`} style={{ width: `${altCareer.afinidad}%` }}></div>
                               </div>
                             </div>
+                          </div>
+                          {/* Affordance Icon */}
+                          <div className={`shrink-0 flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ${selectedCareerForUnivs.nombre_mostrar === altCareer.nombre_mostrar ? 'bg-primary text-white' : 'bg-slate-50 text-slate-300 group-hover:bg-blue-50 group-hover:text-primary'}`}>
+                            <span className="material-symbols-outlined text-xl">chevron_right</span>
                           </div>
                         </div>
                       );
@@ -303,7 +314,7 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
       <footer className="bg-white dark:bg-slate-950 full-width border-t border-slate-100 dark:border-slate-800 py-12 w-full mt-auto">
         <div className="max-w-[1280px] mx-auto w-full px-6">
           <div className="font-['Manrope'] text-sm text-slate-500 dark:text-slate-400 text-left">
-            © 2026 Camino Vocacional Trujillo. Inspirado en nuestra herencia.
+            © 2026 Colegio San Marcelo. Formando líderes para el mañana. Una herramienta gratuita de orientación vocacional para nuestra comunidad educativa.
           </div>
         </div>
       </footer>

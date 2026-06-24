@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Camino Vocacional Trujillo",
+  title: "Futuro Marcelino Trujillo",
   description: "Descubre tu perfil profesional ideal a través de IA",
 };
 

@@ -67,17 +67,17 @@ export default function TestForm({ studentName, avatar, onComplete, onGoHome, on
       className="bg-surface-bright text-on-surface font-body-md text-body-md min-h-screen flex flex-col antialiased relative w-full"
     >
       {/* TopAppBar */}
-      <header className="bg-white border-b border-gray-100 top-0 sticky z-50 h-[84px] flex items-center">
+      <header className="fixed w-full top-0 z-50 bg-primary shadow-lg h-[80px] flex items-center">
         <div className="flex justify-between items-center px-8 h-20 max-w-[80rem] mx-auto w-full font-manrope antialiased">
           <div className="flex items-center gap-12 w-full">
-            <div className="text-[22px] font-extrabold tracking-tight text-[#2b6be6] font-manrope">
-              Camino Vocacional
+            <div className="flex items-center gap-3 text-xl font-extrabold tracking-tight text-white font-manrope">
+              <img src="/insignia_san_marcelo.jpg" alt="Insignia San Marcelo" className="h-16 w-auto object-contain drop-shadow-lg" />
+              Futuro Marcelino
             </div>
             <nav className="flex flex-1 items-center justify-center gap-12 font-manrope mr-32">
-              <button onClick={onGoHome} className="text-[#6b7280] font-medium text-[15px] hover:text-[#2b6be6] transition-colors">Inicio</button>
+              <button onClick={onGoHome} className="text-white/80 font-medium text-[15px] hover:text-white transition-colors">Inicio</button>
               <div className="relative py-2">
-                <button onClick={onGoTest} className="text-[#2b6be6] font-medium text-[15px]">Test Vocacional</button>
-                <div className="absolute -bottom-1 left-0 w-full h-[6px] border-x-[2px] border-b-[2px] border-[#2b6be6] rounded-b-[6px]"></div>
+                <button onClick={onGoTest} className="text-white font-medium text-[15px] pb-2 border-b-2 border-white">Test Vocacional</button>
               </div>
             </nav>
           </div>
@@ -151,7 +151,10 @@ export default function TestForm({ studentName, avatar, onComplete, onGoHome, on
                   </div>
 
                   {/* Question Text */}
-                  <div className="mt-md flex-1 flex items-center">
+                  <div className="mt-md flex-1 flex flex-col justify-center gap-4">
+                    <p className="text-primary/80 italic font-medium text-lg">
+                      ¿Qué tanto te gustaría hacer esta actividad en tu futuro profesional?
+                    </p>
                     <h2 className="font-headline-md text-headline-md text-on-surface leading-snug">
                       {currentQuestion.text}
                     </h2>
@@ -184,9 +187,9 @@ export default function TestForm({ studentName, avatar, onComplete, onGoHome, on
                     </div>
                     
                     {/* Labels */}
-                    <div className="flex justify-between w-full text-label-sm font-label-sm text-outline mt-sm px-2">
-                      <span className="max-w-[80px] text-center leading-tight">No me identifica</span>
-                      <span className="max-w-[80px] text-center leading-tight">Me identifica totalmente</span>
+                    <div className="flex justify-between w-full text-label-sm font-label-sm mt-sm px-2">
+                      <span className="max-w-[80px] text-center leading-tight text-red-500 font-medium">Lo detesto</span>
+                      <span className="max-w-[80px] text-center leading-tight text-green-600 font-medium">Me encantaría</span>
                     </div>
                   </div>
 
@@ -202,7 +205,7 @@ export default function TestForm({ studentName, avatar, onComplete, onGoHome, on
       <footer className="bg-white w-full mt-auto border-t border-gray-100">
         <div className="px-8 py-10 max-w-[80rem] mx-auto flex justify-start items-center">
           <div className="flex flex-col items-start gap-2">
-            <p className="font-manrope text-[14px] text-[#4b5563] text-left">© 2026 Camino Vocacional Trujillo. Inspirado en nuestra herencia.</p>
+            <p className="font-manrope text-[14px] text-[#4b5563] text-left">© 2026 Colegio San Marcelo. Formando líderes para el mañana. Una herramienta gratuita de orientación vocacional para nuestra comunidad educativa.</p>
           </div>
         </div>
       </footer>
