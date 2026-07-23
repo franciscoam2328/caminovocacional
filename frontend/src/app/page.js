@@ -7,6 +7,8 @@ import LandingView from '@/components/LandingView';
 import UserInfoView from '@/components/UserInfoView';
 import AvatarSelectView from '@/components/AvatarSelectView';
 import TutorialView from '@/components/TutorialView';
+import AdminLoginView from '@/components/AdminLoginView';
+import AdminDashboardView from '@/components/AdminDashboardView';
 
 export default function Home() {
   // Estados de la SPA
@@ -45,11 +47,15 @@ export default function Home() {
     setCurrentView('LANDING');
   };
 
+  const goToAdminLogin = () => setCurrentView('ADMIN_LOGIN');
+  const handleAdminLoginSuccess = () => setCurrentView('ADMIN_DASHBOARD');
+  const logoutAdmin = () => setCurrentView('LANDING');
+
   return (
     <>
       <AnimatePresence mode="wait">
         {currentView === 'LANDING' && (
-          <LandingView key="landing" onStart={goToUserInfo} onGoHome={restartTest} onGoTest={goToUserInfo} />
+          <LandingView key="landing" onStart={goToUserInfo} onGoHome={restartTest} onGoTest={goToUserInfo} onGoAdmin={goToAdminLogin} />
         )}
 
         {currentView === 'USER_INFO' && (
@@ -89,6 +95,14 @@ export default function Home() {
 
         {currentView === 'RESULTS' && (
           <ResultDisplay key="results" data={resultsData} avatar={avatar} onRestart={restartTest} onGoHome={restartTest} onGoTest={goToUserInfo} />
+        )}
+
+        {currentView === 'ADMIN_LOGIN' && (
+          <AdminLoginView key="adminlogin" onLoginSuccess={handleAdminLoginSuccess} onGoHome={restartTest} />
+        )}
+
+        {currentView === 'ADMIN_DASHBOARD' && (
+          <AdminDashboardView key="admindashboard" onLogout={logoutAdmin} />
         )}
       </AnimatePresence>
     </>

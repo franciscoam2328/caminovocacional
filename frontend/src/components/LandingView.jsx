@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
-export default function LandingView({ onStart, onGoHome, onGoTest }) {
+export default function LandingView({ onStart, onGoHome, onGoTest, onGoAdmin }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <motion.div
@@ -146,6 +146,9 @@ export default function LandingView({ onStart, onGoHome, onGoTest }) {
           <div className="text-on-surface-variant font-medium">
             © 2026 Colegio San Marcelo. Formando líderes para el mañana. Una herramienta gratuita de orientación vocacional para nuestra comunidad educativa.
           </div>
+          <button onClick={onGoAdmin} className="text-slate-300 hover:text-slate-400 transition-colors" title="Acceso Administrativo">
+            <span className="material-symbols-outlined text-[16px]">lock</span>
+          </button>
         </div>
       </footer>
 
