@@ -22,7 +22,9 @@ export default function UserInfoView({ studentName, setStudentName, onSubmit, on
           {/* Brand */}
           <div className="flex items-center gap-3 text-xl font-extrabold tracking-tight text-white font-manrope">
             <img src="/insignia_san_marcelo.jpg" alt="Insignia San Marcelo" className="h-16 w-auto object-contain drop-shadow-lg" />
-            Futuro Marcelino
+            <span className="text-xl font-bold tracking-tight text-white hidden sm:block">
+              Test - Colegio San Marcelo
+            </span>
           </div>
           
           {/* Centered Navigation */}

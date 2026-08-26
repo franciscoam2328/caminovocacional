@@ -16,7 +16,9 @@ export default function LandingView({ onStart, onGoHome, onGoTest, onGoAdmin }) 
         <div className="flex justify-between items-center px-8 h-full max-w-[80rem] mx-auto">
           <a className="flex items-center gap-3 text-xl font-extrabold tracking-tight text-white active:scale-95 transform transition-transform duration-200" href="#!">
             <img src="/insignia_san_marcelo.jpg" alt="Insignia San Marcelo" className="h-16 w-auto object-contain drop-shadow-lg" />
-            Futuro Marcelino
+            <span className="text-xl font-bold tracking-tight text-white hidden sm:block">
+              Test - Colegio San Marcelo
+            </span>
           </a>
           <div className="hidden md:flex gap-8 items-center">
             <button onClick={onGoHome} className="text-white border-b-2 border-white pb-1 font-semibold hover:text-white/80 transition-all duration-300">Inicio</button>
@@ -130,7 +132,7 @@ export default function LandingView({ onStart, onGoHome, onGoTest, onGoAdmin }) 
 
                   <div className="relative z-10 bg-white/90 backdrop-blur px-8 py-4 rounded-full border border-white shadow-[0_8px_20px_rgba(37,99,235,0.15)] flex items-center gap-3 group-hover/btn:-translate-y-1 transition-all duration-300">
                     <span className="material-symbols-outlined text-primary text-2xl">info</span>
-                    <span className="text-primary font-bold text-lg">Conoce el método</span>
+                    <span className="text-xl font-bold tracking-tight text-primary">Test - Colegio San Marcelo</span>
                   </div>
                 </div>
               </div>

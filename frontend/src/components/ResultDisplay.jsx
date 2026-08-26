@@ -61,7 +61,9 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
           <div className="grid grid-cols-3 items-center w-full">
             <div className="flex items-center gap-3 text-xl font-extrabold tracking-tighter text-white font-headline-md">
               <img src="/insignia_san_marcelo.jpg" alt="Insignia San Marcelo" className="h-16 w-auto object-contain drop-shadow-lg" />
-              Futuro Marcelino
+              <span className="text-xl font-bold tracking-tight text-white hidden sm:block">
+                Test - Colegio San Marcelo
+              </span>
             </div>
             <div className="hidden md:flex gap-6 items-center justify-center">
               <button onClick={onRestart} className="font-['Manrope'] text-sm font-medium tracking-tight text-white/80 hover:text-white transition-colors duration-200 ease-out px-3 py-2">

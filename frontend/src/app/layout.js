@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Futuro Marcelino Trujillo",
+  title: "Test - Colegio San Marcelo",
   description: "Descubre tu perfil profesional ideal a través de IA",
 };
 

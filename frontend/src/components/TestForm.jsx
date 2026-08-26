@@ -72,7 +72,9 @@ export default function TestForm({ studentName, avatar, onComplete, onGoHome, on
           <div className="flex items-center gap-12 w-full">
             <div className="flex items-center gap-3 text-xl font-extrabold tracking-tight text-white font-manrope">
               <img src="/insignia_san_marcelo.jpg" alt="Insignia San Marcelo" className="h-16 w-auto object-contain drop-shadow-lg" />
-              Futuro Marcelino
+              <span className="text-xl font-bold tracking-tight text-white hidden sm:block">
+              Test - Colegio San Marcelo
+            </span>
             </div>
             <nav className="flex flex-1 items-center justify-center gap-12 font-manrope mr-32">
               <button onClick={onGoHome} className="text-white/80 font-medium text-[15px] hover:text-white transition-colors">Inicio</button>
