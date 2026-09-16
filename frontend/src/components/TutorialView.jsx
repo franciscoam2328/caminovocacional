@@ -67,38 +67,44 @@ export default function TutorialView({ studentName, avatar, onStartTest, onGoHom
             </h2>
             
             <p className="text-lg text-slate-700 mb-6 leading-relaxed">
-              Antes de empezar, aquí tienes la regla de oro: <strong className="text-primary">Responde con el corazón.</strong>
+              A continuación encontrarás 60 actividades de trabajo. Lee cada actividad y selecciona la opción que mejor represente cuánto te gustaría realizarla.
             </p>
 
             <div className="bg-blue-50/50 rounded-2xl p-6 mb-8 border border-blue-100">
               <ul className="space-y-4 text-slate-600">
                 <li className="flex gap-3">
-                  <span className="material-symbols-outlined text-amber-500">lightbulb</span>
-                  <span><strong>No califiques tu habilidad.</strong> No importa si eres bueno o malo en la actividad, o si tus notas son buenas.</span>
+                  <span className="material-symbols-outlined text-amber-500">favorite</span>
+                  <span>Responde pensando únicamente en si te agradaría o no realizar esa actividad. <strong>No hay respuestas correctas o incorrectas.</strong></span>
                 </li>
                 <li className="flex gap-3">
-                  <span className="material-symbols-outlined text-amber-500">favorite</span>
-                  <span><strong>Califica tu gusto.</strong> Solo pregúntate: <em>"¿Sería feliz haciendo esto todos los días?"</em></span>
+                  <span className="material-symbols-outlined text-amber-500">lightbulb</span>
+                  <span>No consideres cuánto dinero podrías ganar ni cuánto estudio o capacitación se necesitaría.</span>
                 </li>
               </ul>
             </div>
 
             <div className="mb-8">
               <h3 className="font-bold text-slate-800 mb-4 uppercase tracking-widest text-xs">Usa la escala del 1 al 5:</h3>
-              <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-3 bg-slate-50 p-4 rounded-xl border border-slate-100">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold">1</div>
-                  <span className="text-sm font-medium text-slate-600">Lo detesto</span>
+                  <div className="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-bold shrink-0">1</div>
+                  <span className="text-xs font-medium text-slate-600 leading-tight">Me disgusta<br/>mucho</span>
                 </div>
-                <div className="hidden sm:block h-px bg-slate-200 flex-1 mx-4"></div>
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold">3</div>
-                  <span className="text-sm font-medium text-slate-600">Me da igual</span>
+                  <div className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold shrink-0">2</div>
+                  <span className="text-xs font-medium text-slate-600 leading-tight">Me disgusta</span>
                 </div>
-                <div className="hidden sm:block h-px bg-slate-200 flex-1 mx-4"></div>
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold">5</div>
-                  <span className="text-sm font-medium text-slate-600">Me encantaría</span>
+                  <div className="w-8 h-8 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold shrink-0">3</div>
+                  <span className="text-xs font-medium text-slate-600 leading-tight">No estoy<br/>seguro(a)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-lime-100 text-lime-600 flex items-center justify-center font-bold shrink-0">4</div>
+                  <span className="text-xs font-medium text-slate-600 leading-tight">Me gusta</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold shrink-0">5</div>
+                  <span className="text-xs font-medium text-slate-600 leading-tight">Me gusta<br/>mucho</span>
                 </div>
               </div>
             </div>

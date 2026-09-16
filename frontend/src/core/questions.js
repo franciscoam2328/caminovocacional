@@ -1,7 +1,7 @@
 export const QUESTIONS = [
   {
     "id": 1,
-    "text": "Construir gabinetes de cocina.",
+    "text": "Construir gabinetes para cocina.",
     "category": "R"
   },
   {
@@ -26,7 +26,7 @@ export const QUESTIONS = [
   },
   {
     "id": 6,
-    "text": "Conducir un camión para entregar paquetes.",
+    "text": "Conducir un camión para entregar paquetes a oficinas y hogares.",
     "category": "R"
   },
   {
@@ -41,7 +41,7 @@ export const QUESTIONS = [
   },
   {
     "id": 9,
-    "text": "Configurar y operar máquinas para hacer productos.",
+    "text": "Preparar y operar máquinas para fabricar productos.",
     "category": "R"
   },
   {
@@ -91,7 +91,7 @@ export const QUESTIONS = [
   },
   {
     "id": 19,
-    "text": "Inventar un reemplazo para el azúcar.",
+    "text": "Inventar un sustituto del azúcar.",
     "category": "I"
   },
   {
@@ -116,7 +116,7 @@ export const QUESTIONS = [
   },
   {
     "id": 24,
-    "text": "Dibujar imágenes.",
+    "text": "Hacer dibujos.",
     "category": "A"
   },
   {
@@ -161,7 +161,7 @@ export const QUESTIONS = [
   },
   {
     "id": 33,
-    "text": "Dar orientación profesional a las personas.",
+    "text": "Brindar orientación vocacional a las personas.",
     "category": "S"
   },
   {
@@ -181,7 +181,7 @@ export const QUESTIONS = [
   },
   {
     "id": 37,
-    "text": "Enseñar lenguaje de señas a personas sordas.",
+    "text": "Enseñar lengua de señas a personas con discapacidad auditiva.",
     "category": "S"
   },
   {
@@ -211,7 +211,7 @@ export const QUESTIONS = [
   },
   {
     "id": 43,
-    "text": "Operar un salón de belleza o barbería.",
+    "text": "Administrar un salón de belleza o una barbería.",
     "category": "E"
   },
   {
@@ -251,7 +251,7 @@ export const QUESTIONS = [
   },
   {
     "id": 51,
-    "text": "Desarrollar una hoja de cálculo en computadora.",
+    "text": "Crear una hoja de cálculo utilizando un programa de computadora.",
     "category": "C"
   },
   {
@@ -266,7 +266,7 @@ export const QUESTIONS = [
   },
   {
     "id": 54,
-    "text": "Operar una calculadora.",
+    "text": "Usar una calculadora.",
     "category": "C"
   },
   {
@@ -281,7 +281,7 @@ export const QUESTIONS = [
   },
   {
     "id": 57,
-    "text": "Hacer inventario usando una computadora.",
+    "text": "Hacer inventario de suministros utilizando un dispositivo portátil.",
     "category": "C"
   },
   {
@@ -296,7 +296,7 @@ export const QUESTIONS = [
   },
   {
     "id": 60,
-    "text": "Sellar, clasificar y distribuir correo.",
+    "text": "Sellar, clasificar y distribuir correo para una organización.",
     "category": "C"
   }
 ];

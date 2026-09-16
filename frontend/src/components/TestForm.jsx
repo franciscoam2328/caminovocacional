@@ -144,7 +144,7 @@ export default function TestForm({ studentName, avatar, onComplete, onGoHome, on
                   {/* Progress Area */}
                   <div className="flex flex-col gap-xs">
                     <div className="flex justify-between items-center text-label-sm font-label-sm text-outline-variant">
-                      <span className="uppercase tracking-widest text-outline">Pregunta {currentQuestionIndex + 1} de {totalQuestions}</span>
+                      <span className="uppercase tracking-widest text-outline">Actividad {currentQuestionIndex + 1} de {totalQuestions}</span>
                       <span className="text-primary font-semibold">{Math.round(progressPercentage)}% completado</span>
                     </div>
                     <div className="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
@@ -189,9 +189,10 @@ export default function TestForm({ studentName, avatar, onComplete, onGoHome, on
                     </div>
                     
                     {/* Labels */}
-                    <div className="flex justify-between w-full text-label-sm font-label-sm mt-sm px-2">
-                      <span className="max-w-[80px] text-center leading-tight text-red-500 font-medium">Lo detesto</span>
-                      <span className="max-w-[80px] text-center leading-tight text-green-600 font-medium">Me encantaría</span>
+                    <div className="relative flex justify-between w-full text-label-sm font-label-sm mt-sm px-2">
+                      <span className="w-[100px] text-left leading-tight text-red-500 font-medium">Me disgusta mucho</span>
+                      <span className="absolute left-1/2 -translate-x-1/2 w-[120px] text-center leading-tight text-slate-500 font-medium">No estoy seguro(a)</span>
+                      <span className="w-[100px] text-right leading-tight text-green-600 font-medium">Me gusta mucho</span>
                     </div>
                   </div>
 
