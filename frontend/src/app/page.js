@@ -9,10 +9,12 @@ import AvatarSelectView from '@/components/AvatarSelectView';
 import TutorialView from '@/components/TutorialView';
 import AdminLoginView from '@/components/AdminLoginView';
 import AdminDashboardView from '@/components/AdminDashboardView';
+import AccessibilityWidget from '@/components/AccessibilityWidget';
 
 export default function Home() {
   // Estados de la SPA
-  const [currentView, setCurrentView] = useState('LANDING'); // LANDING, USER_INFO, AVATAR_SELECT, TUTORIAL, TEST, RESULTS
+  const [currentView, setCurrentView] = useState('LANDING'); // LANDING, USER_INFO, AVATAR_SELECT, TUTORIAL, TEST, RESULTS, ADMIN_LOGIN, ADMIN_DASHBOARD
+  const [studentUser, setStudentUser] = useState(null);
   const [studentName, setStudentName] = useState('');
   const [avatar, setAvatar] = useState('');
   const [resultsData, setResultsData] = useState(null);
@@ -20,10 +22,10 @@ export default function Home() {
   // Funciones de navegación
   const goToUserInfo = () => setCurrentView('USER_INFO');
   
-  const handleNameSubmit = () => {
-    if (studentName.trim().length > 1) {
-      setCurrentView('AVATAR_SELECT');
-    }
+  const handleStudentLoginSuccess = (user) => {
+    setStudentUser(user);
+    setStudentName(user.nombre_completo || user.codigo_estudiante);
+    setCurrentView('AVATAR_SELECT');
   };
 
   const selectAvatarAndStart = (selectedAvatar) => {
@@ -41,6 +43,7 @@ export default function Home() {
   };
 
   const restartTest = () => {
+    setStudentUser(null);
     setStudentName('');
     setAvatar('');
     setResultsData(null);
@@ -53,17 +56,24 @@ export default function Home() {
 
   return (
     <>
+      {/* Menú de Accesibilidad Universal Flotante (WCAG 2.1 - Atajo CTRL + U) */}
+      <AccessibilityWidget />
+
       <AnimatePresence mode="wait">
         {currentView === 'LANDING' && (
-          <LandingView key="landing" onStart={goToUserInfo} onGoHome={restartTest} onGoTest={goToUserInfo} onGoAdmin={goToAdminLogin} />
+          <LandingView 
+            key="landing" 
+            onStart={goToUserInfo} 
+            onGoHome={restartTest} 
+            onGoTest={goToUserInfo} 
+            onGoAdmin={goToAdminLogin} 
+          />
         )}
 
         {currentView === 'USER_INFO' && (
           <UserInfoView 
             key="userinfo" 
-            studentName={studentName} 
-            setStudentName={setStudentName} 
-            onSubmit={handleNameSubmit} 
+            onLoginSuccess={handleStudentLoginSuccess}
             onGoHome={restartTest}
             onGoTest={goToUserInfo}
           />
@@ -90,19 +100,41 @@ export default function Home() {
         )}
 
         {currentView === 'TEST' && (
-          <TestForm key="test" studentName={studentName} avatar={avatar} onComplete={handleTestComplete} onGoHome={restartTest} onGoTest={goToUserInfo} />
+          <TestForm 
+            key="test" 
+            studentName={studentName} 
+            studentCode={studentUser?.codigo_estudiante}
+            avatar={avatar} 
+            onComplete={handleTestComplete} 
+            onGoHome={restartTest} 
+            onGoTest={goToUserInfo} 
+          />
         )}
 
         {currentView === 'RESULTS' && (
-          <ResultDisplay key="results" data={resultsData} avatar={avatar} onRestart={restartTest} onGoHome={restartTest} onGoTest={goToUserInfo} />
+          <ResultDisplay 
+            key="results" 
+            data={resultsData} 
+            avatar={avatar} 
+            onRestart={restartTest} 
+            onGoHome={restartTest} 
+            onGoTest={goToUserInfo} 
+          />
         )}
 
         {currentView === 'ADMIN_LOGIN' && (
-          <AdminLoginView key="adminlogin" onLoginSuccess={handleAdminLoginSuccess} onGoHome={restartTest} />
+          <AdminLoginView 
+            key="adminlogin" 
+            onLoginSuccess={handleAdminLoginSuccess} 
+            onGoHome={restartTest} 
+          />
         )}
 
         {currentView === 'ADMIN_DASHBOARD' && (
-          <AdminDashboardView key="admindashboard" onLogout={logoutAdmin} />
+          <AdminDashboardView 
+            key="admindashboard" 
+            onLogout={logoutAdmin} 
+          />
         )}
       </AnimatePresence>
     </>

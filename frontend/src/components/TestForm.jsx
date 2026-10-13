@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { QUESTIONS } from "../core/questions";
 import { predictVocationalCluster } from "../infrastructure/api";
 
-export default function TestForm({ studentName, avatar, onComplete, onGoHome, onGoTest }) {
+export default function TestForm({ studentName, studentCode, avatar, onComplete, onGoHome, onGoTest }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [responses, setResponses] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -46,7 +46,7 @@ export default function TestForm({ studentName, avatar, onComplete, onGoHome, on
         setIsSubmitting(true);
         setError(null);
         try {
-          const resultData = await predictVocationalCluster(studentName, newResponses);
+          const resultData = await predictVocationalCluster(studentName, newResponses, studentCode);
           onComplete(resultData);
         } catch (err) {
           console.error(err);
@@ -168,31 +168,51 @@ export default function TestForm({ studentName, avatar, onComplete, onGoHome, on
                       {/* Connecting line behind buttons */}
                       <div className="absolute top-1/2 left-0 w-full h-0.5 bg-surface-container-highest -translate-y-1/2 -z-10"></div>
                       
-                      {/* Rating Buttons */}
-                      {[1, 2, 3, 4, 5].map((val) => {
-                        const isActive = selectedOption === val;
+                      {/* Rating Buttons with Accessible Indicators */}
+                      {[
+                        { val: 1, label: "Totalmente en desacuerdo", short: "Disgusta", icon: "thumb_down" },
+                        { val: 2, label: "En desacuerdo", short: "Poco", icon: "remove" },
+                        { val: 3, label: "Neutral / No estoy seguro", short: "Neutral", icon: "drag_handle" },
+                        { val: 4, label: "De acuerdo", short: "Bastante", icon: "add" },
+                        { val: 5, label: "Totalmente de acuerdo", short: "Me gusta", icon: "thumb_up" }
+                      ].map((item) => {
+                        const isActive = selectedOption === item.val;
                         return (
-                          <button 
-                            key={val}
-                            onClick={() => handleOptionClick(val)}
-                            disabled={selectedOption !== null} // Deshabilitar botones mientras hace la transición
-                            className={`rounded-full flex items-center justify-center transition-all duration-200 ${
-                              isActive 
-                                ? "w-14 h-14 bg-primary border-2 border-primary font-headline-md text-headline-md text-on-primary shadow-[0_4px_12px_rgba(0,123,255,0.3)] transform scale-110" 
-                                : "w-12 h-12 bg-surface-container-lowest border-2 border-outline-variant font-body-lg text-body-lg text-outline hover:border-primary hover:text-primary hover:bg-primary-fixed"
-                            }`}
-                          >
-                            {val}
-                          </button>
+                          <div key={item.val} className="flex flex-col items-center gap-1.5">
+                            <button 
+                              onClick={() => handleOptionClick(item.val)}
+                              disabled={selectedOption !== null}
+                              title={`${item.val}: ${item.label}`}
+                              aria-label={`Opción ${item.val}: ${item.label}`}
+                              className={`rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer ${
+                                isActive 
+                                  ? "w-14 h-14 bg-primary border-2 border-primary font-headline-md text-headline-md text-on-primary shadow-[0_4px_12px_rgba(0,123,255,0.3)] transform scale-110" 
+                                  : "w-12 h-12 bg-surface-container-lowest border-2 border-slate-300 font-body-lg text-body-lg text-slate-700 hover:border-primary hover:text-primary hover:bg-primary-fixed"
+                              }`}
+                            >
+                              {item.val}
+                            </button>
+                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter hidden sm:block">
+                              {item.short}
+                            </span>
+                          </div>
                         );
                       })}
                     </div>
                     
-                    {/* Labels */}
-                    <div className="relative flex justify-between w-full text-label-sm font-label-sm mt-sm px-2">
-                      <span className="w-[100px] text-left leading-tight text-red-500 font-medium">Me disgusta mucho</span>
-                      <span className="absolute left-1/2 -translate-x-1/2 w-[120px] text-center leading-tight text-slate-500 font-medium">No estoy seguro(a)</span>
-                      <span className="w-[100px] text-right leading-tight text-green-600 font-medium">Me gusta mucho</span>
+                    {/* Labels Inclusivos (Sin dependencia exclusiva de colores semáforo) */}
+                    <div className="relative flex justify-between w-full text-xs font-bold mt-sm px-2">
+                      <span className="w-[120px] text-left leading-tight text-slate-700 flex items-center gap-1">
+                        <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                        1. Me disgusta
+                      </span>
+                      <span className="absolute left-1/2 -translate-x-1/2 w-[120px] text-center leading-tight text-slate-600">
+                        3. Indiferente
+                      </span>
+                      <span className="w-[120px] text-right leading-tight text-primary flex items-center justify-end gap-1">
+                        5. Me gusta mucho
+                        <span className="w-2 h-2 rounded-full bg-primary"></span>
+                      </span>
                     </div>
                   </div>
 

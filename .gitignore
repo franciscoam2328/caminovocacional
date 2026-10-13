@@ -5,9 +5,18 @@ __pycache__/
 venv/
 .venv/
 .pytest_cache/
+*.db
+backend/0*.py
+backend/test_math.py
+backend/infra/model_ia/06_*.py
 
 # Node / Frontend
 node_modules/
 dist/
+.next/
 .env.local
 .eslintcache
+frontend/cypress/
+frontend/cypress.config.js
+frontend/fix_components.py
+
