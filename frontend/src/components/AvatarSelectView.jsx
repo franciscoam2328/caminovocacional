@@ -21,7 +21,7 @@ export default function AvatarSelectView({ studentName, onSelect, onGoHome, onGo
             </span>
           </div>
           {/* Centered Navigation Links */}
-          <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-12">
+          <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 items-center gap-6 sm:gap-12">
             <button onClick={onGoHome} className="text-white/80 font-medium text-[15px] hover:text-white transition-colors">Inicio</button>
             <div className="relative group">
               <button onClick={onGoTest} className="text-white font-medium text-[15px] pb-2 border-b-2 border-white">

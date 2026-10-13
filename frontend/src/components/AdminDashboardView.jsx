@@ -384,14 +384,14 @@ export default function AdminDashboardView({ onLogout }) {
       className="min-h-screen bg-slate-50 font-manrope pb-16"
     >
       {/* TopNav */}
-      <nav className="bg-white border-b border-slate-200 px-8 h-[76px] flex items-center justify-between sticky top-0 z-50 shadow-sm">
+      <nav className="bg-white border-b border-slate-200 px-4 sm:px-8 h-[76px] flex items-center justify-between sticky top-0 z-50 shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+          <div className="w-10 h-10 sm:w-11 sm:h-11 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0">
             <span className="material-symbols-outlined text-2xl">shield_person</span>
           </div>
           <div>
-            <h1 className="font-extrabold text-slate-800 leading-tight text-base">San Marcelo Admin</h1>
-            <p className="text-xs text-slate-500 font-medium">Panel Integral de Orientación Vocacional & CRUD</p>
+            <h1 className="font-extrabold text-slate-800 leading-tight text-sm sm:text-base">San Marcelo Admin</h1>
+            <p className="text-xs text-slate-500 font-medium hidden sm:block">Panel Integral de Orientación Vocacional & CRUD</p>
           </div>
         </div>
 
@@ -428,10 +428,11 @@ export default function AdminDashboardView({ onLogout }) {
 
         <button 
           onClick={onLogout} 
-          className="flex items-center gap-2 text-slate-600 hover:text-red-600 transition-colors text-xs font-bold bg-slate-100 hover:bg-red-50 px-4 py-2.5 rounded-xl cursor-pointer"
+          className="flex items-center gap-1.5 sm:gap-2 text-slate-600 hover:text-red-600 transition-colors text-xs font-bold bg-slate-100 hover:bg-red-50 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl cursor-pointer"
         >
           <span className="material-symbols-outlined text-[18px]">logout</span>
-          Cerrar Sesión
+          <span className="hidden xs:inline">Cerrar Sesión</span>
+          <span className="xs:hidden">Salir</span>
         </button>
       </nav>
 
@@ -969,12 +970,12 @@ export default function AdminDashboardView({ onLogout }) {
       {/* Modal: Registrar Alumno */}
       <AnimatePresence>
         {showAddStudentModal && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-slate-200"
+              className="bg-white rounded-3xl p-5 sm:p-7 md:p-8 w-full max-w-[500px] max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 my-auto relative"
             >
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-2.5 text-primary font-black text-lg">
@@ -1054,12 +1055,12 @@ export default function AdminDashboardView({ onLogout }) {
       {/* Modal: Editar Alumno */}
       <AnimatePresence>
         {showEditStudentModal && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-slate-200"
+              className="bg-white rounded-3xl p-5 sm:p-7 md:p-8 w-full max-w-[500px] max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 my-auto relative"
             >
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-2.5 text-primary font-black text-lg">
@@ -1138,12 +1139,12 @@ export default function AdminDashboardView({ onLogout }) {
       {/* Modal: Confirmar Eliminar Alumno */}
       <AnimatePresence>
         {showDeleteStudentModal && deletingStudent && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 text-center"
+              className="bg-white rounded-3xl p-6 w-full max-w-[420px] shadow-2xl border border-slate-200 text-center my-auto relative"
             >
               <div className="w-14 h-14 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4">
                 <span className="material-symbols-outlined text-3xl">warning</span>
@@ -1177,12 +1178,12 @@ export default function AdminDashboardView({ onLogout }) {
       {/* Modal: Añadir Nueva Carrera */}
       <AnimatePresence>
         {showAddCareerModal && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-slate-200"
+              className="bg-white rounded-3xl p-5 sm:p-7 md:p-8 w-full max-w-[500px] max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 my-auto relative"
             >
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-2.5 text-primary font-black text-lg">
@@ -1285,12 +1286,12 @@ export default function AdminDashboardView({ onLogout }) {
       {/* Modal: Editar Carrera */}
       <AnimatePresence>
         {showEditCareerModal && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-slate-200"
+              className="bg-white rounded-3xl p-5 sm:p-7 md:p-8 w-full max-w-[500px] max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 my-auto relative"
             >
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-2.5 text-primary font-black text-lg">
@@ -1356,12 +1357,12 @@ export default function AdminDashboardView({ onLogout }) {
       {/* Modal: Confirmar Eliminar Carrera */}
       <AnimatePresence>
         {showDeleteCareerModal && deletingCareer && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 text-center"
+              className="bg-white rounded-3xl p-6 w-full max-w-[420px] shadow-2xl border border-slate-200 text-center my-auto relative"
             >
               <div className="w-14 h-14 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4">
                 <span className="material-symbols-outlined text-3xl">delete_forever</span>
@@ -1395,12 +1396,12 @@ export default function AdminDashboardView({ onLogout }) {
       {/* Modal: Registrar Nueva Universidad */}
       <AnimatePresence>
         {showAddUniModal && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-slate-200"
+              className="bg-white rounded-3xl p-5 sm:p-7 md:p-8 w-full max-w-[500px] max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 my-auto relative"
             >
               <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-2.5 text-primary font-black text-lg">
@@ -1470,12 +1471,12 @@ export default function AdminDashboardView({ onLogout }) {
       {/* Modal: Confirmar Eliminar Universidad */}
       <AnimatePresence>
         {showDeleteUniModal && deletingUni && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 text-center"
+              className="bg-white rounded-3xl p-6 w-full max-w-[420px] shadow-2xl border border-slate-200 text-center my-auto relative"
             >
               <div className="w-14 h-14 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center mx-auto mb-4">
                 <span className="material-symbols-outlined text-3xl">domain_disabled</span>

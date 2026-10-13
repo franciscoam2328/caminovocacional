@@ -76,7 +76,7 @@ export default function TestForm({ studentName, studentCode, avatar, onComplete,
               Test - Colegio San Marcelo
             </span>
             </div>
-            <nav className="flex flex-1 items-center justify-center gap-12 font-manrope mr-32">
+            <nav className="hidden md:flex flex-1 items-center justify-center gap-8 md:gap-12 font-manrope md:mr-32">
               <button onClick={onGoHome} className="text-white/80 font-medium text-[15px] hover:text-white transition-colors">Inicio</button>
               <div className="relative py-2">
                 <button onClick={onGoTest} className="text-white font-medium text-[15px] pb-2 border-b-2 border-white">Test Vocacional</button>

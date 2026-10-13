@@ -49,7 +49,7 @@ export default function UserInfoView({ onLoginSuccess, onGoHome, onGoTest }) {
           </div>
 
           {/* Centered Navigation */}
-          <nav className="flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+          <nav className="hidden sm:flex items-center gap-6 sm:gap-8 absolute left-1/2 -translate-x-1/2">
             <button onClick={onGoHome} className="text-white/80 hover:text-white font-medium text-[15px] transition-colors">Inicio</button>
             <div className="relative flex flex-col items-center">
               <button onClick={onGoTest} className="text-white font-medium text-[15px] py-2 border-b-2 border-white">Test Vocacional</button>

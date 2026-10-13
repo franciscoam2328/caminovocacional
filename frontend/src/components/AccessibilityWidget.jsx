@@ -139,8 +139,8 @@ export default function AccessibilityWidget() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 100 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className={`fixed top-4 right-4 bottom-4 bg-white rounded-3xl shadow-2xl border border-slate-200 z-[10000] flex flex-col overflow-hidden ${
-              largeWidget ? 'w-[440px]' : 'w-[360px]'
+            className={`fixed top-3 sm:top-4 right-3 sm:right-4 bottom-3 sm:bottom-4 bg-white rounded-3xl shadow-2xl border border-slate-200 z-[10000] flex flex-col overflow-hidden w-[calc(100vw-1.5rem)] max-w-[360px] sm:max-w-none ${
+              largeWidget ? 'sm:w-[440px]' : 'sm:w-[360px]'
             }`}
           >
             {/* Header Azul */}
@@ -375,12 +375,12 @@ export default function AccessibilityWidget() {
       {/* Modal de Información y Guía */}
       <AnimatePresence>
         {showInfoModal && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10001] flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10001] flex items-center justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl border border-slate-200"
+              className="bg-white rounded-3xl p-5 sm:p-6 w-full max-w-[500px] max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 my-auto relative"
             >
               <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                 <div className="flex items-center gap-2 text-blue-600 font-extrabold text-lg">
