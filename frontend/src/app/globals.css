@@ -17,3 +17,127 @@
     background-color: #f7f9fb !important;
   }
 }
+
+/* ==========================================================================
+   ESTILOS DE ACCESIBILIDAD UNIVERSAL (WCAG 2.1)
+   ========================================================================== */
+
+/* 1. Apto para Dislexia */
+html.a11y-dyslexia,
+html.a11y-dyslexia * {
+  font-family: 'Lexend', 'Comic Sans MS', sans-serif !important;
+  letter-spacing: 0.06em !important;
+  word-spacing: 0.12em !important;
+  line-height: 1.8 !important;
+}
+
+/* 2. Alto Contraste */
+html.a11y-high-contrast {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+html.a11y-high-contrast body {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+html.a11y-high-contrast div,
+html.a11y-high-contrast section,
+html.a11y-high-contrast nav,
+html.a11y-high-contrast main,
+html.a11y-high-contrast footer,
+html.a11y-high-contrast header {
+  background-color: #0a0a0a !important;
+  color: #ffffff !important;
+  border-color: #facc15 !important;
+}
+html.a11y-high-contrast p,
+html.a11y-high-contrast span,
+html.a11y-high-contrast label,
+html.a11y-high-contrast h1,
+html.a11y-high-contrast h2,
+html.a11y-high-contrast h3,
+html.a11y-high-contrast h4,
+html.a11y-high-contrast h5 {
+  color: #ffffff !important;
+}
+html.a11y-high-contrast button {
+  background-color: #facc15 !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  font-weight: 800 !important;
+}
+html.a11y-high-contrast input,
+html.a11y-high-contrast select,
+html.a11y-high-contrast textarea {
+  background-color: #1e1e1e !important;
+  color: #ffff00 !important;
+  border: 2px solid #facc15 !important;
+}
+
+/* 3. Resaltar Enlaces */
+html.a11y-highlight-links a,
+html.a11y-highlight-links button[role="link"] {
+  text-decoration: underline 3px #f59e0b !important;
+  background-color: rgba(254, 240, 138, 0.4) !important;
+  color: #1e3a8a !important;
+  font-weight: bold !important;
+}
+
+/* 4. Agrandar Texto */
+html.a11y-text-scale-1 {
+  font-size: 112% !important;
+}
+html.a11y-text-scale-2 {
+  font-size: 125% !important;
+}
+html.a11y-text-scale-3 {
+  font-size: 138% !important;
+}
+
+/* 5. Espaciado de Texto */
+html.a11y-text-spacing * {
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.18em !important;
+}
+
+/* 6. Detener Animaciones */
+html.a11y-stop-animations *,
+html.a11y-stop-animations *::before,
+html.a11y-stop-animations *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* 7. Ocultar Imágenes */
+html.a11y-hide-images img:not(.a11y-keep),
+html.a11y-hide-images [style*="background-image"]:not(.a11y-keep) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* 8. Cursor Grande */
+html.a11y-large-cursor,
+html.a11y-large-cursor * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="%230059bb" stroke="%23ffffff" stroke-width="2"><path d="M3 3l7 18 3-7 7-3L3 3z"/></svg>'), auto !important;
+}
+
+/* 9. Altura de Línea */
+html.a11y-line-height * {
+  line-height: 2.1 !important;
+}
+
+/* 10. Texto Alineado a la Izquierda */
+html.a11y-text-align * {
+  text-align: left !important;
+}
+
+/* 11. Saturación / Daltonismo */
+html.a11y-monochrome {
+  filter: grayscale(100%) !important;
+}
+html.a11y-high-saturation {
+  filter: saturate(200%) !important;
+}
+

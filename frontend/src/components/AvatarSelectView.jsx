@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -10,17 +11,20 @@ export default function AvatarSelectView({ studentName, onSelect, onGoHome, onGo
       className="flex-grow flex flex-col items-center justify-center pt-32 pb-24 px-6 md:px-12 relative min-h-screen"
     >
       {/* TopNavBar (Shared Component) */}
-      <nav className="fixed top-0 w-full z-50 bg-white font-manrope antialiased border-b border-gray-100">
-        <div className="flex justify-between items-center px-8 h-20 max-w-[80rem] mx-auto">
+      <header className="fixed w-full top-0 z-50 bg-primary shadow-lg h-[80px]">
+        <div className="flex justify-between items-center px-8 h-full max-w-[80rem] mx-auto">
           {/* Brand */}
-          <div className="text-xl font-extrabold tracking-tight text-blue-600 font-manrope antialiased">
-            Camino Vocacional
+          <div className="flex items-center gap-3 text-xl font-extrabold tracking-tight text-white font-manrope">
+            <img src="/insignia_san_marcelo.jpg" alt="Insignia San Marcelo" className="h-16 w-auto object-contain drop-shadow-lg" />
+            <span className="text-xl font-bold tracking-tight text-white hidden sm:block">
+              Test - Colegio San Marcelo
+            </span>
           </div>
           {/* Centered Navigation Links */}
           <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-12">
-            <button onClick={onGoHome} className="text-[#6b7280] font-medium text-[15px] hover:text-primary transition-colors">Inicio</button>
+            <button onClick={onGoHome} className="text-white/80 font-medium text-[15px] hover:text-white transition-colors">Inicio</button>
             <div className="relative group">
-              <button onClick={onGoTest} className="text-primary font-medium text-[15px] pb-2 border-b-2 border-primary">
+              <button onClick={onGoTest} className="text-white font-medium text-[15px] pb-2 border-b-2 border-white">
                 Test Vocacional
               </button>
             </div>
@@ -28,7 +32,7 @@ export default function AvatarSelectView({ studentName, onSelect, onGoHome, onGo
           {/* Placeholder for spacing to keep links centered */}
           <div className="w-[160px] hidden md:block"></div>
         </div>
-      </nav>
+      </header>
 
       {/* Header Section */}
       <div className="text-center max-w-[48rem] mx-auto mb-16 relative z-10 mt-10">
@@ -49,9 +53,13 @@ export default function AvatarSelectView({ studentName, onSelect, onGoHome, onGo
           {/* Inner Glow Ring on Hover */}
           <div className="absolute inset-0 border-2 border-primary/0 rounded-[2rem] group-hover:border-primary/20 transition-colors duration-500"></div>
           {/* 3D Avatar Image */}
-          <div className="w-64 h-64 mb-8 relative z-10 transition-transform duration-500 group-hover:scale-105">
-            <img alt="Estudiante Masculino" className="w-full h-full object-contain drop-shadow-2xl" src="https://lh3.googleusercontent.com/aida/ADBb0uhFb29YvJdZdGSJ1vZn2Byw-o8Y6_tg26VTJtbo6koKfAAxIbi48PqthKRb34xRuKTXic6oPm4-XzzvvFA4LcYN4GELms5z2_KuKsiQ6ETd5uq6KNqFX7NNGqnTTl40-y1jikrFsbnPUxjrcx1uS7auoQhwgfJMCDmSIpkVuO5oE_Q4PapICWE7zXYo6znREHFaDDw7fTayOoJ5_9ldEw5_Bs_e3FQokkDOJSPrywXVyU_24F9h8d4HTAiqqAjOx329SkfHLb0" />
-          </div>
+          <motion.div 
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="w-64 h-64 mb-8 relative z-10 transition-transform duration-500 group-hover:scale-105"
+          >
+            <img alt="Estudiante Masculino" className="w-full h-full object-cover rounded-full border-4 border-white/50 shadow-xl mix-blend-multiply" src="/avatars/boy_school.png" />
+          </motion.div>
           {/* Action Button */}
           <button className="mt-auto relative z-10 w-full py-4 px-8 rounded-xl bg-surface-container hover:bg-gradient-to-r hover:from-primary hover:to-secondary text-primary hover:text-on-primary font-label-md text-label-md tracking-wide shadow-sm hover:shadow-[0_0_20px_rgba(0,89,187,0.3)] transition-all duration-300 flex items-center justify-center gap-2 group/btn">
             <span>Seleccionar</span>
@@ -64,9 +72,13 @@ export default function AvatarSelectView({ studentName, onSelect, onGoHome, onGo
           {/* Inner Glow Ring on Hover */}
           <div className="absolute inset-0 border-2 border-secondary/0 rounded-[2rem] group-hover:border-secondary/20 transition-colors duration-500"></div>
           {/* 3D Avatar Image */}
-          <div className="w-64 h-64 mb-8 relative z-10 transition-transform duration-500 group-hover:scale-105">
-            <img alt="Estudiante Femenina" className="w-full h-full object-contain drop-shadow-2xl" src="https://lh3.googleusercontent.com/aida/ADBb0uj_7Sudy17qakA-uzZhUr8PCh3XsLCo6nk6vTgBpvxzP5lynlKU_B2X2lS9WG61wpIRk2lK-G5uy_pd0u-tzyN5ykPjyt9pqWdwBxo4QVie3yz5ARftIM6CgNmyUW8p2Lc7knHQoykng29-QwjpUO2UoANs-zcGOHcflnsBmymI0_mS6c5AdtqthVYCDZUmcKqLavoRLOWUfI9FbvYiJe7JijPfpd8Cn8oYxl2YNDTt4V7LIMO37eM56t3Mu-6AZeC9tRfC93A" />
-          </div>
+          <motion.div 
+            animate={{ y: [0, -8, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+            className="w-64 h-64 mb-8 relative z-10 transition-transform duration-500 group-hover:scale-105"
+          >
+            <img alt="Estudiante Femenina" className="w-full h-full object-cover rounded-full border-4 border-white/50 shadow-xl mix-blend-multiply" src="/avatars/girl_school.png" />
+          </motion.div>
           {/* Action Button */}
           <button className="mt-auto relative z-10 w-full py-4 px-8 rounded-xl bg-surface-container hover:bg-gradient-to-r hover:from-primary hover:to-secondary text-primary hover:text-on-primary font-label-md text-label-md tracking-wide shadow-sm hover:shadow-[0_0_20px_rgba(0,89,187,0.3)] transition-all duration-300 flex items-center justify-center gap-2 group/btn">
             <span>Seleccionar</span>

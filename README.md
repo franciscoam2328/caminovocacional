@@ -1,73 +1,191 @@
 # Camino Vocacional - Oferta Educativa Trujillo
 
-Camino Vocacional es una plataforma web moderna y guiada por Inteligencia Artificial diseñada para ayudar a los estudiantes de secundaria a descubrir su perfil vocacional ideal y conectarlos con las mejores opciones de educación superior en Trujillo, Perú.
+Camino Vocacional es una plataforma web moderna y guiada por Datos diseñada para ayudar a los estudiantes de secundaria a descubrir su vocación profesional mediante un test de aptitud. El sistema utiliza un motor de recomendación matemático (K-Nearest Neighbors) basado en la teoría de Holland (RIASEC) para predecir el perfil vocacional del estudiante y cruza el resultado con una base de datos local para recomendar carreras y universidades (con costos actualizados) en la ciudad de Trujillo.
 
-## 🚀 Características Principales (Frontend)
+**URL Base Frontend (Producción):** https://caminovocacional.vercel.app  
+**URL Base API Backend (Producción):** https://caminovocacional.onrender.com  
+**Documentación Interactiva (Swagger):** https://caminovocacional.onrender.com/docs
 
-La interfaz de usuario fue construida como una **Single Page Application (SPA) en React** ultra-optimizada:
+---
 
-- **Interfaz "Premium" y Glassmorphism**: Construido con **TailwindCSS v4**, con fondos dinámicos, paneles de cristal translúcidos, desenfoques y micro-animaciones (**Framer Motion**) que elevan la UX.
-- **Test Interactivo de 54 Preguntas**: Evaluación basada en el modelo **RIASEC** de Holland.
-- **UX de Auto-Avance**: El cuestionario elimina la fatiga de clics avanzando automáticamente al seleccionar una respuesta.
-- **Resultados Dinámicos**: Renderizado de avatares, íconos adaptativos según el área ganadora, y aleatorización de carreras recomendadas para mayor variedad.
-- **Generación de PDF**: Funcionalidad de exportación nativa adaptada para preservar los complejos estilos modernos de Tailwind v4.
+## 🎨 Frontend (SPA Web)
 
-## 🎓 El "Cerebro" (Backend API)
+Esta aplicación fue transformada desde un concepto de diseño estático a una **Single Page Application (SPA) en React** ultra-optimizada.
 
-El sistema utiliza un modelo de Machine Learning (SVC) para predecir el perfil vocacional del estudiante y cruza el resultado con una base de datos local para recomendar carreras y universidades (con costos actualizados).
+### 🚀 Características Principales (Frontend)
+- **Interfaz "Premium" y Glassmorphism**: Construido con **TailwindCSS v4**, la interfaz cuenta con fondos dinámicos, paneles de cristal translúcidos, desenfoques y micro-animaciones (vía **Framer Motion**) que elevan enormemente la experiencia de usuario (UX).
+- **Test Interactivo de 60 Preguntas**: Evaluación basada en el modelo **RIASEC** de Holland.
+- **Avatares Evolutivos (Gamificación)**: El sistema cuenta con personajes generados por IA que acompañan al estudiante durante el test. Conforme avanza, el avatar evoluciona visualmente (Colegial → Universitario → Profesional con Toga) y reacciona con animaciones a las respuestas.
+- **Experiencia de Usuario (UX) de Auto-Avance**: El cuestionario elimina la fatiga de clics gracias a un algoritmo de "auto-advance".
+- **Resultados Dinámicos e Inteligentes**: El sistema renderiza un reporte personalizado mostrando el "Código Holland", porcentajes de afinidad y las opciones de estudio específicas de Trujillo.
+- **Generación de Reporte en PDF**: Funcionalidad nativa de impresión que incluye gráficos avanzados (Telaraña/Radar) preservando la compatibilidad con los estilos de Tailwind.
 
-- **URL Base (Producción)**: `https://caminovocacional.onrender.com`
-- **Documentación Swagger**: `https://caminovocacional.onrender.com/docs`
+### 🚀 Tecnologías Utilizadas (Frontend)
+- **Next.js (App Router, Client Components)**
+- **React 18**
+- **TailwindCSS v4**
+- **Framer Motion**
 
-### Arquitectura Hexagonal
-El proyecto sigue principios de Diseño Orientado al Dominio (DDD):
+### 🏗️ Arquitectura (Frontend)
+El Frontend está contenido en la carpeta `frontend/` y sigue una arquitectura modular de componentes:
+
+```text
+caminovocacional/
+├── frontend/
+│   ├── src/
+│   │   ├── app/                 # Configuración principal de Next.js (layout.js, page.js, globals.css)
+│   │   ├── components/          # Vistas modulares de la SPA
+│   │   │   ├── LandingView.jsx
+│   │   │   ├── UserInfoView.jsx
+│   │   │   ├── AvatarSelectView.jsx
+│   │   │   ├── TestForm.jsx
+│   │   │   └── ResultDisplay.jsx
+│   │   ├── core/                # Lógica pura (ej. array de questions.js)
+│   │   └── infrastructure/      # Adaptadores de red (api.js para conectarse a Render)
+│   ├── public/                  # Assets estáticos y avatares generados
+│   └── tailwind.config.js       # Tokens de diseño y colores
+```
+
+---
+
+## 🎓 Backend API
+
+El "cerebro" del proyecto. Es una API construida en Python que procesa las respuestas del usuario y calcula las distancias matemáticas para sugerir la mejor ruta profesional.
+
+### 🚀 Tecnologías Utilizadas (Backend)
+- **Python 3.12**
+- **FastAPI:** Framework web moderno y ultra-rápido.
+- **Uvicorn:** Servidor ASGI.
+- **Pydantic:** Validación estricta de datos (Esquemas).
+- **Docker:** Contenerización de la aplicación.
+
+### 🏗️ Arquitectura (Backend)
+El proyecto sigue principios de Arquitectura Limpia, separando claramente las responsabilidades y utilizando una base de datos local basada en JSON:
+
 ```text
 caminovocacional/
 ├── backend/
-│   ├── app/           # Casos de uso e interfaces (Puertos)
+│   ├── app/           # Casos de uso y lógica K-NN
 │   ├── domain/        # Entidades puras y reglas de negocio
-│   ├── infra/         # Adaptadores (Base de datos, IA, API FastAPI)
+│   ├── infra/         # Adaptadores (API FastAPI)
 │   │   ├── api/       # Rutas (routes.py) y validaciones (schemas.py)
-│   │   ├── data/      # Base de datos estática en JSON (Oferta Educativa)
-│   │   └── model_ia/  # Archivo binario del modelo predictivo (.pkl)
-│   └── main.py        # Punto de entrada de la aplicación
+│   │   └── data/      # Base de datos estática en JSON (Oferta Educativa)
+│   └── main.py        # Punto de entrada
+├── Dockerfile         
+└── requirements.txt   
 ```
 
-## 🛠️ Stack Tecnológico Completo
+---
 
-**Frontend:**
-- Next.js (App Router, Client Components), React 18
-- TailwindCSS v4, Framer Motion
-- Despliegue recomendado: **Vercel**
+## 🧠 Lógica del Sistema de Recomendación
 
-**Backend:**
-- Python 3.12, FastAPI, Uvicorn, Pydantic
-- Scikit-Learn & Joblib (SVM RBF)
-- Docker
-- Despliegue: **Render** (CI/CD automático)
+En lugar de utilizar modelos de "Caja Negra", este sistema implementa un **Sistema de Recomendación Basado en Contenido** altamente explicable, combinando:
 
-## ⚙️ Cómo ejecutar localmente
+1. **La Teoría RIASEC de John Holland:** Clasifica los intereses profesionales en 6 dimensiones (Realista, Investigador, Artístico, Social, Emprendedor, Convencional).
+2. **Cálculo de Distancias (K-NN):** 
+   - El test de 60 preguntas permite construir un **Vector de Personalidad** del estudiante para estas 6 dimensiones.
+   - La base de datos contiene un **Vector Ideal** para cada carrera disponible (extraído de métricas estandarizadas de O*NET).
+   - El algoritmo backend utiliza métricas matemáticas (Distancia Euclidiana) para encontrar los "vecinos más cercanos" (K-Nearest Neighbors). Las carreras con menor distancia geométrica al perfil del estudiante son las que se recomiendan como más afines.
 
-### 1. Servidor Frontend
+---
+
+## 📊 DATASET
+
+Utilizamos múltiples fuentes de datos estructurados para alimentar el motor de recomendación:
+
+*   Extraído de https://www.onetonline.org/explore/interests/, obtenemos 6 conjuntos de datos separados para cada personalidad RIASEC, así como las opciones laborales vinculadas a cada tipo de personalidad.
+*   Extraído de https://www.onetonline.org/find/family?f=0&g=Go, obtenemos el conjunto de datos ocupacionales de todos los trabajos listados en el sitio web de O*NET.
+
+Esta data oficial de O*NET ha sido procesada, ponderada y cruzada manualmente con la oferta educativa real de las universidades públicas y privadas de la ciudad de Trujillo.
+
+---
+
+## 🌐 Endpoints Principales
+
+**`GET /` (Health Check)**
+Verifica que el servidor esté en línea.
+
+**`POST /api/predict`**
+Es el endpoint principal del sistema. Recibe un objeto JSON con el nombre del estudiante y un arreglo exacto de 60 respuestas en escala Likert (1-5) correspondientes al test vocacional. Calcula los puntajes RIASEC, ejecuta el algoritmo K-NN y retorna el top 3 de carreras recomendadas junto con las universidades locales.
+
+**Cuerpo de la petición (JSON) para pruebas en Swagger / Postman:**
+```json
+{
+  "nombre_estudiante": "Juan Perez",
+  "respuestas": [5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1]
+}
+```
+
+**Respuesta exitosa de la API:**
+```json
+{
+  "estudiante": "Juan Perez",
+  "codigo_holland": "RIC",
+  "puntajes_riasec": {
+    "Realista": 40,
+    "Investigador": 45,
+    "Artístico": 20,
+    "Social": 15,
+    "Emprendedor": 25,
+    "Convencional": 30
+  },
+  "carreras_recomendadas": [
+    {
+      "id_modelo": "Ingeniería y Tecnología",
+      "nombre_mostrar": "Ingeniería de Sistemas y Software",
+      "descripcion": "Programación, desarrollo de software, Inteligencia Artificial y datos.",
+      "afinidad": 95.5,
+      "universidades": [
+         {"nombre": "UPAO", "tipo": "Privada", "costo_promedio": "S/ 620", "matricula": "S/ 300"},
+         {"nombre": "UNT", "tipo": "Pública", "costo_promedio": "S/ 0", "matricula": "S/ 100"}
+      ]
+    }
+  ]
+}
+```
+
+---
+
+## 🛠️ Instalación Local
+
+Sigue estos pasos para levantar el entorno de desarrollo en tu computadora:
+
+### 1. Clonar el repositorio
+```bash
+git clone https://github.com/franciscoam2328/caminovocacional.git
+cd caminovocacional
+```
+
+### 2. Levantar el Backend (FastAPI)
+Crear y activar un entorno virtual:
+```bash
+# En Windows:
+python -m venv .venv
+.\.venv\Scripts\activate
+
+# En macOS/Linux:
+python3 -m venv .venv
+source .venv/bin/activate
+```
+Instalar dependencias y ejecutar:
+```bash
+pip install -r requirements.txt
+python -m uvicorn backend.main:app --reload
+```
+La API estará disponible en `http://127.0.0.1:8000`.
+
+### 3. Levantar el Frontend (React/Next.js)
+Abre otra terminal y navega a la carpeta `frontend`:
 ```bash
 cd frontend
 npm install
 npm run dev
-# Disponible en http://localhost:3000
 ```
+La aplicación web estará disponible en `http://localhost:3000`.
 
-### 2. Servidor Backend API
-```bash
-# Crear y activar entorno virtual (Windows)
-python -m venv .venv
-.\.venv\Scripts\activate
+---
 
-# Instalar y ejecutar
-pip install -r requirements.txt
-python -m uvicorn backend.main:app --reload
-# Disponible en http://127.0.0.1:8000
-```
+## 🐳 Despliegue (Producción)
 
-## 🌐 Endpoints Principales (Backend)
-- `GET /` (Health Check): Verifica que el servidor esté en línea.
-- `POST /predict`: Recibe un arreglo de 54 respuestas en escala Likert (1-5). Retorna el clúster vocacional y las carreras/universidades recomendadas.
+- **Frontend (Vercel)**: Configurado para despliegue continuo desde la carpeta `frontend/`. Cualquier cambio en la rama `main` actualizará la interfaz en la URL pública (`caminovocacional.vercel.app`).
+- **Backend (Render)**: El proyecto incluye un `Dockerfile` optimizado y está configurado para despliegue continuo en Render. Cualquier cambio integrado en la rama `main` generará un re-despliegue automático de la API (`caminovocacional.onrender.com`).
