@@ -6,19 +6,20 @@ import { motion } from 'framer-motion';
 import HollandPrintReport from './HollandPrintReport';
 
 export default function ResultDisplay({ data, avatar, onRestart }) {
-  const [recommendedCareers, setRecommendedCareers] = useState(() => {
-    if (data?.carreras_recomendadas) {
-      return data.carreras_recomendadas;
-    }
-    return [];
-  });
-
-  if (!data || recommendedCareers.length === 0) return null;
-
-  const mainCareer = recommendedCareers[0];
+  const recommendedCareers = data?.carreras_recomendadas || [];
+  const mainCareer = recommendedCareers[0] || null;
   const altCareers = recommendedCareers.slice(1, 3);
   
   const [selectedCareerForUnivs, setSelectedCareerForUnivs] = useState(mainCareer);
+
+  useEffect(() => {
+    if (mainCareer) {
+      setSelectedCareerForUnivs(mainCareer);
+    }
+  }, [mainCareer]);
+
+  if (!data || recommendedCareers.length === 0 || !mainCareer) return null;
+
   
   const iconMap = {
       'Arquitectura': 'architecture',
@@ -40,6 +41,14 @@ export default function ResultDisplay({ data, avatar, onRestart }) {
       'Negocios y Administración': 'business_center',
       'Orientación Psicológica': 'psychology',
       'Psicología': 'psychology',
+      'Ciencias de la Salud': 'health_and_safety',
+      'Ingeniería y Tecnología': 'precision_manufacturing',
+      'Negocios y Gestión': 'business_center',
+      'Negocios y Económicas': 'trending_up',
+      'Humanidades y Artes': 'palette',
+      'Educación y Humanidades': 'school',
+      'Sociales y Derecho': 'gavel',
+      'Arquitectura y Diseño': 'architecture'
   };
   
   const mainIcon = iconMap[mainCareer.id_modelo] || 'stars';

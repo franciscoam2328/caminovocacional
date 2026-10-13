@@ -1,17 +1,34 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { loginUser } from '@/infrastructure/api';
 
 export default function AdminLoginView({ onLoginSuccess, onGoHome }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (username === 'admin' && password === 'admin123') {
-      onLoginSuccess();
-    } else {
-      setError('Credenciales inválidas. Por favor, intente de nuevo.');
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const res = await loginUser(username.trim(), password.trim());
+      if (res && res.user && res.user.rol === 'admin') {
+        onLoginSuccess();
+      } else {
+        setError('El usuario no cuenta con privilegios administrativos.');
+      }
+    } catch (err) {
+      // Fallback a admin / admin123 si el backend no responde
+      if (username === 'admin' && password === 'admin123') {
+        onLoginSuccess();
+      } else {
+        setError(err.message || 'Credenciales administrativas incorrectas.');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
