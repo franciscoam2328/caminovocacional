@@ -166,19 +166,19 @@ export default function TestForm({ studentName, studentCode, avatar, onComplete,
                   <div className="mt-lg flex flex-col gap-sm w-full">
                     <div className="flex justify-between items-center w-full max-w-[24rem] mx-auto relative">
                       {/* Connecting line behind buttons */}
-                      <div className="absolute top-1/2 left-0 w-full h-0.5 bg-surface-container-highest -translate-y-1/2 -z-10"></div>
+                      <div className="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 -translate-y-1/2 -z-10"></div>
                       
-                      {/* Rating Buttons with Accessible Indicators */}
+                      {/* Rating Buttons */}
                       {[
-                        { val: 1, label: "Totalmente en desacuerdo", short: "Disgusta", icon: "thumb_down" },
-                        { val: 2, label: "En desacuerdo", short: "Poco", icon: "remove" },
-                        { val: 3, label: "Neutral / No estoy seguro", short: "Neutral", icon: "drag_handle" },
-                        { val: 4, label: "De acuerdo", short: "Bastante", icon: "add" },
-                        { val: 5, label: "Totalmente de acuerdo", short: "Me gusta", icon: "thumb_up" }
+                        { val: 1, label: "Me disgusta" },
+                        { val: 2, label: "Poco" },
+                        { val: 3, label: "Indiferente" },
+                        { val: 4, label: "Bastante" },
+                        { val: 5, label: "Me gusta mucho" }
                       ].map((item) => {
                         const isActive = selectedOption === item.val;
                         return (
-                          <div key={item.val} className="flex flex-col items-center gap-1.5">
+                          <div key={item.val} className="flex flex-col items-center">
                             <button 
                               onClick={() => handleOptionClick(item.val)}
                               disabled={selectedOption !== null}
@@ -186,32 +186,37 @@ export default function TestForm({ studentName, studentCode, avatar, onComplete,
                               aria-label={`Opción ${item.val}: ${item.label}`}
                               className={`rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer ${
                                 isActive 
-                                  ? "w-14 h-14 bg-primary border-2 border-primary font-headline-md text-headline-md text-on-primary shadow-[0_4px_12px_rgba(0,123,255,0.3)] transform scale-110" 
-                                  : "w-12 h-12 bg-surface-container-lowest border-2 border-slate-300 font-body-lg text-body-lg text-slate-700 hover:border-primary hover:text-primary hover:bg-primary-fixed"
+                                  ? item.val === 1
+                                    ? "w-14 h-14 bg-red-600 border-2 border-red-600 font-headline-md text-headline-md text-white shadow-[0_4px_14px_rgba(220,38,38,0.35)] transform scale-110"
+                                    : item.val === 5
+                                    ? "w-14 h-14 bg-emerald-600 border-2 border-emerald-600 font-headline-md text-headline-md text-white shadow-[0_4px_14px_rgba(5,150,105,0.35)] transform scale-110"
+                                    : "w-14 h-14 bg-primary border-2 border-primary font-headline-md text-headline-md text-on-primary shadow-[0_4px_12px_rgba(0,123,255,0.3)] transform scale-110"
+                                  : item.val === 1
+                                  ? "w-12 h-12 bg-white border-2 border-slate-300 font-bold text-base text-slate-700 hover:border-red-400 hover:text-red-600 hover:bg-red-50"
+                                  : item.val === 5
+                                  ? "w-12 h-12 bg-white border-2 border-slate-300 font-bold text-base text-slate-700 hover:border-emerald-500 hover:text-emerald-600 hover:bg-emerald-50"
+                                  : "w-12 h-12 bg-white border-2 border-slate-300 font-bold text-base text-slate-700 hover:border-primary hover:text-primary hover:bg-slate-50"
                               }`}
                             >
                               {item.val}
                             </button>
-                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tighter hidden sm:block">
-                              {item.short}
-                            </span>
                           </div>
                         );
                       })}
                     </div>
                     
-                    {/* Labels Inclusivos (Sin dependencia exclusiva de colores semáforo) */}
-                    <div className="relative flex justify-between w-full text-xs font-bold mt-sm px-2">
-                      <span className="w-[120px] text-left leading-tight text-slate-700 flex items-center gap-1">
-                        <span className="w-2 h-2 rounded-full bg-slate-400"></span>
-                        1. Me disgusta
+                    {/* Solo 3 etiquetas limpias de referencia */}
+                    <div className="flex justify-between items-center w-full max-w-[24rem] mx-auto text-xs sm:text-sm font-bold mt-4 px-1">
+                      <span className="text-left text-red-600 flex items-center gap-1.5 font-bold">
+                        <span className="w-2.5 h-2.5 rounded-full bg-red-500 shrink-0"></span>
+                        Me disgusta
                       </span>
-                      <span className="absolute left-1/2 -translate-x-1/2 w-[120px] text-center leading-tight text-slate-600">
-                        3. Indiferente
+                      <span className="text-center text-slate-500 font-semibold">
+                        Indiferente
                       </span>
-                      <span className="w-[120px] text-right leading-tight text-primary flex items-center justify-end gap-1">
-                        5. Me gusta mucho
-                        <span className="w-2 h-2 rounded-full bg-primary"></span>
+                      <span className="text-right text-emerald-600 flex items-center justify-end gap-1.5 font-bold">
+                        Me gusta mucho
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
                       </span>
                     </div>
                   </div>
