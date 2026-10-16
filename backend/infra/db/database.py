@@ -94,18 +94,41 @@ class PostgresConnectionWrapper:
     def __getattr__(self, name):
         return getattr(self.raw_conn, name)
 
+_schema_initialized = False
+
+def ensure_schema(conn):
+    global _schema_initialized
+    if _schema_initialized:
+        return
+    try:
+        cur = conn.cursor()
+        try:
+            cur.execute("ALTER TABLE usuarios ADD COLUMN telefono_apoderado TEXT")
+            conn.commit()
+        except Exception:
+            pass
+        _schema_initialized = True
+    except Exception:
+        pass
+
 def get_db_connection():
     """Retorna conexión a Supabase (PostgreSQL) si DATABASE_URL existe, o SQLite como fallback"""
+    conn = None
     if DATABASE_URL and PSYCOPG2_AVAILABLE and ("postgres://" in DATABASE_URL or "postgresql://" in DATABASE_URL):
         try:
             raw_conn = psycopg2.connect(DATABASE_URL, cursor_factory=psycopg2.extras.DictCursor)
-            return PostgresConnectionWrapper(raw_conn)
+            conn = PostgresConnectionWrapper(raw_conn)
         except Exception as e:
             print("Aviso: no se pudo conectar a PostgreSQL/Supabase, usando SQLite fallback:", e)
 
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
+    if conn is None:
+        raw_sqlite = sqlite3.connect(DB_PATH)
+        raw_sqlite.row_factory = sqlite3.Row
+        conn = raw_sqlite
+
+    ensure_schema(conn)
     return conn
 
 def is_using_supabase():
     return bool(DATABASE_URL and PSYCOPG2_AVAILABLE and ("postgres://" in DATABASE_URL or "postgresql://" in DATABASE_URL))
+

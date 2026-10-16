@@ -53,7 +53,8 @@ export default function AdminDashboardView({ onLogout }) {
     codigo_estudiante: '',
     nombre_completo: '',
     password: '',
-    institucion: 'Colegio San Marcelo'
+    institucion: 'Colegio San Marcelo',
+    telefono_apoderado: ''
   });
 
   const [showEditStudentModal, setShowEditStudentModal] = useState(false);
@@ -62,11 +63,17 @@ export default function AdminDashboardView({ onLogout }) {
     codigo_estudiante: '',
     nombre_completo: '',
     password: '',
-    institucion: ''
+    institucion: '',
+    telefono_apoderado: ''
   });
 
   const [showDeleteStudentModal, setShowDeleteStudentModal] = useState(false);
   const [deletingStudent, setDeletingStudent] = useState(null);
+
+  // Modal para Envío Rápido de WhatsApp
+  const [showQuickWhatsAppModal, setShowQuickWhatsAppModal] = useState(false);
+  const [quickWhatsAppStudent, setQuickWhatsAppStudent] = useState(null);
+  const [quickWhatsAppPhone, setQuickWhatsAppPhone] = useState('');
 
   // Modales de Carrera
   const [showAddCareerModal, setShowAddCareerModal] = useState(false);
@@ -157,7 +164,7 @@ export default function AdminDashboardView({ onLogout }) {
   }, [selectedUniId, selectedCarreraId, catalog.oferta]);
 
   // =========================================================================
-  // CRUD ESTUDIANTES
+  // CRUD ESTUDIANTES & NOTIFICACIÓN WHATSAPP
   // =========================================================================
   const handleCreateStudent = async (e) => {
     e.preventDefault();
@@ -166,10 +173,13 @@ export default function AdminDashboardView({ onLogout }) {
       return;
     }
     try {
-      await createStudent(newStudent);
+      await createStudent({
+        ...newStudent,
+        telefono_apoderado: newStudent.telefono_apoderado?.trim() || null
+      });
       showNotification(`Estudiante ${newStudent.codigo_estudiante.toUpperCase()} creado con éxito`);
       setShowAddStudentModal(false);
-      setNewStudent({ codigo_estudiante: '', nombre_completo: '', password: '', institucion: 'Colegio San Marcelo' });
+      setNewStudent({ codigo_estudiante: '', nombre_completo: '', password: '', institucion: 'Colegio San Marcelo', telefono_apoderado: '' });
       const updatedStuds = await fetchAdminStudents();
       if (updatedStuds?.students) setStudents(updatedStuds.students);
     } catch (err) {
@@ -183,7 +193,8 @@ export default function AdminDashboardView({ onLogout }) {
       codigo_estudiante: st.codigo_estudiante,
       nombre_completo: st.nombre_completo,
       password: '',
-      institucion: st.institucion || 'Colegio San Marcelo'
+      institucion: st.institucion || 'Colegio San Marcelo',
+      telefono_apoderado: st.telefono_apoderado || ''
     });
     setShowEditStudentModal(true);
   };
@@ -194,7 +205,8 @@ export default function AdminDashboardView({ onLogout }) {
       const payload = {
         codigo_estudiante: editingStudent.codigo_estudiante,
         nombre_completo: editingStudent.nombre_completo,
-        institucion: editingStudent.institucion
+        institucion: editingStudent.institucion,
+        telefono_apoderado: editingStudent.telefono_apoderado?.trim() || null
       };
       if (editingStudent.password?.trim()) {
         payload.password = editingStudent.password.trim();
@@ -206,6 +218,58 @@ export default function AdminDashboardView({ onLogout }) {
       if (updatedStuds?.students) setStudents(updatedStuds.students);
     } catch (err) {
       alert(err.message || "Error al actualizar estudiante");
+    }
+  };
+
+  // Lógica de Notificación por WhatsApp
+  const executeWhatsAppSend = (st, phone) => {
+    const cleanPhone = phone.replace(/\D/g, '');
+    const fullPhone = cleanPhone.length === 9 ? `51${cleanPhone}` : cleanPhone;
+    
+    const studentName = st.nombre_completo || st.name;
+    const career = st.carrera_recomendada || st.career || 'Carrera Profesional';
+    const holland = st.holland_code || st.code || 'RIC';
+    
+    const message = `Estimado(a) Padre/Madre de Familia del Colegio San Marcelo:\n\nLe saludamos cordialmente desde la Tutoría de 5to de Secundaria. Le compartimos el resultado oficial de la Evaluación de Orientación Vocacional de su menor hijo(a) *${studentName}*:\n\n🧠 *Perfil Vocacional (Holland):* ${holland}\n🎯 *Carrera con mayor afinidad recomendada:* ${career}\n🏛️ *Universidades sugeridas en Trujillo:* UPAO, UNT\n\nPara cualquier consulta sobre el acompañamiento vocacional, quedamos a su entera disposición.\n*Colegio San Marcelo — Plataforma Camino Vocacional*\nhttps://caminovocacional.vercel.app`;
+
+    const url = `https://wa.me/${fullPhone}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  };
+
+  const handleSendWhatsApp = (st) => {
+    const phone = st.telefono_apoderado?.trim();
+    if (!phone) {
+      setQuickWhatsAppStudent(st);
+      setQuickWhatsAppPhone('');
+      setShowQuickWhatsAppModal(true);
+      return;
+    }
+    executeWhatsAppSend(st, phone);
+  };
+
+  const handleSaveAndSendWhatsApp = async (e) => {
+    e.preventDefault();
+    if (!quickWhatsAppStudent || !quickWhatsAppPhone) return;
+    const clean = quickWhatsAppPhone.replace(/\D/g, '');
+    if (clean.length < 9) {
+      alert("Por favor ingresa un número de WhatsApp válido de 9 dígitos.");
+      return;
+    }
+    try {
+      if (quickWhatsAppStudent.id) {
+        await updateStudent(quickWhatsAppStudent.id, { telefono_apoderado: clean });
+        showNotification(`Número de apoderado guardado para ${quickWhatsAppStudent.nombre_completo || quickWhatsAppStudent.name}.`);
+      }
+      setShowQuickWhatsAppModal(false);
+      executeWhatsAppSend(quickWhatsAppStudent, clean);
+      const [updatedStuds, updatedDash] = await Promise.all([
+        fetchAdminStudents(),
+        fetchAdminDashboard()
+      ]);
+      if (updatedStuds?.students) setStudents(updatedStuds.students);
+      if (updatedDash) setDashboardData(updatedDash);
+    } catch (err) {
+      alert(err.message || "Error al actualizar número de WhatsApp");
     }
   };
 
@@ -528,12 +592,13 @@ export default function AdminDashboardView({ onLogout }) {
                       <th className="py-3 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Código Holland</th>
                       <th className="py-3 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Carrera Recomendada</th>
                       <th className="py-3 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Estado</th>
+                      <th className="py-3 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Notificación</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {dashboardData.ultimos_registros.length === 0 ? (
                       <tr>
-                        <td colSpan="5" className="py-8 text-center text-slate-400 text-sm">No hay evaluaciones registradas aún.</td>
+                        <td colSpan="6" className="py-8 text-center text-slate-400 text-sm">No hay evaluaciones registradas aún.</td>
                       </tr>
                     ) : (
                       dashboardData.ultimos_registros.map((row) => (
@@ -556,6 +621,20 @@ export default function AdminDashboardView({ onLogout }) {
                               <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
                               {row.status}
                             </span>
+                          </td>
+                          <td className="py-4 px-6 text-sm text-right whitespace-nowrap">
+                            {row.status === 'Completado' ? (
+                              <button
+                                onClick={() => handleSendWhatsApp(row)}
+                                title="Enviar Reporte Oficial por WhatsApp al Apoderado"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-sm transition-all cursor-pointer hover:scale-105 active:scale-95"
+                              >
+                                <span className="material-symbols-outlined text-[15px]">chat</span>
+                                <span>WhatsApp</span>
+                              </button>
+                            ) : (
+                              <span className="text-slate-400 text-xs italic">Pendiente</span>
+                            )}
                           </td>
                         </tr>
                       ))
@@ -616,6 +695,7 @@ export default function AdminDashboardView({ onLogout }) {
                     <tr className="bg-slate-50/80">
                       <th className="py-3 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Código / ID</th>
                       <th className="py-3 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Nombres y Apellidos</th>
+                      <th className="py-3 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">WhatsApp Apoderado</th>
                       <th className="py-3 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Institución</th>
                       <th className="py-3 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Estado Test</th>
                       <th className="py-3 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Resultado Obtenido</th>
@@ -625,7 +705,7 @@ export default function AdminDashboardView({ onLogout }) {
                   <tbody className="divide-y divide-slate-100">
                     {filteredStudents.length === 0 ? (
                       <tr>
-                        <td colSpan="6" className="py-8 text-center text-slate-400 text-sm">
+                        <td colSpan="7" className="py-8 text-center text-slate-400 text-sm">
                           No se encontraron estudiantes con el criterio de búsqueda.
                         </td>
                       </tr>
@@ -636,6 +716,16 @@ export default function AdminDashboardView({ onLogout }) {
                             <span className="bg-primary/5 px-2 py-1 rounded border border-primary/20">{st.codigo_estudiante}</span>
                           </td>
                           <td className="py-4 px-6 text-sm font-bold text-slate-800">{st.nombre_completo}</td>
+                          <td className="py-4 px-6 text-xs font-semibold text-slate-700">
+                            {st.telefono_apoderado ? (
+                              <span className="inline-flex items-center gap-1 text-emerald-700 font-mono font-bold bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+                                <span className="material-symbols-outlined text-[13px]">chat</span>
+                                {st.telefono_apoderado}
+                              </span>
+                            ) : (
+                              <span className="text-slate-400 italic text-xs">Sin registrar</span>
+                            )}
+                          </td>
                           <td className="py-4 px-6 text-xs text-slate-500">{st.institucion}</td>
                           <td className="py-4 px-6 text-sm">
                             {st.estado_test === 'Completado' ? (
@@ -653,6 +743,16 @@ export default function AdminDashboardView({ onLogout }) {
                           </td>
                           <td className="py-4 px-6 text-xs text-right whitespace-nowrap">
                             <div className="flex items-center justify-end gap-1.5">
+                              {st.estado_test === 'Completado' && (
+                                <button
+                                  onClick={() => handleSendWhatsApp(st)}
+                                  title="Enviar Reporte Vocacional por WhatsApp al Apoderado"
+                                  className="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1 shadow-sm transition-all cursor-pointer hover:scale-105 active:scale-95 mr-1"
+                                >
+                                  <span className="material-symbols-outlined text-[14px]">send</span>
+                                  <span>WhatsApp</span>
+                                </button>
+                              )}
                               <button
                                 onClick={() => handleOpenEditStudent(st)}
                                 title="Editar Estudiante"
@@ -1037,6 +1137,20 @@ export default function AdminDashboardView({ onLogout }) {
                   />
                 </div>
 
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    WhatsApp del Apoderado <span className="text-slate-400 font-normal">(Opcional, 9 dígitos)</span>
+                  </label>
+                  <input
+                    type="tel"
+                    maxLength={15}
+                    placeholder="Ej: 987654321"
+                    value={newStudent.telefono_apoderado || ''}
+                    onChange={(e) => setNewStudent({ ...newStudent, telefono_apoderado: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  />
+                </div>
+
                 <div className="pt-2">
                   <button
                     type="submit"
@@ -1110,6 +1224,20 @@ export default function AdminDashboardView({ onLogout }) {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
+                    WhatsApp del Apoderado <span className="text-slate-400 font-normal">(9 dígitos)</span>
+                  </label>
+                  <input
+                    type="tel"
+                    maxLength={15}
+                    placeholder="Ej: 987654321"
+                    value={editingStudent.telefono_apoderado || ''}
+                    onChange={(e) => setEditingStudent({ ...editingStudent, telefono_apoderado: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
                     Cambiar Contraseña <span className="text-slate-400 font-normal">(Dejar en blanco para conservar)</span>
                   </label>
                   <input
@@ -1170,6 +1298,85 @@ export default function AdminDashboardView({ onLogout }) {
                   Sí, Eliminar
                 </button>
               </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Modal: Envío Rápido por WhatsApp al Apoderado */}
+      <AnimatePresence>
+        {showQuickWhatsAppModal && quickWhatsAppStudent && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4 overflow-y-auto">
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-3xl p-6 sm:p-7 w-full max-w-[460px] shadow-2xl border border-slate-200 my-auto relative text-left"
+            >
+              <div className="flex justify-between items-center mb-5">
+                <div className="flex items-center gap-2.5 text-emerald-700 font-black text-base sm:text-lg">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700">
+                    <span className="material-symbols-outlined text-xl">chat</span>
+                  </div>
+                  Enviar Reporte a Apoderado
+                </div>
+                <button 
+                  onClick={() => setShowQuickWhatsAppModal(false)}
+                  className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 cursor-pointer"
+                >
+                  <span className="material-symbols-outlined text-sm">close</span>
+                </button>
+              </div>
+
+              <div className="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-4 mb-5 text-xs text-slate-700">
+                <p className="font-bold text-slate-800 text-sm mb-1">
+                  {quickWhatsAppStudent.nombre_completo || quickWhatsAppStudent.name}
+                </p>
+                <p className="text-slate-600">
+                  Carrera: <span className="font-bold text-emerald-800">{quickWhatsAppStudent.carrera_recomendada || quickWhatsAppStudent.career || 'Evaluada'}</span>
+                </p>
+                <p className="text-slate-500 text-[11px] mt-1">
+                  Se abrirá WhatsApp Web con el reporte formal de tutoría listo para enviar.
+                </p>
+              </div>
+
+              <form onSubmit={handleSaveAndSendWhatsApp} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Número de WhatsApp del Padre / Apoderado (9 dígitos)
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    autoFocus
+                    placeholder="Ej: 987654321"
+                    maxLength={15}
+                    value={quickWhatsAppPhone}
+                    onChange={(e) => setQuickWhatsAppPhone(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-3 text-base font-bold font-mono text-slate-800 tracking-wider focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600"
+                  />
+                  <span className="text-[11px] text-slate-400 mt-1 block">
+                    Este número se guardará automáticamente en el perfil del alumno para futuros reportes.
+                  </span>
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowQuickWhatsAppModal(false)}
+                    className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-xl transition-colors cursor-pointer"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-3 rounded-xl transition-colors shadow-md flex items-center justify-center gap-1.5 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    <span className="material-symbols-outlined text-[16px]">send</span>
+                    <span>Abrir WhatsApp</span>
+                  </button>
+                </div>
+              </form>
             </motion.div>
           </div>
         )}

@@ -25,6 +25,7 @@ class CreateStudentSchema(BaseModel):
     nombre_completo: str = Field(..., min_length=3, max_length=100, description="Nombre y apellidos")
     password: str = Field(..., min_length=4, max_length=50, description="Contraseña asignada")
     institucion: Optional[str] = Field("Colegio San Marcelo", description="Institución educativa")
+    telefono_apoderado: Optional[str] = Field(None, max_length=20, description="Número de WhatsApp del apoderado")
 
 class UpdateOfferSchema(BaseModel):
     carrera_id: int = Field(..., description="ID de la carrera")
@@ -45,6 +46,7 @@ class UpdateStudentSchema(BaseModel):
     nombre_completo: Optional[str] = Field(None, min_length=2, max_length=100, description="Nombres y apellidos")
     password: Optional[str] = Field(None, min_length=4, max_length=50, description="Nueva contraseña (opcional)")
     institucion: Optional[str] = Field(None, min_length=2, max_length=100, description="Institución educativa")
+    telefono_apoderado: Optional[str] = Field(None, max_length=20, description="Número de WhatsApp del apoderado")
 
 class UpdateCareerSchema(BaseModel):
     nombre: Optional[str] = Field(None, min_length=2, max_length=150, description="Nombre de la carrera")

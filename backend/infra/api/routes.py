@@ -284,11 +284,13 @@ def get_admin_dashboard():
     top_career_row = cursor.fetchone()
     carrera_mas_sugerida = top_career_row["carrera_top"] if top_career_row else "Ingeniería de Sistemas"
 
-    # 4. Últimos registros reales
+    # 4. Últimos registros reales con teléfono de apoderado
     cursor.execute("""
         SELECT e.id, DATE(e.fecha) as date, e.nombre_estudiante as name, 
-               COALESCE(e.holland_code, 'RIC') as code, e.carrera_top as career, e.estado as status
+               COALESCE(e.holland_code, 'RIC') as code, e.carrera_top as career, e.estado as status,
+               u.telefono_apoderado
         FROM evaluaciones e
+        LEFT JOIN usuarios u ON e.usuario_id = u.id
         ORDER BY e.id DESC
         LIMIT 10
     """)
@@ -311,10 +313,11 @@ def list_students():
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT u.id, u.codigo_estudiante, u.nombre_completo, u.institucion,
+        SELECT u.id, u.codigo_estudiante, u.nombre_completo, u.institucion, u.telefono_apoderado,
                DATE(u.fecha_registro) as fecha_registro,
                COALESCE((SELECT estado FROM evaluaciones WHERE usuario_id = u.id ORDER BY id DESC LIMIT 1), 'Pendiente') as estado_test,
-               (SELECT carrera_top FROM evaluaciones WHERE usuario_id = u.id ORDER BY id DESC LIMIT 1) as carrera_recomendada
+               (SELECT carrera_top FROM evaluaciones WHERE usuario_id = u.id ORDER BY id DESC LIMIT 1) as carrera_recomendada,
+               COALESCE((SELECT holland_code FROM evaluaciones WHERE usuario_id = u.id ORDER BY id DESC LIMIT 1), 'RIC') as holland_code
         FROM usuarios u
         WHERE u.rol = 'estudiante'
         ORDER BY u.id DESC
@@ -327,15 +330,17 @@ def list_students():
 def create_student(data: CreateStudentSchema):
     conn = get_db_connection()
     cursor = conn.cursor()
+    tel = data.telefono_apoderado.strip() if data.telefono_apoderado and data.telefono_apoderado.strip() else None
     try:
         cursor.execute("""
-            INSERT INTO usuarios (codigo_estudiante, nombre_completo, password_hash, rol, institucion)
-            VALUES (?, ?, ?, 'estudiante', ?)
+            INSERT INTO usuarios (codigo_estudiante, nombre_completo, password_hash, rol, institucion, telefono_apoderado)
+            VALUES (?, ?, ?, 'estudiante', ?, ?)
         """, (
             data.codigo_estudiante.strip().upper(),
             data.nombre_completo.strip(),
             hash_password(data.password),
-            data.institucion or "Colegio San Marcelo"
+            data.institucion or "Colegio San Marcelo",
+            tel
         ))
         conn.commit()
         new_id = cursor.lastrowid
@@ -354,7 +359,8 @@ def create_student(data: CreateStudentSchema):
             "id": new_id,
             "codigo_estudiante": data.codigo_estudiante.upper(),
             "nombre_completo": data.nombre_completo,
-            "institucion": data.institucion or "Colegio San Marcelo"
+            "institucion": data.institucion or "Colegio San Marcelo",
+            "telefono_apoderado": tel
         }
     }
 
@@ -381,6 +387,9 @@ def update_student(student_id: int, data: UpdateStudentSchema):
         if data.institucion is not None and data.institucion.strip():
             fields_to_update.append("institucion = ?")
             params.append(data.institucion.strip())
+        if data.telefono_apoderado is not None:
+            fields_to_update.append("telefono_apoderado = ?")
+            params.append(data.telefono_apoderado.strip() if data.telefono_apoderado.strip() else None)
         if data.password is not None and len(data.password.strip()) > 0:
             fields_to_update.append("password_hash = ?")
             params.append(hash_password(data.password.strip()))

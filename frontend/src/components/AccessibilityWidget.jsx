@@ -13,7 +13,9 @@ const defaultSettings = {
   largeCursor: false,
   lineHeight: false,
   textAlign: false,
-  saturation: 0, // 0 = normal, 1 = monochrome, 2 = high saturation
+  colorMode: 0, // 0 = normal, 1 = monocromo, 2 = alta saturacion, 3 = protanopia, 4 = deuteranopia, 5 = tritanopia, 6 = sepia
+  screenReader: false,
+  readingGuide: false,
 };
 
 function applySettingsToDOM(newSettings) {
@@ -43,16 +45,29 @@ function applySettingsToDOM(newSettings) {
   root.classList.toggle('a11y-line-height', !!newSettings.lineHeight);
   // 10. Texto Alineado
   root.classList.toggle('a11y-text-align', !!newSettings.textAlign);
-  // 11. Saturación / Daltonismo
-  root.classList.remove('a11y-monochrome', 'a11y-high-saturation');
-  if (newSettings.saturation === 1) root.classList.add('a11y-monochrome');
-  if (newSettings.saturation === 2) root.classList.add('a11y-high-saturation');
+  // 11. Modos de Color y Daltonismo
+  root.classList.remove(
+    'a11y-monochrome', 
+    'a11y-high-saturation', 
+    'a11y-protanopia', 
+    'a11y-deuteranopia', 
+    'a11y-tritanopia', 
+    'a11y-sepia'
+  );
+  const mode = newSettings.colorMode ?? (newSettings.saturation || 0);
+  if (mode === 1) root.classList.add('a11y-monochrome');
+  if (mode === 2) root.classList.add('a11y-high-saturation');
+  if (mode === 3) root.classList.add('a11y-protanopia');
+  if (mode === 4) root.classList.add('a11y-deuteranopia');
+  if (mode === 5) root.classList.add('a11y-tritanopia');
+  if (mode === 6) root.classList.add('a11y-sepia');
 }
 
 export default function AccessibilityWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [largeWidget, setLargeWidget] = useState(false);
   const [showInfoModal, setShowInfoModal] = useState(false);
+  const [rulerY, setRulerY] = useState(200);
 
   // Estados de accesibilidad
   const [settings, setSettings] = useState(defaultSettings);
@@ -86,6 +101,56 @@ export default function AccessibilityWidget() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen]);
 
+  // Efecto para Guía de Lectura (Regla Horizontal)
+  useEffect(() => {
+    if (!settings.readingGuide) return;
+    const handleMouseMove = (e) => {
+      setRulerY(e.clientY);
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, [settings.readingGuide]);
+
+  // Efecto para Lector de Pantalla por Voz (TTS Nativo en Español)
+  useEffect(() => {
+    if (!settings.screenReader) {
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+      return;
+    }
+
+    const speak = (text) => {
+      if (!text || typeof window === 'undefined' || !window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'es-PE';
+      utterance.rate = 0.95;
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    };
+
+    speak("Lector de voz activado. Haz clic sobre cualquier pregunta o texto de la pantalla para escuchar.");
+
+    const handleClickToSpeak = (e) => {
+      if (e.target.closest('#a11y-widget-panel') || e.target.closest('.a11y-keep')) {
+        return;
+      }
+      const target = e.target;
+      const text = target.innerText || target.getAttribute('aria-label') || target.getAttribute('title') || target.alt;
+      if (text && text.trim().length > 0) {
+        speak(text.trim());
+      }
+    };
+
+    document.addEventListener('click', handleClickToSpeak, true);
+    return () => {
+      document.removeEventListener('click', handleClickToSpeak, true);
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, [settings.screenReader]);
 
   const updateSetting = (key, value) => {
     const updated = { ...settings, [key]: value };
@@ -97,6 +162,9 @@ export default function AccessibilityWidget() {
   };
 
   const resetAll = () => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
     const reset = {
       highContrast: false,
       highlightLinks: false,
@@ -108,7 +176,9 @@ export default function AccessibilityWidget() {
       largeCursor: false,
       lineHeight: false,
       textAlign: false,
-      saturation: 0,
+      colorMode: 0,
+      screenReader: false,
+      readingGuide: false,
     };
     setSettings(reset);
     applySettingsToDOM(reset);
@@ -119,6 +189,15 @@ export default function AccessibilityWidget() {
 
   return (
     <>
+      {/* Guía de Lectura (Regla Horizontal) */}
+      {settings.readingGuide && (
+        <div 
+          className="a11y-reading-ruler" 
+          style={{ top: `${rulerY}px` }} 
+          aria-hidden="true" 
+        />
+      )}
+
       {/* Botón Flotante de Acceso Rápido */}
       <div className="fixed bottom-6 right-6 z-[9999]">
         <button
@@ -135,6 +214,7 @@ export default function AccessibilityWidget() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="a11y-widget-panel"
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 100 }}
@@ -327,23 +407,65 @@ export default function AccessibilityWidget() {
                 {settings.textAlign && <span className="text-[10px] font-bold text-blue-100 mt-1">Izquierda</span>}
               </button>
 
-              {/* 11. Saturación / Daltonismo (Cíclico: 0, 1=monocromo, 2=saturado) */}
+              {/* 11. Paleta de Colores y Daltonismo */}
               <button
-                onClick={() => updateSetting('saturation', (settings.saturation + 1) % 3)}
+                onClick={() => updateSetting('colorMode', (settings.colorMode + 1) % 7)}
                 className={`p-3.5 rounded-2xl border flex flex-col items-center justify-center text-center transition-all ${
-                  settings.saturation > 0
+                  settings.colorMode > 0
                     ? 'bg-blue-600 text-white border-blue-600 shadow-md ring-2 ring-blue-300'
                     : 'bg-white text-slate-800 border-slate-200 hover:border-blue-400 hover:bg-blue-50/40'
                 }`}
               >
-                <span className="material-symbols-outlined text-3xl mb-1.5 a11y-keep">water_drop</span>
-                <span className="text-xs font-extrabold leading-tight">Saturación / Daltonismo</span>
-                <span className={`text-[10px] font-bold mt-1 ${settings.saturation > 0 ? 'text-blue-100' : 'text-slate-400'}`}>
-                  {settings.saturation === 0 ? 'Normal' : settings.saturation === 1 ? 'Monocromo' : 'Alta Saturación'}
+                <span className="material-symbols-outlined text-3xl mb-1.5 a11y-keep">palette</span>
+                <span className="text-xs font-extrabold leading-tight">Paleta / Daltonismo</span>
+                <span className={`text-[10px] font-bold mt-1 ${settings.colorMode > 0 ? 'text-blue-100' : 'text-slate-400'}`}>
+                  {settings.colorMode === 0 && 'Normal'}
+                  {settings.colorMode === 1 && 'Monocromo'}
+                  {settings.colorMode === 2 && 'Alta Saturación'}
+                  {settings.colorMode === 3 && 'Protanopía (Rojo)'}
+                  {settings.colorMode === 4 && 'Deuteranopía (Verde)'}
+                  {settings.colorMode === 5 && 'Tritanopía (Azul)'}
+                  {settings.colorMode === 6 && 'Modo Sepia'}
                 </span>
               </button>
 
-              {/* 12. Información del Sistema */}
+              {/* 12. Lector de Pantalla por Voz (TTS) */}
+              <button
+                onClick={() => updateSetting('screenReader', !settings.screenReader)}
+                className={`p-3.5 rounded-2xl border flex flex-col items-center justify-center text-center transition-all ${
+                  settings.screenReader
+                    ? 'bg-blue-600 text-white border-blue-600 shadow-md ring-2 ring-blue-300'
+                    : 'bg-white text-slate-800 border-slate-200 hover:border-blue-400 hover:bg-blue-50/40'
+                }`}
+              >
+                <span className="material-symbols-outlined text-3xl mb-1.5 a11y-keep">record_voice_over</span>
+                <span className="text-xs font-extrabold leading-tight">Lector de Voz (TTS)</span>
+                {settings.screenReader ? (
+                  <span className="text-[10px] font-bold text-blue-100 mt-1 animate-pulse">Voz Activa</span>
+                ) : (
+                  <span className="text-[10px] font-bold text-slate-400 mt-1">Desactivado</span>
+                )}
+              </button>
+
+              {/* 13. Guía de Lectura (Regla Horizontal) */}
+              <button
+                onClick={() => updateSetting('readingGuide', !settings.readingGuide)}
+                className={`p-3.5 rounded-2xl border flex flex-col items-center justify-center text-center transition-all ${
+                  settings.readingGuide
+                    ? 'bg-blue-600 text-white border-blue-600 shadow-md ring-2 ring-blue-300'
+                    : 'bg-white text-slate-800 border-slate-200 hover:border-blue-400 hover:bg-blue-50/40'
+                }`}
+              >
+                <span className="material-symbols-outlined text-3xl mb-1.5 a11y-keep">view_day</span>
+                <span className="text-xs font-extrabold leading-tight">Guía de Lectura</span>
+                {settings.readingGuide ? (
+                  <span className="text-[10px] font-bold text-blue-100 mt-1">Regla Activa</span>
+                ) : (
+                  <span className="text-[10px] font-bold text-slate-400 mt-1">Desactivado</span>
+                )}
+              </button>
+
+              {/* 14. Información del Sistema */}
               <button
                 onClick={() => setShowInfoModal(true)}
                 className="p-3.5 rounded-2xl border bg-white text-slate-800 border-slate-200 hover:border-blue-400 hover:bg-blue-50/40 flex flex-col items-center justify-center text-center transition-all"
@@ -397,12 +519,14 @@ export default function AccessibilityWidget() {
 
               <div className="py-4 space-y-3 text-slate-600 text-sm">
                 <p>
-                  Esta plataforma incorpora directrices de accesibilidad web (<strong>WCAG 2.1 Nivel AA</strong>) para garantizar la igualdad de oportunidades:
+                  Esta plataforma incorpora directrices de accesibilidad web (<strong>WCAG 2.1 Nivel AA</strong>) para garantizar la igualdad de oportunidades y la inclusión educativa:
                 </p>
                 <ul className="space-y-2 text-xs text-slate-700 list-disc pl-5">
-                  <li><strong>Apto para Dislexia:</strong> Implementa la tipografía de alta legibilidad <em>Lexend</em>, con espaciado optimizado para reducir el salto de líneas.</li>
-                  <li><strong>Soporte para Daltonismo:</strong> Modo monocromo o alto contraste, evitando la dependencia exclusiva de semáforos rojo/verde.</li>
-                  <li><strong>Cognitivo y Motor:</strong> Opción para pausar animaciones que puedan causar sobrecarga sensorial o distracción.</li>
+                  <li><strong>Lector de Pantalla (Voz TTS):</strong> Síntesis de voz nativa en español para estudiantes con discapacidad visual severa o ceguera parcial.</li>
+                  <li><strong>Filtros de Daltonismo:</strong> Paletas calibradas para Protanopía (rojo), Deuteranopía (verde), Tritanopía (azul/amarillo) y Modo Sepia de descanso visual.</li>
+                  <li><strong>Guía de Lectura:</strong> Regla horizontal interactiva que sigue al cursor para evitar la fatiga visual y el salto de líneas en dislexia o TDAH.</li>
+                  <li><strong>Apto para Dislexia:</strong> Implementa la tipografía de alta legibilidad <em>Lexend</em> con espaciado optimizado.</li>
+                  <li><strong>Cognitivo y Motor:</strong> Pausa de animaciones para prevenir sobrecarga sensorial.</li>
                   <li><strong>Atajo rápido:</strong> Presiona <kbd className="bg-slate-100 px-1.5 py-0.5 rounded border border-slate-300 font-mono font-bold">CTRL + U</kbd> en cualquier pantalla para abrir este menú.</li>
                 </ul>
               </div>
