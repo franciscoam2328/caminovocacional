@@ -54,7 +54,8 @@ function applySettingsToDOM(newSettings) {
     'a11y-tritanopia', 
     'a11y-sepia'
   );
-  const mode = newSettings.colorMode ?? (newSettings.saturation || 0);
+  const rawMode = Number(newSettings.colorMode ?? newSettings.saturation);
+  const mode = isNaN(rawMode) ? 0 : rawMode;
   if (mode === 1) root.classList.add('a11y-monochrome');
   if (mode === 2) root.classList.add('a11y-high-saturation');
   if (mode === 3) root.classList.add('a11y-protanopia');
@@ -78,8 +79,15 @@ export default function AccessibilityWidget() {
       const saved = localStorage.getItem('camino_vocacional_a11y');
       if (saved) {
         const parsed = JSON.parse(saved);
-        setSettings(parsed);
-        applySettingsToDOM(parsed);
+        const rawColor = Number(parsed.colorMode ?? parsed.saturation);
+        const safeColorMode = isNaN(rawColor) ? 0 : rawColor;
+        const merged = {
+          ...defaultSettings,
+          ...parsed,
+          colorMode: safeColorMode
+        };
+        setSettings(merged);
+        applySettingsToDOM(merged);
       }
     } catch (e) {
       console.warn("No se pudieron cargar preferencias de accesibilidad", e);
@@ -408,26 +416,35 @@ export default function AccessibilityWidget() {
               </button>
 
               {/* 11. Paleta de Colores y Daltonismo */}
-              <button
-                onClick={() => updateSetting('colorMode', (settings.colorMode + 1) % 7)}
-                className={`p-3.5 rounded-2xl border flex flex-col items-center justify-center text-center transition-all ${
-                  settings.colorMode > 0
-                    ? 'bg-blue-600 text-white border-blue-600 shadow-md ring-2 ring-blue-300'
-                    : 'bg-white text-slate-800 border-slate-200 hover:border-blue-400 hover:bg-blue-50/40'
-                }`}
-              >
-                <span className="material-symbols-outlined text-3xl mb-1.5 a11y-keep">palette</span>
-                <span className="text-xs font-extrabold leading-tight">Paleta / Daltonismo</span>
-                <span className={`text-[10px] font-bold mt-1 ${settings.colorMode > 0 ? 'text-blue-100' : 'text-slate-400'}`}>
-                  {settings.colorMode === 0 && 'Normal'}
-                  {settings.colorMode === 1 && 'Monocromo'}
-                  {settings.colorMode === 2 && 'Alta Saturación'}
-                  {settings.colorMode === 3 && 'Protanopía (Rojo)'}
-                  {settings.colorMode === 4 && 'Deuteranopía (Verde)'}
-                  {settings.colorMode === 5 && 'Tritanopía (Azul)'}
-                  {settings.colorMode === 6 && 'Modo Sepia'}
-                </span>
-              </button>
+              {(() => {
+                const activeColor = Number(settings.colorMode) || 0;
+                return (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const nextMode = (activeColor + 1) % 7;
+                      updateSetting('colorMode', nextMode);
+                    }}
+                    className={`p-3.5 rounded-2xl border flex flex-col items-center justify-center text-center transition-all ${
+                      activeColor > 0
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-md ring-2 ring-blue-300'
+                        : 'bg-white text-slate-800 border-slate-200 hover:border-blue-400 hover:bg-blue-50/40'
+                    }`}
+                  >
+                    <span className="material-symbols-outlined text-3xl mb-1.5 a11y-keep">palette</span>
+                    <span className="text-xs font-extrabold leading-tight">Paleta / Daltonismo</span>
+                    <span className={`text-[10px] font-bold mt-1 ${activeColor > 0 ? 'text-blue-100' : 'text-slate-400'}`}>
+                      {activeColor === 0 && 'Normal'}
+                      {activeColor === 1 && 'Monocromo'}
+                      {activeColor === 2 && 'Alta Saturación'}
+                      {activeColor === 3 && 'Protanopía (Rojo)'}
+                      {activeColor === 4 && 'Deuteranopía (Verde)'}
+                      {activeColor === 5 && 'Tritanopía (Azul)'}
+                      {activeColor === 6 && 'Modo Sepia'}
+                    </span>
+                  </button>
+                );
+              })()}
 
               {/* 12. Lector de Pantalla por Voz (TTS) */}
               <button

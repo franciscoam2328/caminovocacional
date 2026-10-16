@@ -230,7 +230,7 @@ export default function AdminDashboardView({ onLogout }) {
     const career = st.carrera_recomendada || st.career || 'Carrera Profesional';
     const holland = st.holland_code || st.code || 'RIC';
     
-    const message = `Estimado(a) Padre/Madre de Familia del Colegio San Marcelo:\n\nLe saludamos cordialmente desde la Tutoría de 5to de Secundaria. Le compartimos el resultado oficial de la Evaluación de Orientación Vocacional de su menor hijo(a) *${studentName}*:\n\n🧠 *Perfil Vocacional (Holland):* ${holland}\n🎯 *Carrera con mayor afinidad recomendada:* ${career}\n🏛️ *Universidades sugeridas en Trujillo:* UPAO, UNT\n\nPara cualquier consulta sobre el acompañamiento vocacional, quedamos a su entera disposición.\n*Colegio San Marcelo — Plataforma Camino Vocacional*\nhttps://caminovocacional.vercel.app`;
+    const message = `Estimado(a) Padre/Madre de Familia del Colegio San Marcelo:\n\nLe saludamos cordialmente desde la Tutoría de 5to de Secundaria. Le compartimos el resultado oficial de la Evaluación de Orientación Vocacional de su menor hijo(a) *${studentName}*:\n\n*Perfil Vocacional (Holland):* ${holland}\n*Carrera con mayor afinidad recomendada:* ${career}\n*Universidades sugeridas en Trujillo:* UPAO, UNT\n\nPara cualquier consulta sobre el acompañamiento vocacional, quedamos a su entera disposición.\n*Colegio San Marcelo — Plataforma Camino Vocacional*\nhttps://caminovocacional.vercel.app`;
 
     const url = `https://wa.me/${fullPhone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
@@ -255,13 +255,24 @@ export default function AdminDashboardView({ onLogout }) {
       alert("Por favor ingresa un número de WhatsApp válido de 9 dígitos.");
       return;
     }
-    try {
-      if (quickWhatsAppStudent.id) {
-        await updateStudent(quickWhatsAppStudent.id, { telefono_apoderado: clean });
+
+    // 1. Cerrar modal y abrir WhatsApp de inmediato
+    setShowQuickWhatsAppModal(false);
+    executeWhatsAppSend(quickWhatsAppStudent, clean);
+
+    // 2. Persistir número en la base de datos de estudiantes
+    const targetStudentId = quickWhatsAppStudent.student_id || quickWhatsAppStudent.usuario_id || quickWhatsAppStudent.id;
+    if (targetStudentId) {
+      try {
+        await updateStudent(targetStudentId, { telefono_apoderado: clean });
         showNotification(`Número de apoderado guardado para ${quickWhatsAppStudent.nombre_completo || quickWhatsAppStudent.name}.`);
+      } catch (err) {
+        console.warn("Aviso al guardar número de apoderado:", err);
       }
-      setShowQuickWhatsAppModal(false);
-      executeWhatsAppSend(quickWhatsAppStudent, clean);
+    }
+
+    // 3. Sincronizar listas en segundo plano
+    try {
       const [updatedStuds, updatedDash] = await Promise.all([
         fetchAdminStudents(),
         fetchAdminDashboard()
@@ -269,7 +280,70 @@ export default function AdminDashboardView({ onLogout }) {
       if (updatedStuds?.students) setStudents(updatedStuds.students);
       if (updatedDash) setDashboardData(updatedDash);
     } catch (err) {
-      alert(err.message || "Error al actualizar número de WhatsApp");
+      console.warn("Aviso al actualizar vistas:", err);
+    }
+  };
+
+  // Exportar Reporte Consolidado a Excel/CSV con BOM UTF-8
+  const handleExportReport = () => {
+    try {
+      const records = (dashboardData?.ultimos_registros && dashboardData.ultimos_registros.length > 0)
+        ? dashboardData.ultimos_registros
+        : students;
+
+      if (!records || records.length === 0) {
+        alert("No hay registros de evaluaciones disponibles para exportar.");
+        return;
+      }
+
+      const headers = [
+        "Fecha",
+        "Código Estudiante",
+        "Nombre Completo",
+        "Código Holland",
+        "Carrera Recomendada",
+        "Estado Evaluación",
+        "Teléfono Apoderado (WhatsApp)"
+      ];
+
+      const csvRows = [headers.join(";")];
+
+      records.forEach((r) => {
+        const date = r.date || r.fecha_registro || new Date().toISOString().split('T')[0];
+        const code = r.codigo_estudiante || r.code || 'N/A';
+        const name = (r.nombre_completo || r.name || '').replace(/;/g, ' ');
+        const holland = r.holland_code || r.code || 'RIC';
+        const career = (r.carrera_recomendada || r.career || 'Orientación General').replace(/;/g, ' ');
+        const status = r.estado_test || r.status || 'Completado';
+        const phone = r.telefono_apoderado || 'Sin registrar';
+
+        csvRows.push([
+          `"${date}"`,
+          `"${code}"`,
+          `"${name}"`,
+          `"${holland}"`,
+          `"${career}"`,
+          `"${status}"`,
+          `"${phone}"`
+        ].join(";"));
+      });
+
+      const csvContent = "\uFEFF" + csvRows.join("\r\n");
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      const today = new Date().toISOString().split('T')[0];
+      link.href = url;
+      link.download = `Reporte_Vocacional_San_Marcelo_${today}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      showNotification("Reporte descargado exitosamente en formato Excel/CSV.");
+    } catch (err) {
+      console.error("Error al exportar:", err);
+      alert("Ocurrió un error al generar la descarga del reporte.");
     }
   };
 
@@ -535,7 +609,7 @@ export default function AdminDashboardView({ onLogout }) {
                 <p className="text-slate-500 text-sm">Monitoreo consolidado de estudiantes y perfiles vocacionales RIASEC.</p>
               </div>
               <button 
-                onClick={() => showNotification("Reporte exportado exitosamente a formato Excel/CSV.")} 
+                onClick={handleExportReport} 
                 className="bg-green-600 hover:bg-green-700 text-white text-xs font-bold py-2.5 px-5 rounded-xl flex items-center gap-2 transition-colors shadow-sm cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[18px]">download</span>
