@@ -217,10 +217,16 @@ def predict_vocational_cluster(data: TestInputSchema):
             if u:
                 usuario_id = u["id"]
 
-        if not usuario_id:
-            cursor.execute("SELECT id FROM usuarios WHERE nombre_completo LIKE ?", (f"%{data.nombre_estudiante}%",))
+        if not usuario_id and data.nombre_estudiante:
+            cursor.execute("""
+                SELECT id FROM usuarios 
+                WHERE (LOWER(TRIM(nombre_completo)) = LOWER(TRIM(?)) OR LOWER(TRIM(nombre_completo)) LIKE LOWER(TRIM(?))) 
+                  AND rol = 'estudiante' 
+                ORDER BY id DESC LIMIT 1
+            """, (data.nombre_estudiante, f"%{data.nombre_estudiante}%"))
             u = cursor.fetchone()
-            usuario_id = u["id"] if u else 1
+            if u:
+                usuario_id = u["id"]
 
         carrera_top_nombre = carreras_recomendadas[0]["nombre_mostrar"] if carreras_recomendadas else "General"
         area_predicha = sorted_puntajes[0][0] # Nombre del perfil dominante
@@ -284,17 +290,31 @@ def get_admin_dashboard():
     top_career_row = cursor.fetchone()
     carrera_mas_sugerida = top_career_row["carrera_top"] if top_career_row else "Ingeniería de Sistemas"
 
-    # 4. Últimos registros reales con teléfono de apoderado
+    # 4. Últimos registros reales con teléfono de apoderado y student_id resuelto
     cursor.execute("""
-        SELECT e.id, DATE(e.fecha) as date, e.nombre_estudiante as name, 
+        SELECT e.id as evaluacion_id, DATE(e.fecha) as date, e.nombre_estudiante as name, 
                COALESCE(e.holland_code, 'RIC') as code, e.carrera_top as career, e.estado as status,
-               u.telefono_apoderado
+               e.usuario_id,
+               COALESCE(
+                   (CASE WHEN u.rol = 'estudiante' THEN u.id ELSE NULL END),
+                   (SELECT id FROM usuarios WHERE (LOWER(TRIM(nombre_completo)) = LOWER(TRIM(e.nombre_estudiante)) OR codigo_estudiante = e.nombre_estudiante) AND rol = 'estudiante' LIMIT 1)
+               ) as student_id,
+               COALESCE(
+                   u.telefono_apoderado,
+                   (SELECT telefono_apoderado FROM usuarios WHERE (LOWER(TRIM(nombre_completo)) = LOWER(TRIM(e.nombre_estudiante)) OR codigo_estudiante = e.nombre_estudiante) AND rol = 'estudiante' LIMIT 1)
+               ) as telefono_apoderado
         FROM evaluaciones e
         LEFT JOIN usuarios u ON e.usuario_id = u.id
         ORDER BY e.id DESC
         LIMIT 10
     """)
-    ultimos_registros = [dict(r) for r in cursor.fetchall()]
+    raw_registros = cursor.fetchall()
+    ultimos_registros = []
+    for r in raw_registros:
+        row = dict(r)
+        # Asegurar ID identificador para la UI y vinculación con estudiantes
+        row["id"] = row.get("student_id") or row.get("evaluacion_id")
+        ultimos_registros.append(row)
 
     conn.close()
 
@@ -369,11 +389,27 @@ def update_student(student_id: int, data: UpdateStudentSchema):
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute("SELECT id, codigo_estudiante, nombre_completo, institucion FROM usuarios WHERE id = ? AND rol = 'estudiante'", (student_id,))
+        # 1. Buscar estudiante por id directo
+        cursor.execute("SELECT id, codigo_estudiante, nombre_completo, institucion FROM usuarios WHERE id = ?", (student_id,))
         student = cursor.fetchone()
+
+        # 2. Si no se encontró por ID directo, verificar si correspondía a un id de evaluación
+        if not student:
+            cursor.execute("SELECT usuario_id, nombre_estudiante FROM evaluaciones WHERE id = ?", (student_id,))
+            ev = cursor.fetchone()
+            if ev:
+                if ev["usuario_id"]:
+                    cursor.execute("SELECT id, codigo_estudiante, nombre_completo, institucion FROM usuarios WHERE id = ?", (ev["usuario_id"],))
+                    student = cursor.fetchone()
+                if not student and ev["nombre_estudiante"]:
+                    cursor.execute("SELECT id, codigo_estudiante, nombre_completo, institucion FROM usuarios WHERE LOWER(TRIM(nombre_completo)) = LOWER(TRIM(?))", (ev["nombre_estudiante"],))
+                    student = cursor.fetchone()
+
         if not student:
             conn.close()
             raise HTTPException(status_code=404, detail="Estudiante no encontrado.")
+
+        actual_user_id = student["id"]
 
         fields_to_update = []
         params = []
@@ -398,13 +434,16 @@ def update_student(student_id: int, data: UpdateStudentSchema):
             conn.close()
             return {"status": "success", "message": "No se enviaron campos modificados."}
 
-        params.append(student_id)
+        params.append(actual_user_id)
         query = f"UPDATE usuarios SET {', '.join(fields_to_update)} WHERE id = ?"
         cursor.execute(query, tuple(params))
         conn.commit()
     except DBIntegrityError:
         conn.close()
         raise HTTPException(status_code=400, detail="El código de estudiante ya se encuentra registrado por otro usuario.")
+    except HTTPException:
+        conn.close()
+        raise
     except Exception as e:
         conn.close()
         raise HTTPException(status_code=500, detail=str(e))

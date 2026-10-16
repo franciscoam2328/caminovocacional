@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TestForm from '@/components/TestForm';
 import ResultDisplay from '@/components/ResultDisplay';
@@ -18,6 +18,19 @@ export default function Home() {
   const [studentName, setStudentName] = useState('');
   const [avatar, setAvatar] = useState('');
   const [resultsData, setResultsData] = useState(null);
+
+  // Restaurar sesión de Administrador al recargar la página (F5)
+  useEffect(() => {
+    try {
+      const isAdminLogged = localStorage.getItem('camino_vocacional_admin_logged') === 'true';
+      const hash = typeof window !== 'undefined' ? window.location.hash : '';
+      if (isAdminLogged || hash === '#admin' || hash === '#!admin') {
+        setCurrentView('ADMIN_DASHBOARD');
+      }
+    } catch (e) {
+      console.warn("No se pudo verificar la sesión de administrador:", e);
+    }
+  }, []);
 
   // Funciones de navegación
   const goToUserInfo = () => setCurrentView('USER_INFO');
@@ -51,8 +64,26 @@ export default function Home() {
   };
 
   const goToAdminLogin = () => setCurrentView('ADMIN_LOGIN');
-  const handleAdminLoginSuccess = () => setCurrentView('ADMIN_DASHBOARD');
-  const logoutAdmin = () => setCurrentView('LANDING');
+  
+  const handleAdminLoginSuccess = () => {
+    try {
+      localStorage.setItem('camino_vocacional_admin_logged', 'true');
+      if (typeof window !== 'undefined') {
+        window.location.hash = 'admin';
+      }
+    } catch (e) {}
+    setCurrentView('ADMIN_DASHBOARD');
+  };
+
+  const logoutAdmin = () => {
+    try {
+      localStorage.removeItem('camino_vocacional_admin_logged');
+      if (typeof window !== 'undefined' && window.location.hash) {
+        window.history.replaceState(null, '', window.location.pathname);
+      }
+    } catch (e) {}
+    setCurrentView('LANDING');
+  };
 
   return (
     <>
