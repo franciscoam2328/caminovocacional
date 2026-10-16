@@ -144,11 +144,44 @@ html.a11y-text-align * {
   text-align: left !important;
 }
 
-/* 11. Saturación / Daltonismo */
+/* 11. Modos de Color y Daltonismo */
 html.a11y-monochrome {
   filter: grayscale(100%) !important;
 }
 html.a11y-high-saturation {
   filter: saturate(200%) !important;
+}
+html.a11y-protanopia {
+  filter: sepia(30%) saturate(160%) hue-rotate(-25deg) !important;
+}
+html.a11y-deuteranopia {
+  filter: sepia(35%) saturate(140%) hue-rotate(25deg) !important;
+}
+html.a11y-tritanopia {
+  filter: sepia(20%) saturate(180%) hue-rotate(85deg) !important;
+}
+html.a11y-sepia {
+  background-color: #fbf0d9 !important;
+}
+html.a11y-sepia body {
+  background-color: #fbf0d9 !important;
+  color: #433422 !important;
+  filter: sepia(45%) contrast(95%) !important;
+}
+
+/* 12. Guía de Lectura (Regla Horizontal) */
+.a11y-reading-ruler {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background: rgba(250, 204, 21, 0.22);
+  border-top: 2px solid #eab308;
+  border-bottom: 2px solid #eab308;
+  pointer-events: none;
+  z-index: 999999;
+  transform: translateY(-50%);
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.35);
+  transition: top 0.04s ease-out;
 }
 

@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { QUESTIONS } from "../core/questions";
 import { predictVocationalCluster } from "../infrastructure/api";
@@ -27,6 +27,25 @@ export default function TestForm({ studentName, studentCode, avatar, onComplete,
   };
   
   const avatarUrl = getAvatarUrl(avatar, stage);
+
+  // Anunciar pregunta en voz alta si el lector de pantalla (TTS) está activo
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('camino_vocacional_a11y');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.screenReader && typeof window !== 'undefined' && window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(
+            `Pregunta ${currentQuestionIndex + 1} de ${totalQuestions}: ${currentQuestion?.text}`
+          );
+          utterance.lang = 'es-PE';
+          utterance.rate = 0.95;
+          window.speechSynthesis.speak(utterance);
+        }
+      }
+    } catch (e) {}
+  }, [currentQuestionIndex, totalQuestions, currentQuestion]);
 
   const handleOptionClick = (val) => {
     if (isSubmitting) return;
